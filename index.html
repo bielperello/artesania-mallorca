@@ -166,13 +166,7 @@
 <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
 </div>
 </label>
-<label class="flex items-center justify-between cursor-pointer" style="">
-<span class="text-slate-700 dark:text-slate-300 text-sm font-medium" style="">Experiències (Tallers)</span>
-<div class="relative">
-<input class="sr-only peer" type="checkbox"/>
-<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
-</div>
-</label>
+
 <label class="flex items-center justify-between cursor-pointer" style="">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-red-500 text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
@@ -463,6 +457,9 @@
 <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 rotate-45 border-r border-b border-primary/30 z-[-1]"></div>
 </div>
 </div>
+<div class="absolute bottom-6 right-6 flex flex-col gap-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.1)] rounded-xl p-1.5 z-30 border border-slate-200 dark:border-slate-700">
+    <button onclick="toggleGeolocation()" class="p-2 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/40 rounded-lg dark:text-blue-400 font-bold transition-all" title="Geolocalitza'm"><span class="material-symbols-outlined text-[20px]" id="geo-icon">my_location</span></button>
+</div>
 </div>
 </section>
 <section class="mb-20 px-10 lg:px-20 max-w-[1600px] mx-auto w-full" id="multimedia">
@@ -743,8 +740,6 @@
                     </button>
 </div>
 <div class="absolute bottom-4 right-4 flex flex-col gap-2 bg-white dark:bg-slate-800 rounded-lg shadow-md p-1 z-30">
-<button onclick="toggleGeolocation()" class="p-2 text-blue-500 hover:text-blue-600 dark:text-blue-400 transition-colors" title="Geolocalitza'm"><span class="material-symbols-outlined" id="geo-icon">my_location</span></button>
-<div class="h-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
 <button class="p-2 text-slate-600 dark:text-slate-300 hover:text-terracotta transition-colors"><span class="material-symbols-outlined">add</span></button>
 <div class="h-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
 <button class="p-2 text-slate-600 dark:text-slate-300 hover:text-terracotta transition-colors"><span class="material-symbols-outlined">remove</span></button>
