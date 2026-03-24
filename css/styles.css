@@ -1,0 +1,44 @@
+html { scroll-behavior: smooth; }
+
+.map-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+}
+
+.group\/marker:hover .map-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+@keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    80%, 100% { transform: scale(2.5); opacity: 0; }
+}
+
+.pulse-marker::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    border-radius: 50%;
+    background-color: currentColor;
+    z-index: -1;
+    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+.grain-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+.hide-scrollbars::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbars {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
