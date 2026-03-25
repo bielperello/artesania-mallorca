@@ -2,6 +2,34 @@
 
 // ── Variable global per a l'artesania activa ─────────────────
 let currentCraft = null;
+let toastTimeout = null;
+
+// ══════════════════════════════════════════════════════════════
+// TOAST NOTIFICATIONS
+// ══════════════════════════════════════════════════════════════
+
+function showToast(message, type = 'info', icon = 'info', duration = 2500) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    // Clear previous
+    clearTimeout(toastTimeout);
+    toast.classList.remove('show');
+
+    // Set content
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<span class="material-symbols-outlined" style="font-size: 1.1rem;">${icon}</span> ${message}`;
+
+    // Show
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
+    });
+
+    // Auto-hide
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+    }, duration);
+}
 
 // ══════════════════════════════════════════════════════════════
 // INICIALITZACIÓ: Poblar tots els contenidors amb dades
@@ -45,6 +73,102 @@ function init() {
     const weatherTitle = document.getElementById('weather-title');
     if (weatherBody) weatherBody.innerHTML = renderWeatherModal(APP_DATA.weather);
     if (weatherTitle) weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weather.lloc}</span>`;
+
+    // Attach filter listeners
+    attachFilterListeners();
+}
+
+// ══════════════════════════════════════════════════════════════
+// FILTRES DEL CATÀLEG
+// ══════════════════════════════════════════════════════════════
+
+function attachFilterListeners() {
+    // Zona checkboxes
+    document.querySelectorAll('[data-filter="zone"]').forEach(cb => {
+        cb.addEventListener('change', applyFilters);
+    });
+    // Tècnica checkboxes
+    document.querySelectorAll('[data-filter="technique"]').forEach(cb => {
+        cb.addEventListener('change', applyFilters);
+    });
+    // Material pills
+    document.querySelectorAll('[data-filter="material"]').forEach(pill => {
+        pill.addEventListener('click', function() {
+            if (this.classList.contains('filter-pill-active') || this.classList.contains('bg-primary')) {
+                this.classList.remove('bg-primary', 'text-white', 'filter-pill-active');
+                this.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700');
+            } else {
+                this.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border-slate-200', 'dark:border-slate-700');
+                this.classList.add('bg-primary', 'text-white', 'filter-pill-active');
+            }
+            applyFilters();
+        });
+    });
+}
+
+function getActiveFilters() {
+    const zones = [];
+    document.querySelectorAll('[data-filter="zone"]:checked').forEach(cb => zones.push(cb.dataset.id));
+    
+    const techniques = [];
+    document.querySelectorAll('[data-filter="technique"]:checked').forEach(cb => techniques.push(cb.dataset.id));
+    
+    const materials = [];
+    document.querySelectorAll('[data-filter="material"]').forEach(pill => {
+        if (pill.classList.contains('bg-primary') || pill.classList.contains('filter-pill-active')) {
+            materials.push(pill.dataset.id);
+        }
+    });
+    
+    return { zones, techniques, materials };
+}
+
+function materialNameToId(materialName) {
+    const map = { 'Fang': 'fang', 'Vidre': 'vidre', 'Llana': 'llana', 'Espart': 'espart', 'Fusta': 'fusta' };
+    return map[materialName] || materialName.toLowerCase();
+}
+
+function applyFilters() {
+    const { zones, techniques, materials } = getActiveFilters();
+    const cards = document.querySelectorAll('#catalog-grid > div');
+    let visibleCount = 0;
+
+    APP_DATA.crafts.forEach((craft, i) => {
+        const card = cards[i];
+        if (!card) return;
+
+        let visible = true;
+
+        // Zone filter: show if craft zone matches any checked zone (or none checked = show all)
+        if (zones.length > 0 && craft.zona && !zones.includes(craft.zona)) {
+            visible = false;
+        }
+
+        // Technique filter
+        if (techniques.length > 0 && craft.tecnica && !techniques.includes(craft.tecnica)) {
+            visible = false;
+        }
+
+        // Material filter
+        if (materials.length > 0) {
+            const craftMatId = materialNameToId(craft.material);
+            if (!materials.includes(craftMatId)) {
+                visible = false;
+            }
+        }
+
+        if (visible) {
+            card.style.display = '';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Show toast with filter result
+    if (zones.length > 0 || techniques.length > 0 || materials.length > 0) {
+        showToast(`${visibleCount} artesani${visibleCount === 1 ? 'a' : 'es'} trobad${visibleCount === 1 ? 'a' : 'es'}`, 'info', 'filter_list');
+    }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -162,36 +286,53 @@ function closeGalleryModal() {
 }
 
 // ══════════════════════════════════════════════════════════════
-// INTERACCIÓ: Favorits, Filtres, Grid, Geolocalització, IA
+// INTERACCIÓ: Favorits amb Toast
 // ══════════════════════════════════════════════════════════════
 
 function toggleFavoriteCard(btn, event) {
     if (event) event.stopPropagation();
     const icon = btn.querySelector('.material-symbols-outlined');
+    const card = btn.closest('[data-craft-id]') || btn.closest('.group');
+    
+    // Find the craft name from card
+    const nameEl = card ? card.querySelector('h3') : null;
+    const craftName = nameEl ? nameEl.textContent : 'Artesania';
+
     if (icon.classList.contains('fill-current') && icon.classList.contains('text-red-500')) {
         icon.classList.remove('fill-current', 'text-red-500');
         btn.classList.remove('text-red-500');
         btn.classList.add('text-slate-400');
+        showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
     } else {
         icon.classList.add('fill-current', 'text-red-500');
         btn.classList.remove('text-slate-400');
         btn.classList.add('text-red-500');
+        showToast(`${craftName} afegit a favorits`, 'favorite', 'favorite');
     }
 }
 
 function toggleModalFavorite(btn) {
     const icon = btn.querySelector('.material-symbols-outlined');
     if (!icon) return;
+    
+    const craftName = currentCraft ? currentCraft.nom : 'Artesania';
+
     if (icon.classList.contains('fill-current') && icon.classList.contains('text-red-500')) {
         icon.classList.remove('fill-current', 'text-red-500', 'scale-110');
         btn.classList.add('text-terracotta');
         btn.classList.remove('text-red-500');
+        showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
     } else {
         icon.classList.add('fill-current', 'text-red-500', 'scale-110');
         btn.classList.remove('text-terracotta');
         btn.classList.add('text-red-500');
+        showToast(`${craftName} afegit a favorits`, 'favorite', 'favorite');
     }
 }
+
+// ══════════════════════════════════════════════════════════════
+// GRID: Canvi de Columnes
+// ══════════════════════════════════════════════════════════════
 
 function setGridCols(cols, btnElement) {
     const grid = document.getElementById('catalog-grid');
@@ -214,7 +355,13 @@ function setGridCols(cols, btnElement) {
         btnElement.classList.remove('text-slate-400', 'hover:text-slate-600', 'dark:hover:text-slate-300');
         btnElement.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-slate-800', 'dark:text-slate-200');
     }
+
+    showToast(`Vista canviada a ${cols} columnes`, 'info', 'view_module');
 }
+
+// ══════════════════════════════════════════════════════════════
+// GEOLOCALITZACIÓ I XAT IA
+// ══════════════════════════════════════════════════════════════
 
 function toggleGeolocation() {
     const geoPanel = document.getElementById('geo-popup');
@@ -228,6 +375,7 @@ function toggleGeolocation() {
             geoPanel.classList.remove('opacity-0', 'translate-y-2');
             geoPanel.classList.add('opacity-100', 'translate-y-0');
         }, 10);
+        showToast('Geolocalització activada', 'success', 'my_location');
     } else {
         geoPanel.classList.remove('opacity-100', 'translate-y-0');
         geoPanel.classList.add('opacity-0', 'translate-y-2');
@@ -344,18 +492,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Map filter buttons toggle
-    const mapFilterButtons = document.querySelectorAll('#mapa details button');
-    mapFilterButtons.forEach(btn => {
+    // Map filter buttons toggle (comarques + materials)
+    document.querySelectorAll('#map-comarques button, #map-materials button').forEach(btn => {
         btn.addEventListener('click', function() {
-            if (this.classList.contains('border-primary')) {
+            if (this.classList.contains('border-primary') || this.classList.contains('bg-primary/10')) {
+                // Deactivate
                 this.classList.remove('bg-primary/10', 'border-primary', 'text-primary', 'shadow-[0_0_15px_rgba(236,73,19,0.3)]');
                 this.classList.add('bg-white', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
                 const textSpan = Array.from(this.querySelectorAll('span')).find(s => !s.classList.contains('material-symbols-outlined'));
                 if (textSpan) { textSpan.classList.remove('font-bold'); textSpan.classList.add('font-medium'); }
             } else {
+                // Activate
                 this.classList.remove('bg-white', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
                 this.classList.add('bg-primary/10', 'border-primary', 'text-primary');
+                // Add glow for comarca buttons (no icon)
                 if (!this.querySelector('.material-symbols-outlined')) {
                     this.classList.add('shadow-[0_0_15px_rgba(236,73,19,0.3)]');
                 }
@@ -364,4 +514,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // "Carregar més artesanies" — placeholder toast
+    const loadMoreBtn = document.querySelector('#cataleg .flex.justify-center button');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+            showToast('No hi ha més artesanies per carregar per ara', 'info', 'inventory_2');
+        });
+    }
 });
