@@ -24,6 +24,9 @@ const APP_DATA = {
         { id: 'llana', label: 'Llana', active: false },
         { id: 'espart', label: 'Espart', active: false },
         { id: 'fusta', label: 'Fusta', active: false },
+        { id: 'ceramica', label: 'Ceràmica', active: false },
+        { id: 'pedra', label: 'Pedra', active: false },
+        { id: 'palma', label: 'Palma', active: false },
     ],
 
     // ── Artesanies (Catàleg) ────────────────────────────────
@@ -202,10 +205,14 @@ const APP_DATA = {
         { id: 'llevant', label: 'Llevant', active: false },
     ],
     mapMaterials: [
-        { id: 'fang', label: 'Fang', icon: 'potted_plant', active: true, color: 'primary' },
+        { id: 'fang', label: 'Fang', icon: 'potted_plant', active: false, color: 'primary' },
         { id: 'vidre', label: 'Vidre', icon: 'water_drop', active: false, color: 'blue-500' },
-        { id: 'textil', label: 'Tèxtil', icon: 'styler', active: false, color: 'pink-500' },
+        { id: 'llana', label: 'Llana', icon: 'styler', active: false, color: 'pink-500' },
         { id: 'espart', label: 'Espart', icon: 'grass', active: false, color: 'amber-600' },
+        { id: 'fusta', label: 'Fusta', icon: 'park', active: false, color: 'amber-800' },
+        { id: 'ceramica', label: 'Ceràmica', icon: 'emoji_objects', active: false, color: 'orange-500' },
+        { id: 'pedra', label: 'Pedra', icon: 'landscape', active: false, color: 'slate-500' },
+        { id: 'palma', label: 'Palma', icon: 'eco', active: false, color: 'green-600' },
     ],
     mapMarkers: [
         { id: 'faded-marker', top: '35%', left: '20%', icon: 'potted_plant', color: 'primary', size: 'small', faded: true, tooltip: null },

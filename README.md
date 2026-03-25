@@ -37,30 +37,31 @@ artesania-mallorca/
 ## 🏗️ Arquitectura
 
 **Front-end desacoblat** amb 3 capes:
+
 - **Presentació**: `index.html` + `css/styles.css` (Tailwind CSS via CDN)
 - **Lògica**: `js/main.js` (orquestrador) + `js/templates.js` (renderitzat)
 - **Dades**: `js/data.js` (objectes JS placeholder → futur JSON via `fetch()`)
 
 ## ✨ Funcionalitats
 
-| Funcionalitat | Estat |
-|---|---|
-| Catàleg amb targetes interactives | ✅ |
-| Filtres (zona, tècnica, material, vídeo, favorits) | ✅ |
-| Canvi de columnes (2/3/4) | ✅ |
-| Fitxa detallada amb multimèdia | ✅ |
-| Mapa interactiu amb marcadors | ✅ |
-| Geolocalització + tallers propers | ✅ |
-| Previsió meteorològica (placeholder) | ✅ |
-| Galeria d'imatges | ✅ |
-| Ressenyes i comentaris | ✅ |
-| Xat IA (placeholder) | ✅ |
-| Sistema de favorits amb notificacions | ✅ |
-| Cerca per text | 🔜 |
-| Cerca per veu (Web Speech API) | 🔜 |
-| Ordenació dinàmica | 🔜 |
-| Persistència localStorage | 🔜 |
-| PWA / Service Worker | 🔜 |
+| Funcionalitat                                      | Estat |
+| -------------------------------------------------- | ----- |
+| Catàleg amb targetes interactives                  | ✅    |
+| Filtres (zona, tècnica, material, vídeo, favorits) | ✅    |
+| Canvi de columnes (2/3/4)                          | ✅    |
+| Fitxa detallada amb multimèdia                     | ✅    |
+| Mapa interactiu amb marcadors                      | ✅    |
+| Geolocalització + tallers propers                  | ✅    |
+| Previsió meteorològica (placeholder)               | ✅    |
+| Galeria d'imatges                                  | ✅    |
+| Ressenyes i comentaris                             | ✅    |
+| Xat IA (placeholder)                               | ✅    |
+| Sistema de favorits amb notificacions              | ✅    |
+| Cerca per text                                     | 🔜    |
+| Cerca per veu (Web Speech API)                     | 🔜    |
+| Ordenació dinàmica                                 | 🔜    |
+| Persistència localStorage                          | 🔜    |
+| PWA / Service Worker                               | 🔜    |
 
 ## 🛠️ Tecnologies
 
@@ -71,4 +72,4 @@ artesania-mallorca/
 
 ## 📝 Llicència
 
-© 2023 Catàleg d'Artesania Mallorquina. Tots els drets reservats.
+© 2026 Catàleg d'Artesania Mallorquina. Tots els drets reservats.

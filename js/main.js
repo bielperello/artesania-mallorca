@@ -124,7 +124,7 @@ function getActiveFilters() {
 }
 
 function materialNameToId(materialName) {
-    const map = { 'Fang': 'fang', 'Vidre': 'vidre', 'Llana': 'llana', 'Espart': 'espart', 'Fusta': 'fusta' };
+    const map = { 'Fang': 'fang', 'Vidre': 'vidre', 'Llana': 'llana', 'Espart': 'espart', 'Fusta': 'fusta', 'Ceràmica': 'ceramica', 'Pedra': 'pedra', 'Palma': 'palma' };
     return map[materialName] || materialName.toLowerCase();
 }
 
@@ -360,30 +360,108 @@ function setGridCols(cols, btnElement) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// GEOLOCALITZACIÓ I XAT IA
+// GEOLOCALITZACIÓ (Confirmació → Activació → Desactivació)
 // ══════════════════════════════════════════════════════════════
 
-function toggleGeolocation() {
-    const geoPanel = document.getElementById('geo-popup');
-    const geoIcon = document.getElementById('geo-icon');
-    if (!geoPanel || !geoIcon) return;
+let geoActive = false;
 
-    if (geoPanel.classList.contains('hidden')) {
-        geoPanel.classList.remove('hidden');
-        geoIcon.classList.add('text-blue-600', 'animate-pulse');
-        setTimeout(() => {
-            geoPanel.classList.remove('opacity-0', 'translate-y-2');
-            geoPanel.classList.add('opacity-100', 'translate-y-0');
-        }, 10);
-        showToast('Geolocalització activada', 'success', 'my_location');
-    } else {
-        geoPanel.classList.remove('opacity-100', 'translate-y-0');
-        geoPanel.classList.add('opacity-0', 'translate-y-2');
-        geoIcon.classList.remove('text-blue-600', 'animate-pulse');
-        setTimeout(() => {
-            geoPanel.classList.add('hidden');
-        }, 300);
+function toggleGeoConfirm() {
+    const confirmPanel = document.getElementById('geo-confirm');
+    const geoPopup = document.getElementById('geo-popup');
+    const geoIcon = document.getElementById('geo-icon');
+    if (!confirmPanel) return;
+
+    // If geo is already active, toggle the workshop list
+    if (geoActive) {
+        if (geoPopup && !geoPopup.classList.contains('hidden')) {
+            // Hide the popup
+            geoPopup.classList.remove('opacity-100', 'translate-y-0');
+            geoPopup.classList.add('opacity-0', 'translate-y-2');
+            setTimeout(() => geoPopup.classList.add('hidden'), 300);
+        } else if (geoPopup) {
+            // Show the popup
+            geoPopup.classList.remove('hidden');
+            setTimeout(() => {
+                geoPopup.classList.remove('opacity-0', 'translate-y-2');
+                geoPopup.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
+        }
+        return;
     }
+
+    // Show confirmation dialog
+    if (confirmPanel.classList.contains('hidden')) {
+        confirmPanel.classList.remove('hidden');
+        setTimeout(() => {
+            confirmPanel.classList.remove('opacity-0', 'translate-y-2');
+            confirmPanel.classList.add('opacity-100', 'translate-y-0');
+        }, 10);
+    } else {
+        cancelGeolocation();
+    }
+}
+
+function confirmGeolocation() {
+    const confirmPanel = document.getElementById('geo-confirm');
+    const geoPopup = document.getElementById('geo-popup');
+    const geoIcon = document.getElementById('geo-icon');
+
+    geoActive = true;
+
+    // Hide confirmation
+    if (confirmPanel) {
+        confirmPanel.classList.remove('opacity-100', 'translate-y-0');
+        confirmPanel.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => confirmPanel.classList.add('hidden'), 300);
+    }
+
+    // Show workshop list
+    if (geoPopup) {
+        setTimeout(() => {
+            geoPopup.classList.remove('hidden');
+            setTimeout(() => {
+                geoPopup.classList.remove('opacity-0', 'translate-y-2');
+                geoPopup.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
+        }, 350);
+    }
+
+    // Update icon
+    if (geoIcon) {
+        geoIcon.classList.add('text-blue-600', 'animate-pulse');
+    }
+
+    showToast('Ubicació compartida — Mostrant tallers propers', 'success', 'my_location');
+}
+
+function cancelGeolocation() {
+    const confirmPanel = document.getElementById('geo-confirm');
+    if (!confirmPanel) return;
+
+    confirmPanel.classList.remove('opacity-100', 'translate-y-0');
+    confirmPanel.classList.add('opacity-0', 'translate-y-2');
+    setTimeout(() => confirmPanel.classList.add('hidden'), 300);
+}
+
+function stopGeolocation() {
+    const geoPopup = document.getElementById('geo-popup');
+    const geoIcon = document.getElementById('geo-icon');
+
+    geoActive = false;
+
+    // Hide workshop list
+    if (geoPopup) {
+        geoPopup.classList.remove('opacity-100', 'translate-y-0');
+        geoPopup.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => geoPopup.classList.add('hidden'), 300);
+    }
+
+    // Reset icon
+    if (geoIcon) {
+        geoIcon.classList.remove('text-blue-600', 'animate-pulse');
+    }
+
+    showToast('Ubicació desactivada', 'warning', 'location_off');
 }
 
 function toggleAIChat() {
