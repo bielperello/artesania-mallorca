@@ -8,10 +8,10 @@
 function renderHeader() {
     return `
     <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur sticky top-0 z-50">
-        <div class="flex items-center gap-4 text-primary">
-            <span class="material-symbols-outlined text-3xl">potted_plant</span>
+        <a href="#inici" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
+            <img src="./media/images/logo.jpeg" alt="Logo Artesania Mallorquina" class="h-10 w-10 rounded-lg object-cover shadow-sm"/>
             <h2 class="text-slate-900 dark:text-slate-100 text-xl font-serif font-bold leading-tight tracking-[-0.015em]">Artesania Mallorquina</h2>
-        </div>
+        </a>
         <div class="flex flex-1 justify-end gap-8">
             <nav class="flex items-center gap-9">
                 <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#inici">Inici</a>
@@ -267,8 +267,8 @@ function renderFooter() {
     return `
     <footer class="bg-slate-900 text-slate-400 py-12 px-10 border-t border-slate-800 mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2 text-white">
-                <span class="material-symbols-outlined text-2xl text-primary">potted_plant</span>
+            <div class="flex items-center gap-3 text-white">
+                <img src="./media/images/logo.jpeg" alt="Logo" class="h-9 w-9 rounded-lg object-cover opacity-90"/>
                 <span class="font-serif font-bold text-lg">Artesania Mallorquina</span>
             </div>
             <div class="flex gap-6">
@@ -300,8 +300,8 @@ function renderModals() {
                     <h2 class="text-xl font-bold leading-tight tracking-tight font-display">Fitxa d'Artesania</h2>
                 </div>
                 <div class="flex items-center gap-2 mr-2">
-                    <button aria-label="Afegir a preferits" onclick="toggleModalFavorite(this)" class="flex items-center justify-center rounded-full size-10 bg-terracotta-light hover:bg-terracotta/20 dark:bg-slate-800 dark:hover:bg-slate-700 text-terracotta transition-colors group cursor-pointer" title="Afegir a preferits">
-                        <span class="material-symbols-outlined group-hover:fill-current transition-colors">favorite</span>
+                    <button aria-label="Afegir a preferits" onclick="toggleModalFavorite(this)" class="flex items-center justify-center rounded-full size-10 bg-slate-100 hover:bg-red-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-400 transition-all group cursor-pointer" title="Afegir a preferits">
+                        <span class="material-symbols-outlined group-hover:text-red-400 transition-colors">favorite</span>
                     </button>
                     <button aria-label="Compartir" class="flex items-center justify-center rounded-full size-10 bg-sand/30 hover:bg-sand/50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors" title="Compartir">
                         <span class="material-symbols-outlined">share</span>
@@ -377,8 +377,8 @@ function renderStars(rating, size = 'text-sm') {
     const half = rating % 1 >= 0.3;
     const empty = 5 - full - (half ? 1 : 0);
     let html = '';
-    for (let i = 0; i < full; i++) html += `<span class="material-symbols-outlined fill-current ${size}">star</span>`;
-    if (half) html += `<span class="material-symbols-outlined ${size}">star_half</span>`;
+    for (let i = 0; i < full; i++) html += `<span class="material-symbols-outlined text-amber-400 ${size}" style="font-variation-settings: 'FILL' 1;">star</span>`;
+    if (half) html += `<span class="material-symbols-outlined text-amber-400 ${size}" style="font-variation-settings: 'FILL' 1;">star_half</span>`;
     for (let i = 0; i < empty; i++) html += `<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 ${size}">star</span>`;
     return html;
 }
@@ -560,7 +560,7 @@ function renderMultimediaGrid(items) {
     items.forEach((item, i) => {
         if (item.tipus === 'video-hero') {
             html += `
-            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20">
+            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20" onclick="showToast('Reproduint vídeo: ${item.titol}', 'info', 'play_circle')">
                 <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 z-10"></div>
                 <img alt="${item.titol}" class="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700" src="${item.img}"/>
                 <div class="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -575,7 +575,7 @@ function renderMultimediaGrid(items) {
             </div>`;
         } else if (item.tipus === 'galeria') {
             html += `
-            <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col">
+            <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="showToast('Obrint galeria: ${item.titol}', 'info', 'photo_library')">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
                 <img alt="${item.titol}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" src="${item.img}"/>
                 <div class="absolute inset-0 z-20 p-6 flex flex-col justify-end opacity-90 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-300">
@@ -588,7 +588,7 @@ function renderMultimediaGrid(items) {
             </div>`;
         } else if (item.tipus === 'serie') {
             html += `
-            <div class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20">
+            <div class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" onclick="showToast('Sèrie: ${item.titol} — pròximament', 'info', 'subscriptions')">
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/90 z-10"></div>
                 <img alt="${item.titol}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="${item.img}"/>
                 <div class="absolute top-4 right-4 z-20 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1 border border-white/10">
@@ -613,7 +613,7 @@ function renderMultimediaGrid(items) {
                 <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 to-slate-800/80 z-10"></div>
                 <div class="relative z-20 h-full p-6 flex flex-col items-center justify-center text-center">
                     <span class="text-primary text-xs font-bold uppercase tracking-widest mb-4">Sons de l'ofici</span>
-                    <button class="w-20 h-20 rounded-full bg-white flex items-center justify-center text-slate-900 hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.1)] mb-4 relative">
+                    <button onclick="showToast('Reproduint àudio: ${item.titol}', 'info', 'headphones')" class="w-20 h-20 rounded-full bg-white flex items-center justify-center text-slate-900 hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.1)] mb-4 relative">
                         <span class="absolute inset-0 rounded-full border border-white animate-ping opacity-20"></span>
                         <span class="material-symbols-outlined text-4xl ml-1">play_arrow</span>
                     </button>
@@ -710,9 +710,9 @@ function renderCraftDetail(craft) {
 
     // Artesans
     const artesansHTML = craft.artesans.map(a => `
-        <div class="flex flex-col min-w-[300px] w-[300px] bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 snap-center">
-            <div class="w-24 h-24 rounded-full bg-cover bg-center mb-4 border-4 border-slate-100 dark:border-slate-700 self-center" style='background-image: url("${a.foto}");'></div>
-            <h4 class="font-display font-bold text-xl text-slate-900 dark:text-slate-100 text-center mb-1">${a.nom}</h4>
+        <div class="flex flex-col min-w-[300px] w-[300px] bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 snap-center cursor-pointer group/artisan hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 transition-all duration-500">
+            <div class="w-24 h-24 rounded-full bg-cover bg-center mb-4 border-4 border-slate-100 dark:border-slate-700 self-center group-hover/artisan:border-primary/40 group-hover/artisan:scale-110 group-hover/artisan:shadow-lg transition-all duration-500" style='background-image: url("${a.foto}");'></div>
+            <h4 class="font-display font-bold text-xl text-slate-900 dark:text-slate-100 text-center mb-1 group-hover/artisan:text-primary transition-colors duration-300">${a.nom}</h4>
             <div class="flex justify-center items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 mb-4">
                 <span>${a.dates}</span><span>•</span><span>${a.lloc}</span>
             </div>
@@ -898,10 +898,72 @@ function renderWeatherModal(weather) {
 
 function renderGalleryImages(craft) {
     if (!craft) return '';
-    return craft.galeria.map((g, i) => {
-        const extraClass = i === craft.galeria.length - 1 ? 'sm:col-span-2 md:col-span-3 aspect-[21/9]' : '';
-        return `<img src="${g.imatge}" class="w-full h-64 object-cover rounded-xl shadow-lg border border-white/10 hover:scale-105 transition-transform duration-500 cursor-pointer ${extraClass}" alt="${g.titol}">`;
-    }).join('') + `<img src="${craft.imatge}" class="w-full h-64 object-cover rounded-xl shadow-lg border border-white/10 hover:scale-105 transition-transform duration-500 cursor-pointer sm:col-span-2 md:col-span-3 aspect-[21/9]" alt="${craft.nom}">`;
+
+    // Imatges de la galeria
+    let html = `
+        <div class="sm:col-span-2 md:col-span-3 mb-2">
+            <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">photo_library</span> Imatges (${craft.galeria.length + 1})</h4>
+        </div>`;
+
+    html += craft.galeria.map(g => `
+        <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer">
+            <img src="${g.imatge}" class="w-full h-64 object-cover group-hover/gal:scale-110 transition-transform duration-700" alt="${g.titol}">
+            <div class="absolute inset-0 bg-black/0 group-hover/gal:bg-black/30 transition-colors duration-300 flex items-end">
+                <div class="p-3 w-full translate-y-full group-hover/gal:translate-y-0 transition-transform duration-300">
+                    <p class="text-white text-sm font-bold drop-shadow-lg">${g.titol}</p>
+                    <p class="text-white/70 text-xs">${g.subtitol}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Imatge principal
+    html += `
+        <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer sm:col-span-2 md:col-span-3 aspect-[21/9]">
+            <img src="${craft.imatge}" class="w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-700" alt="${craft.nom}">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                <div class="p-6"><p class="text-white text-lg font-serif font-bold">${craft.nom}</p></div>
+            </div>
+        </div>`;
+
+    // Secció Vídeo placeholder
+    html += `
+        <div class="sm:col-span-2 md:col-span-3 mt-4 mb-2">
+            <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">videocam</span> Vídeo</h4>
+        </div>
+        <div class="sm:col-span-2 md:col-span-3 relative rounded-xl overflow-hidden bg-slate-800 border border-white/10 aspect-video cursor-pointer group/vid" onclick="showToast('Reproducció de vídeo pròximament disponible', 'info', 'videocam')">
+            <img src="${craft.videoThumb || craft.imatge}" class="w-full h-full object-cover opacity-60 group-hover/vid:opacity-80 group-hover/vid:scale-105 transition-all duration-500" alt="Vídeo">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 group-hover/vid:scale-110 group-hover/vid:bg-primary/40 transition-all duration-300">
+                    <span class="material-symbols-outlined text-white text-4xl ml-1">play_arrow</span>
+                </div>
+            </div>
+            <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                <p class="text-white font-bold text-sm">Procés artesanal: ${craft.nom}</p>
+                <p class="text-white/60 text-xs">Durada: 2:23</p>
+            </div>
+        </div>`;
+
+    // Secció Àudio placeholder
+    html += `
+        <div class="sm:col-span-2 md:col-span-3 mt-4 mb-2">
+            <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">headphones</span> Àudio</h4>
+        </div>
+        <div class="sm:col-span-2 md:col-span-3 bg-slate-800/80 border border-white/10 rounded-xl p-5 flex items-center gap-4 cursor-pointer group/aud hover:bg-slate-700/80 transition-colors" onclick="showToast('Reproducció d\'àudio pròximament disponible', 'info', 'headphones')">
+            <button class="w-14 h-14 rounded-full bg-white/10 backdrop-blur flex items-center justify-center shrink-0 group-hover/aud:bg-primary/30 transition-colors border border-white/20">
+                <span class="material-symbols-outlined text-white text-2xl">play_arrow</span>
+            </button>
+            <div class="flex-1">
+                <p class="text-white font-bold text-sm">Sons de l'ofici: ${craft.nom}</p>
+                <p class="text-white/50 text-xs mb-2">Durada: 4:15</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5">
+                    <div class="bg-primary h-1.5 rounded-full w-0 group-hover/aud:w-1/4 transition-all duration-1000"></div>
+                </div>
+            </div>
+            <span class="text-white/40 text-xs font-mono">0:00 / 4:15</span>
+        </div>`;
+
+    return html;
 }
 
 // ── Xat IA ───────────────────────────────────────────────────

@@ -352,16 +352,17 @@ function toggleModalFavorite(btn) {
     if (!icon) return;
     
     const craftName = currentCraft ? currentCraft.nom : 'Artesania';
+    const isActive = btn.classList.contains('is-favorite');
 
-    if (icon.classList.contains('fill-current') && icon.classList.contains('text-red-500')) {
-        icon.classList.remove('fill-current', 'text-red-500', 'scale-110');
-        btn.classList.add('text-terracotta');
-        btn.classList.remove('text-red-500');
+    if (isActive) {
+        btn.classList.remove('is-favorite', 'text-red-500', 'bg-red-50');
+        btn.classList.add('text-slate-400', 'bg-slate-100');
+        icon.style.fontVariationSettings = '';
         showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
     } else {
-        icon.classList.add('fill-current', 'text-red-500', 'scale-110');
-        btn.classList.remove('text-terracotta');
-        btn.classList.add('text-red-500');
+        btn.classList.add('is-favorite', 'text-red-500', 'bg-red-50');
+        btn.classList.remove('text-slate-400', 'bg-slate-100');
+        icon.style.fontVariationSettings = "'FILL' 1";
         showToast(`${craftName} afegit a favorits`, 'favorite', 'favorite');
     }
 }
