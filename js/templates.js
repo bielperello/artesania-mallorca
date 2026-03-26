@@ -1,7 +1,376 @@
 // templates.js — Funcions de renderitzat per a l'SPA d'Artesania Mallorquina
 // Cada funció rep dades i retorna un string HTML
 
-// ── Utilitats ────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// SECCIONS DE PÀGINA (Estructura principal)
+// ══════════════════════════════════════════════════════════════
+
+function renderHeader() {
+    return `
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur sticky top-0 z-50">
+        <div class="flex items-center gap-4 text-primary">
+            <span class="material-symbols-outlined text-3xl">potted_plant</span>
+            <h2 class="text-slate-900 dark:text-slate-100 text-xl font-serif font-bold leading-tight tracking-[-0.015em]">Artesania Mallorquina</h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-8">
+            <nav class="flex items-center gap-9">
+                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#inici">Inici</a>
+                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#sobre-nosaltres">Sobre nosaltres</a>
+                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#cataleg">Catàleg</a>
+                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#mapa">Mapa</a>
+                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#multimedia">Multimèdia</a>
+            </nav>
+            <a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]" href="#cataleg">
+                <span class="truncate">Explora</span>
+            </a>
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 border border-slate-200 dark:border-slate-700" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIBFSPvXm1blUZAmzogrEkNLJc1G2QH6VzlbGREboNvrtRiuDpcLyrq6B3OxezEAScJc-mpWw6Q3HJw80T-nOCdrvIXjMC9PRUYZTIxYD7FtNG3PQdUy-uxRmSNjyhiGDNeAY4Q7C3KNYHil5fIq4_4yZUQMJY6Gg1bLx6Bfb6UH4ITm5jIfUS-DNkkdn2wRFOU5P9n4gpMNeKUvJgX7alA8apkIHKoAoO98pzemjTwr4IY78Dx6wWCF_H9zfjYXw7VhZGUkA2UulF");'></div>
+        </div>
+    </header>`;
+}
+
+function renderHero() {
+    return `
+    <section class="@container mb-16 px-10 py-8 lg:px-20 max-w-[1400px] mx-auto">
+        <div class="flex min-h-[400px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-start justify-center px-8 pb-12 shadow-lg relative overflow-hidden" style='background-image: url("./media/images/hero-01.jpg");'>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
+            <div class="relative z-10 flex flex-col gap-4 text-left max-w-2xl mt-12">
+                <span class="text-primary font-bold uppercase tracking-wider text-sm">Patrimoni Mediterrani</span>
+                <h1 class="text-white text-5xl font-serif font-black leading-tight tracking-[-0.033em]">Catàleg Interactiu d'Artesania Mallorquina</h1>
+                <h2 class="text-slate-200 text-lg font-normal leading-relaxed">Descobreix les arts tradicionals de la Mediterrània. Un viatge a través de generacions d'artesans que preserven l'essència de l'illa.</h2>
+            </div>
+        </div>
+    </section>`;
+}
+
+function renderAbout() {
+    return `
+    <section class="mb-24 px-10 lg:px-20 max-w-[1200px] mx-auto" id="sobre-nosaltres">
+        <div class="flex flex-col lg:flex-row gap-16 items-center">
+            <div class="w-full lg:w-1/2">
+                <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
+                <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>
+                <div class="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed font-light text-lg">
+                    <p>L'artesania a les Illes Balears no és només una manera de crear objectes; és el llegat silenciós de centenars d'anys d'adaptació al medi, de diàleg amb la terra, l'argila, la fusta i el mar.</p>
+                    <p>La nostra missió és documentar, protegir i difondre el treball dels mestres artesans que encara avui mantenen vives tècniques ancestrals com el siurell, el bufat de vidre o la llatra.</p>
+                    <p>Aquest espai neix per connectar el passat amb les noves generacions, valorant la lentitud, el detall i la bellesa de l'imperfet en un món cada cop més accelerat.</p>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 relative">
+                <div class="aspect-[4/5] overflow-hidden rounded-lg shadow-xl relative z-10">
+                    <img alt="Artesà fent feina" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="./media/images/about-01.webp"/>
+                </div>
+                <div class="absolute -bottom-8 -left-8 w-64 h-64 bg-slate-100 dark:bg-slate-800 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 z-0"></div>
+                <div class="absolute -top-8 -right-8 w-48 h-48 bg-primary/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl z-0"></div>
+            </div>
+        </div>
+    </section>`;
+}
+
+function renderCatalogSection() {
+    return `
+    <section class="mb-20 px-10 py-8 lg:px-20 max-w-[1400px] mx-auto" id="cataleg">
+        <div class="flex justify-between items-end mb-8 border-b border-slate-200 dark:border-slate-800 pb-4">
+            <h2 class="text-slate-900 dark:text-slate-100 text-3xl font-serif font-bold leading-tight tracking-[-0.015em]">Explora el Catàleg</h2>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-10">
+            <aside class="w-full lg:w-1/4 flex flex-col gap-0 bg-white dark:bg-slate-900 p-5 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 h-max">
+                <div class="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
+                    <span class="material-symbols-outlined text-primary">filter_list</span>
+                    <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-slate-100">Filtres</h3>
+                </div>
+                <!-- Zona Geogràfica -->
+                <div>
+                    <details class="group [&_summary::-webkit-details-marker]:hidden" close>
+                        <summary class="cursor-pointer list-none flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-3 uppercase tracking-wider select-none py-2">
+                            <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">explore</span> Zona Geogràfica</div>
+                            <span class="material-symbols-outlined group-open:-scale-y-100 transition-transform">expand_more</span>
+                        </summary>
+                        <div id="filter-zones" class="flex flex-col gap-2 pb-4 group-open:animate-fade-in"></div>
+                    </details>
+                </div>
+                <!-- Tècnica -->
+                <div class="border-t border-slate-100 dark:border-slate-800">
+                    <details class="group [&_summary::-webkit-details-marker]:hidden" close>
+                        <summary class="cursor-pointer list-none flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-3 uppercase tracking-wider select-none py-2">
+                            <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">construction</span> Tècnica</div>
+                            <span class="material-symbols-outlined group-open:-scale-y-100 transition-transform">expand_more</span>
+                        </summary>
+                        <div id="filter-techniques" class="flex flex-col gap-2 pb-4 group-open:animate-fade-in"></div>
+                    </details>
+                </div>
+                <!-- Material -->
+                <div class="border-t border-slate-100 dark:border-slate-800">
+                    <details class="group [&_summary::-webkit-details-marker]:hidden" close>
+                        <summary class="cursor-pointer list-none flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-3 uppercase tracking-wider select-none py-2">
+                            <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">category</span> Material</div>
+                            <span class="material-symbols-outlined group-open:-scale-y-100 transition-transform">expand_more</span>
+                        </summary>
+                        <div id="filter-materials" class="flex flex-wrap gap-2 pb-4 group-open:animate-fade-in"></div>
+                    </details>
+                </div>
+                <!-- Favorits toggle -->
+                <div class="border-t border-slate-100 dark:border-slate-800 pt-4">
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-red-500 text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                            <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Només favorits</span>
+                        </div>
+                        <div class="relative">
+                            <input class="sr-only peer" type="checkbox"/>
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
+                        </div>
+                    </label>
+                </div>
+            </aside>
+            <div class="w-full lg:w-3/4 flex flex-col gap-6">
+                <div class="flex flex-col md:flex-row gap-4 items-center bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+                    <div class="relative flex-1 w-full">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                        <input class="w-full pl-10 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary dark:text-white placeholder-slate-400 transition-all" placeholder="Cerca artesans, materials, tècniques..." type="text"/>
+                        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors flex items-center justify-center p-1" title="Cerca per veu">
+                            <span class="material-symbols-outlined">mic</span>
+                        </button>
+                    </div>
+                    <div class="flex gap-4 items-center w-full md:w-auto">
+                        <div class="w-full md:w-48 relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10 pointer-events-none text-sm">sort</span>
+                            <select class="w-full pl-9 pr-8 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary text-slate-700 dark:text-slate-200 appearance-none cursor-pointer">
+                                <option value="relevance">Més rellevants</option>
+                                <option value="az">Alfabètic (A-Z)</option>
+                                <option value="za">Alfabètic (Z-A)</option>
+                                <option selected value="rating">Valoració</option>
+                                <option value="comments">Més comentaris</option>
+                                <option value="workshops">Tallers disponibles</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">expand_more</span>
+                        </div>
+                        <div class="hidden md:flex items-center bg-slate-50 dark:bg-slate-800 p-1 rounded-lg border border-slate-100 dark:border-slate-700">
+                            <button onclick="setGridCols(2, this)" class="grid-col-btn p-1.5 rounded bg-white dark:bg-slate-700 shadow-sm text-slate-800 dark:text-slate-200 transition-colors" title="2 columnes"><span class="material-symbols-outlined text-[18px]">grid_view</span></button>
+                            <button onclick="setGridCols(3, this)" class="grid-col-btn p-1.5 rounded text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" title="3 columnes"><span class="material-symbols-outlined text-[18px]">view_module</span></button>
+                            <button onclick="setGridCols(4, this)" class="grid-col-btn p-1.5 rounded text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" title="4 columnes"><span class="material-symbols-outlined text-[18px]">view_comfy</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 transition-all duration-500">
+                    <!-- JS renderCatalogCards() -->
+                </div>
+                <div class="flex justify-center mt-8">
+                    <button class="px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-bold transition-colors">Carregar més artesanies</button>
+                </div>
+            </div>
+        </div>
+    </section>`;
+}
+
+function renderMapSection() {
+    return `
+    <section class="mb-20" id="mapa">
+        <div class="relative w-full h-[80vh] min-h-[600px] bg-slate-100 dark:bg-slate-800 overflow-hidden group">
+            <div class="absolute inset-0 z-0 transition-transform duration-1000 ease-in-out scale-[2] translate-x-[15%] translate-y-[20%]">
+                <img alt="Mapa gran de Balears" class="w-full h-full object-cover opacity-80" src="./media/images/mapa-mallorca-01.jpg"/>
+            </div>
+            <!-- Panell lateral del mapa -->
+            <div class="absolute top-6 left-6 z-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 max-w-sm w-full max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-serif font-bold text-xl text-slate-900 dark:text-slate-100">Mapa d'Artesans</h3>
+                    <div class="flex items-center gap-2">
+                        <button class="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors font-medium">
+                            <span class="material-symbols-outlined text-[16px]">zoom_out_map</span> Restablir
+                        </button>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mb-5">Explora l'artesania autèntica per illes i comarques.</p>
+                <div class="space-y-6">
+                    <div>
+                        <details class="group [&_summary::-webkit-details-marker]:hidden" close>
+                            <summary class="cursor-pointer list-none flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-3 uppercase tracking-wider select-none">
+                                <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">explore</span> Comarques de Mallorca</div>
+                                <span class="material-symbols-outlined group-open:-scale-y-100 transition-transform">expand_more</span>
+                            </summary>
+                            <div id="map-comarques" class="grid grid-cols-2 gap-2 group-open:animate-fade-in"><!-- JS --></div>
+                        </details>
+                    </div>
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+                        <details class="group [&_summary::-webkit-details-marker]:hidden" close>
+                            <summary class="cursor-pointer list-none flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-3 uppercase tracking-wider select-none">
+                                <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">category</span> Materials</div>
+                                <span class="material-symbols-outlined group-open:-scale-y-100 transition-transform">expand_more</span>
+                            </summary>
+                            <div id="map-materials" class="grid grid-cols-2 gap-2 group-open:animate-fade-in"><!-- JS --></div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popup confirmació geolocalització -->
+            <div id="geo-confirm" class="absolute bottom-[70px] right-6 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-5 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 w-80 hidden opacity-0 transition-all duration-300 transform translate-y-2">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="flex-shrink-0 w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-blue-500 text-xl">my_location</span>
+                    </div>
+                    <div>
+                        <h4 class="font-serif font-bold text-slate-900 dark:text-slate-100 text-sm">Compartir ubicació</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Vols compartir la teva ubicació per veure els tallers més propers?</p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="confirmGeolocation()" class="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">check</span> Sí, compartir
+                    </button>
+                    <button onclick="cancelGeolocation()" class="flex-1 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-lg transition-colors">
+                        Cancel·lar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Popup tallers propers -->
+            <div id="geo-popup" class="absolute bottom-[70px] right-6 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-4 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 w-80 hidden opacity-0 transition-all duration-300 transform translate-y-2">
+                <div class="flex items-center justify-between mb-3 border-b border-slate-100 dark:border-slate-800 pb-2">
+                    <h4 class="font-serif font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1 text-sm">
+                        <span class="material-symbols-outlined text-blue-500 text-[18px]">near_me</span> Tallers Més Propers
+                    </h4>
+                    <div class="flex items-center gap-1">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <span class="text-[10px] text-green-600 dark:text-green-400 font-medium">Ubicació activa</span>
+                    </div>
+                </div>
+                <div id="geo-list" class="space-y-3"><!-- JS --></div>
+                <button onclick="stopGeolocation()" class="mt-3 w-full px-3 py-2 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 border border-red-200 dark:border-red-800">
+                    <span class="material-symbols-outlined text-[14px]">location_off</span> Deixar de compartir ubicació
+                </button>
+            </div>
+
+            <!-- Marcadors del mapa -->
+            <div id="map-markers"><!-- JS --></div>
+
+            <!-- Botó geolocalització -->
+            <div class="absolute bottom-6 right-6 flex flex-col gap-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.1)] rounded-xl p-1.5 z-30 border border-slate-200 dark:border-slate-700">
+                <button onclick="toggleGeoConfirm()" class="p-2 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/40 rounded-lg dark:text-blue-400 font-bold transition-all" title="Geolocalitza'm"><span class="material-symbols-outlined text-[20px]" id="geo-icon">my_location</span></button>
+            </div>
+        </div>
+    </section>`;
+}
+
+function renderMultimediaSection() {
+    return `
+    <section class="mb-20 px-10 lg:px-20 max-w-[1600px] mx-auto w-full" id="multimedia">
+        <div class="flex justify-between items-center mb-10 border-b border-slate-200 dark:border-slate-800 pb-4">
+            <h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100">Multimèdia Inmersiva i Visual</h2>
+        </div>
+        <div id="multimedia-grid" class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-[800px] w-full bg-slate-900 rounded-2xl overflow-hidden p-4 relative">
+            <!-- JS renderMultimediaGrid() -->
+        </div>
+    </section>`;
+}
+
+function renderFooter() {
+    return `
+    <footer class="bg-slate-900 text-slate-400 py-12 px-10 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 text-white">
+                <span class="material-symbols-outlined text-2xl text-primary">potted_plant</span>
+                <span class="font-serif font-bold text-lg">Artesania Mallorquina</span>
+            </div>
+            <div class="flex gap-6">
+                <a class="hover:text-white transition-colors" href="#">Política de Privacitat</a>
+                <a class="hover:text-white transition-colors" href="#">Termes del Servei</a>
+                <a class="hover:text-white transition-colors" href="#">Contacte</a>
+            </div>
+            <p class="text-sm">© 2026 Catàleg d'Artesania Mallorquina. Tots els drets reservats.</p>
+        </div>
+    </footer>`;
+}
+
+function renderFAB() {
+    return `
+    <button aria-label="Obrir Assistent d'IA" onclick="toggleAIChat()" class="fixed bottom-8 right-8 z-[100] flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-2xl transition-transform hover:scale-105 hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/30 group">
+        <span class="material-symbols-outlined text-3xl">auto_awesome</span>
+        <span class="absolute top-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-slate-900 group-hover:scale-110 transition-transform"></span>
+    </button>`;
+}
+
+function renderModals() {
+    return `
+    <!-- Fitxa Detallada -->
+    <div id="craft-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/50 backdrop-blur-sm opacity-0 transition-opacity duration-300 p-4 font-sans">
+        <div id="craft-modal-content" class="bg-background-light dark:bg-background-dark w-full max-w-[1200px] max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl flex flex-col relative transform scale-95 transition-transform duration-300">
+            <header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-8 py-4 sticky top-0 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur z-50 flex-row">
+                <div class="flex items-center gap-4 text-slate-900 dark:text-slate-100">
+                    <span class="material-symbols-outlined text-primary">category</span>
+                    <h2 class="text-xl font-bold leading-tight tracking-tight font-display">Fitxa d'Artesania</h2>
+                </div>
+                <div class="flex items-center gap-2 mr-2">
+                    <button aria-label="Afegir a preferits" onclick="toggleModalFavorite(this)" class="flex items-center justify-center rounded-full size-10 bg-terracotta-light hover:bg-terracotta/20 dark:bg-slate-800 dark:hover:bg-slate-700 text-terracotta transition-colors group cursor-pointer" title="Afegir a preferits">
+                        <span class="material-symbols-outlined group-hover:fill-current transition-colors">favorite</span>
+                    </button>
+                    <button aria-label="Compartir" class="flex items-center justify-center rounded-full size-10 bg-sand/30 hover:bg-sand/50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors" title="Compartir">
+                        <span class="material-symbols-outlined">share</span>
+                    </button>
+                </div>
+                <button onclick="closeModal()" id="close-modal" class="flex items-center justify-center rounded-full size-10 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-100 transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <div id="craft-modal-body"><!-- JS renderCraftDetail() --></div>
+        </div>
+    </div>
+
+    <!-- Weather Modal -->
+    <div id="weather-modal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 p-4 font-sans">
+        <div id="weather-modal-content" class="bg-white dark:bg-slate-900 w-full max-w-2xl max-h-[95vh] overflow-y-auto rounded-3xl shadow-2xl flex flex-col relative transform scale-95 transition-transform duration-300">
+            <header class="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-terracotta text-2xl">light_mode</span>
+                    <h2 id="weather-title" class="text-xl font-bold text-slate-900 dark:text-slate-100 font-serif">Previsió Meteorològica</h2>
+                </div>
+                <button onclick="closeWeatherModal()" class="flex items-center justify-center rounded-full flex-shrink-0 w-10 h-10 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            <div id="weather-modal-body"><!-- JS renderWeatherModal() --></div>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div id="gallery-modal" class="fixed inset-0 z-[300] hidden items-center justify-center bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300 p-4 sm:p-8">
+        <button onclick="closeGalleryModal()" class="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm transition-all z-50">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+        <div id="gallery-content" class="w-full max-w-5xl max-h-full flex flex-col transform scale-95 transition-transform duration-300 mt-10">
+            <h3 class="text-2xl font-serif font-bold text-white mb-6 text-center">Tota la Galeria</h3>
+            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto pr-2 hide-scrollbars pb-8">
+                <!-- JS renderGalleryImages() -->
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Panel -->
+    <div id="ai-chat-panel" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col z-[90] hidden opacity-0 transition-opacity duration-300 transform translate-y-4">
+        <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-700">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-purple-100 dark:from-orange-900/40 dark:to-purple-900/40 flex items-center justify-center border border-orange-200 dark:border-orange-800/50">
+                    <span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">smart_toy</span>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">Arxiu IA</h4>
+                    <p class="text-[10px] text-green-600 dark:text-green-400 flex items-center gap-1 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> En línia</p>
+                </div>
+            </div>
+            <button onclick="toggleAIChat()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+        <div id="ai-chat-messages" class="flex-1 p-4 h-80 overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-slate-900 mb-2">
+            <!-- JS renderChatMessages() -->
+        </div>
+        <div class="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700">
+            <form class="relative flex items-center" onsubmit="event.preventDefault()">
+                <input type="text" placeholder="Fes la teva consulta..." class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-full px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-terracotta pr-10">
+                <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full text-terracotta hover:bg-terracotta/10 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]" style="transform: rotate(-45deg); padding-left: 2px;">send</span>
+                </button>
+            </form>
+        </div>
+    </div>`;
+}// ── Utilitats ────────────────────────────────────────────────
 
 function renderStars(rating, size = 'text-sm') {
     const full = Math.floor(rating);

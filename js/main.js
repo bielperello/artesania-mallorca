@@ -32,10 +32,49 @@ function showToast(message, type = 'info', icon = 'info', duration = 2500) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// INICIALITZACIÓ: Poblar tots els contenidors amb dades
+// RENDERITZAT CENTRAL: Monta tota la pàgina
+// ══════════════════════════════════════════════════════════════
+
+function renderApp() {
+    const app = document.getElementById('app');
+    if (!app) return;
+
+    app.innerHTML = `
+        <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark font-sans transition-colors duration-300" id="design-root">
+            <div class="layout-container flex h-full grow flex-col">
+                ${renderHeader()}
+                <main class="flex-1 w-full mx-auto" id="inici">
+                    ${renderHero()}
+                    ${renderAbout()}
+                    ${renderCatalogSection()}
+                    ${renderMapSection()}
+                    ${renderMultimediaSection()}
+                </main>
+                ${renderFooter()}
+            </div>
+            ${renderFAB()}
+        </div>
+        ${renderModals()}
+        <div id="toast" class="toast"></div>
+    `;
+}
+
+// ══════════════════════════════════════════════════════════════
+// INICIALITZACIÓ: renderApp → poblar contingut dinàmic → listeners
 // ══════════════════════════════════════════════════════════════
 
 function init() {
+    // 1. Renderitzar tota l'estructura de la pàgina
+    renderApp();
+
+    // 2. Poblar contingut dinàmic dins els contenidors
+    populateDynamicContent();
+
+    // 3. Connectar event listeners
+    attachFilterListeners();
+}
+
+function populateDynamicContent() {
     // Filtres del catàleg
     const filterZonesEl = document.getElementById('filter-zones');
     const filterTechniquesEl = document.getElementById('filter-techniques');
@@ -73,9 +112,6 @@ function init() {
     const weatherTitle = document.getElementById('weather-title');
     if (weatherBody) weatherBody.innerHTML = renderWeatherModal(APP_DATA.weather);
     if (weatherTitle) weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weather.lloc}</span>`;
-
-    // Attach filter listeners
-    attachFilterListeners();
 }
 
 // ══════════════════════════════════════════════════════════════
