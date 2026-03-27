@@ -119,42 +119,51 @@ function populateDynamicContent() {
 // ══════════════════════════════════════════════════════════════
 
 function attachFilterListeners() {
-    // Zona checkboxes
-    document.querySelectorAll('[data-filter="zone"]').forEach(cb => {
-        cb.addEventListener('change', applyFilters);
+    // Funció auxiliar per alternar l'estat d'una píndola (botó de filtre)
+    const togglePill = function() {
+        if (this.classList.contains('filter-pill-active') || this.classList.contains('bg-primary')) {
+            // Desactivar
+            this.classList.remove('bg-primary', 'text-white', 'filter-pill-active');
+            this.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700');
+        } else {
+            // Activar
+            this.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border-slate-200', 'dark:border-slate-700');
+            this.classList.add('bg-primary', 'text-white', 'filter-pill-active');
+        }
+        // Aplicar filtres cada vegada que es fa clic
+        applyFilters();
+    };
+
+    // Apliquem l'esdeveniment 'click' als tipus de filtres
+    document.querySelectorAll('[data-filter="zone"]').forEach(pill => {
+        pill.addEventListener('click', togglePill);
     });
-    // Tècnica checkboxes
-    document.querySelectorAll('[data-filter="technique"]').forEach(cb => {
-        cb.addEventListener('change', applyFilters);
+    
+    document.querySelectorAll('[data-filter="technique"]').forEach(pill => {
+        pill.addEventListener('click', togglePill);
     });
-    // Material pills
+    
     document.querySelectorAll('[data-filter="material"]').forEach(pill => {
-        pill.addEventListener('click', function() {
-            if (this.classList.contains('filter-pill-active') || this.classList.contains('bg-primary')) {
-                this.classList.remove('bg-primary', 'text-white', 'filter-pill-active');
-                this.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700');
-            } else {
-                this.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border-slate-200', 'dark:border-slate-700');
-                this.classList.add('bg-primary', 'text-white', 'filter-pill-active');
-            }
-            applyFilters();
-        });
+        pill.addEventListener('click', togglePill);
     });
 }
 
 function getActiveFilters() {
-    const zones = [];
-    document.querySelectorAll('[data-filter="zone"]:checked').forEach(cb => zones.push(cb.dataset.id));
-    
-    const techniques = [];
-    document.querySelectorAll('[data-filter="technique"]:checked').forEach(cb => techniques.push(cb.dataset.id));
-    
-    const materials = [];
-    document.querySelectorAll('[data-filter="material"]').forEach(pill => {
-        if (pill.classList.contains('bg-primary') || pill.classList.contains('filter-pill-active')) {
-            materials.push(pill.dataset.id);
-        }
-    });
+    // Funció auxiliar per obtenir els IDs de les píndoles actives d'un tipus concret
+    const getActiveIds = (filterType) => {
+        const activeIds = [];
+        document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(pill => {
+            if (pill.classList.contains('bg-primary') || pill.classList.contains('filter-pill-active')) {
+                activeIds.push(pill.dataset.id);
+            }
+        });
+        return activeIds;
+    };
+
+    // Obtenim els arrays amb els IDs actius per a cada categoria
+    const zones = getActiveIds('zone');
+    const techniques = getActiveIds('technique');
+    const materials = getActiveIds('material');
     
     return { zones, techniques, materials };
 }
@@ -175,7 +184,7 @@ function applyFilters() {
 
         let visible = true;
 
-        // Zone filter: show if craft zone matches any checked zone (or none checked = show all)
+        // Zone filter
         if (zones.length > 0 && craft.zona && !zones.includes(craft.zona)) {
             visible = false;
         }

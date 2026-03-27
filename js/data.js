@@ -5,18 +5,18 @@ const APP_DATA = {
 
     // ── Filtres del Catàleg ──────────────────────────────────
     filterZones: [
-        { id: 'tramuntana', label: 'Serra de Tramuntana', checked: false },
-        { id: 'raiguer', label: 'Es Raiguer', checked: false },
-        { id: 'pla', label: 'Pla de Mallorca', checked: false },
-        { id: 'migjorn', label: 'Migjorn', checked: false },
-        { id: 'palma', label: 'Palma', checked: false },
-        { id: 'llevant', label: 'Llevant', checked: false },
+        { id: 'tramuntana', label: 'Serra de Tramuntana', active: false },
+        { id: 'raiguer', label: 'Es Raiguer', active: false },
+        { id: 'pla', label: 'Pla de Mallorca', active: false },
+        { id: 'migjorn', label: 'Migjorn', active: false },
+        { id: 'palma', label: 'Palma', active: false },
+        { id: 'llevant', label: 'Llevant', active: false },
     ],
     filterTechniques: [
-        { id: 'modelatge', label: 'Modelatge', checked: false },
-        { id: 'bufat', label: 'Bufat de vidre', checked: false },
-        { id: 'brodat', label: 'Brodat i Costura', checked: false },
-        { id: 'trenat', label: 'Trenat d\'espart', checked: false },
+        { id: 'modelatge', label: 'Modelatge', active: false },
+        { id: 'bufat', label: 'Bufat de vidre', active: false },
+        { id: 'brodat', label: 'Brodat i Costura', active: false },
+        { id: 'trenat', label: 'Trenat d\'espart', active: false },
     ],
     filterMaterials: [
         { id: 'fang', label: 'Fang', active: false },

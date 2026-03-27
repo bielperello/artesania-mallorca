@@ -46,18 +46,21 @@ function renderAbout() {
     return `
     <section class="mb-24 px-10 lg:px-20 max-w-[1200px] mx-auto" id="sobre-nosaltres">
         <div class="flex flex-col lg:flex-row gap-16 items-center">
-            <div class="w-full lg:w-1/2">
-                <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
-                <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>
-                <div class="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed font-light text-lg">
-                    <p>L'artesania a les Illes Balears no és només una manera de crear objectes; és el llegat silenciós de centenars d'anys d'adaptació al medi, de diàleg amb la terra, l'argila, la fusta i el mar.</p>
-                    <p>La nostra missió és documentar, protegir i difondre el treball dels mestres artesans que encara avui mantenen vives tècniques ancestrals com el siurell, el bufat de vidre o la llatra.</p>
-                    <p>Aquest espai neix per connectar el passat amb les noves generacions, valorant la lentitud, el detall i la bellesa de l'imperfet en un món cada cop més accelerat.</p>
+            <div class="w-full lg:w-1/2 relative">
+                <img src="./media/images/logo.jpeg" alt="" aria-hidden="true" role="presentation"class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none"/>
+                <div class="relative z-10">
+                    <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
+                    <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>
+                    <div class="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed font-light text-lg">
+                        <p>L'artesania a les Illes Balears no és només una manera de crear objectes; és el llegat silenciós de centenars d'anys d'adaptació al medi, de diàleg amb la terra, l'argila, la fusta i el mar.</p>
+                        <p>La nostra missió és documentar, protegir i difondre el treball dels mestres artesans que encara avui mantenen vives tècniques ancestrals com el siurell, el bufat de vidre o la llatra.</p>
+                        <p>Aquest espai neix per connectar el passat amb les noves generacions, valorant la lentitud, el detall i la bellesa de l'imperfet en un món cada cop més accelerat.</p>
+                    </div>
                 </div>
             </div>
             <div class="w-full lg:w-1/2 relative">
                 <div class="aspect-[4/5] overflow-hidden rounded-lg shadow-xl relative z-10">
-                    <img alt="Artesà fent feina" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="./media/images/about-01.webp"/>
+                    <img alt="Artesana de Siurells de Ca Mado Bet." class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="./media/images/about-01.webp"/>
                 </div>
                 <div class="absolute -bottom-8 -left-8 w-64 h-64 bg-slate-100 dark:bg-slate-800 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 z-0"></div>
                 <div class="absolute -top-8 -right-8 w-48 h-48 bg-primary/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl z-0"></div>
@@ -85,7 +88,7 @@ function renderCatalogSection() {
                             <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">explore</span> Zona Geogràfica</div>
                             <span class="material-symbols-outlined group-open:-scale-y-100 transition-transform">expand_more</span>
                         </summary>
-                        <div id="filter-zones" class="flex flex-col gap-2 pb-4 group-open:animate-fade-in"></div>
+                        <div id="filter-zones" class="flex flex-wrap gap-2 pb-4 group-open:animate-fade-in"></div>
                     </details>
                 </div>
                 <!-- Tècnica -->
@@ -95,7 +98,7 @@ function renderCatalogSection() {
                             <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">construction</span> Tècnica</div>
                             <span class="material-symbols-outlined group-open:-scale-y-100 transition-transform">expand_more</span>
                         </summary>
-                        <div id="filter-techniques" class="flex flex-col gap-2 pb-4 group-open:animate-fade-in"></div>
+                        <div id="filter-techniques" class="flex flex-wrap gap-2 pb-4 group-open:animate-fade-in"></div>
                     </details>
                 </div>
                 <!-- Material -->
@@ -386,21 +389,21 @@ function renderStars(rating, size = 'text-sm') {
 // ── Filtres del Catàleg ──────────────────────────────────────
 
 function renderFilterZones(zones) {
-    return zones.map(z => `
-        <label class="flex items-center gap-3 cursor-pointer">
-            <input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox" ${z.checked ? 'checked' : ''} data-filter="zone" data-id="${z.id}"/>
-            <span class="text-slate-600 dark:text-slate-400 text-sm">${z.label}</span>
-        </label>
-    `).join('');
+    return zones.map(z => {
+        if (z.active) {
+            return `<span class="px-3 py-1 bg-primary text-white text-xs font-medium rounded-full cursor-pointer hover:bg-primary/90 transition-colors" data-filter="zone" data-id="${z.id}">${z.label}</span>`;
+        }
+        return `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700" data-filter="zone" data-id="${z.id}">${z.label}</span>`;
+    }).join('');
 }
 
 function renderFilterTechniques(techniques) {
-    return techniques.map(t => `
-        <label class="flex items-center gap-3 cursor-pointer">
-            <input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox" ${t.checked ? 'checked' : ''} data-filter="technique" data-id="${t.id}"/>
-            <span class="text-slate-600 dark:text-slate-400 text-sm">${t.label}</span>
-        </label>
-    `).join('');
+    return techniques.map(t => {
+        if (t.active) {
+            return `<span class="px-3 py-1 bg-primary text-white text-xs font-medium rounded-full cursor-pointer hover:bg-primary/90 transition-colors" data-filter="technique" data-id="${t.id}">${t.label}</span>`;
+        }
+        return `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700" data-filter="technique" data-id="${t.id}">${t.label}</span>`;
+    }).join('');
 }
 
 function renderFilterMaterials(materials) {
