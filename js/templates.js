@@ -4,26 +4,39 @@
 // ══════════════════════════════════════════════════════════════
 // SECCIONS DE PÀGINA (Estructura principal)
 // ══════════════════════════════════════════════════════════════
-
 function renderHeader() {
+    const navLinkClass = "text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal";
+
     return `
-    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur sticky top-0 z-50">
-        <a href="#inici" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
-            <img src="./media/images/logo.jpeg" alt="Logo Artesania Mallorquina" class="h-10 w-10 rounded-lg object-cover shadow-sm"/>
-            <h2 class="text-slate-900 dark:text-slate-100 text-xl font-serif font-bold leading-tight tracking-[-0.015em]">Artesania Mallorquina</h2>
-        </a>
-        <div class="flex flex-1 justify-end gap-8">
-            <nav class="flex items-center gap-9">
-                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#inici">Inici</a>
-                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#sobre-nosaltres">Sobre nosaltres</a>
-                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#cataleg">Catàleg</a>
-                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#mapa">Mapa</a>
-                <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#multimedia">Multimèdia</a>
-            </nav>
-            <a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]" href="#cataleg">
-                <span class="truncate">Explora</span>
+    <header class="sticky top-0 z-50 border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur">
+        <div class="flex items-center justify-between px-4 md:px-10 py-4">
+            <!-- Branding -->
+            <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
+                <img src="./media/images/logo.png" alt="Logo Artesania Mallorquina" class="h-10 w-10 rounded-lg object-cover shadow-sm"/>
+                <span class="text-slate-900 dark:text-slate-100 text-xl font-serif font-bold leading-tight tracking-[-0.015em]">
+                    Artesania Mallorquina
+                </span>
             </a>
-            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 border border-slate-200 dark:border-slate-700" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIBFSPvXm1blUZAmzogrEkNLJc1G2QH6VzlbGREboNvrtRiuDpcLyrq6B3OxezEAScJc-mpWw6Q3HJw80T-nOCdrvIXjMC9PRUYZTIxYD7FtNG3PQdUy-uxRmSNjyhiGDNeAY4Q7C3KNYHil5fIq4_4yZUQMJY6Gg1bLx6Bfb6UH4ITm5jIfUS-DNkkdn2wRFOU5P9n4gpMNeKUvJgX7alA8apkIHKoAoO98pzemjTwr4IY78Dx6wWCF_H9zfjYXw7VhZGUkA2UulF");'></div>
+
+            <!-- Navegació i accions -->
+            <div class="flex items-center gap-4 md:gap-8">
+                <nav class="hidden lg:flex items-center gap-9" aria-label="Navegació principal">
+                    <a class="${navLinkClass}" href="#inici">Inici</a>
+                    <a class="${navLinkClass} truncate" href="#sobre-nosaltres">Sobre nosaltres</a>
+                    <a class="${navLinkClass}" href="#cataleg">Catàleg</a>
+                    <a class="${navLinkClass}" href="#mapa">Mapa</a>
+                    <a class="${navLinkClass}" href="#multimedia">Multimèdia</a>
+                </nav>
+
+                <a class="hidden sm:flex min-w-[84px] items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/80 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]" href="#cataleg">
+                    <span class="truncate">Explora el catàleg</span>
+                </a>
+
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIBFSPvXm1blUZAmzogrEkNLJc1G2QH6VzlbGREboNvrtRiuDpcLyrq6B3OxezEAScJc-mpWw6Q3HJw80T-nOCdrvIXjMC9PRUYZTIxYD7FtNG3PQdUy-uxRmSNjyhiGDNeAY4Q7C3KNYHil5fIq4_4yZUQMJY6Gg1bLx6Bfb6UH4ITm5jIfUS-DNkkdn2wRFOU5P9n4gpMNeKUvJgX7alA8apkIHKoAoO98pzemjTwr4IY78Dx6wWCF_H9zfjYXw7VhZGUkA2UulF" alt="" aria-hidden="true" class="hidden sm:block h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"/>
+                <button class="lg:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300" aria-label="Obrir menú de navegació">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
         </div>
     </header>`;
 }
@@ -46,8 +59,9 @@ function renderAbout() {
     return `
     <section class="mb-24 px-10 lg:px-20 max-w-[1200px] mx-auto" id="sobre-nosaltres">
         <div class="flex flex-col lg:flex-row gap-16 items-center">
+            
             <div class="w-full lg:w-1/2 relative">
-                <img src="./media/images/logo.jpeg" alt="" aria-hidden="true" role="presentation"class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none"/>
+                <img src="./media/images/logo.jpeg" alt="" aria-hidden="true" role="presentation" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none"/>
                 <div class="relative z-10">
                     <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
                     <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>
@@ -58,13 +72,18 @@ function renderAbout() {
                     </div>
                 </div>
             </div>
+
             <div class="w-full lg:w-1/2 relative">
-                <div class="aspect-[4/5] overflow-hidden rounded-lg shadow-xl relative z-10">
-                    <img alt="Artesana de Siurells de Ca Mado Bet." class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="./media/images/about-01.webp"/>
-                </div>
-                <div class="absolute -bottom-8 -left-8 w-64 h-64 bg-slate-100 dark:bg-slate-800 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 z-0"></div>
-                <div class="absolute -top-8 -right-8 w-48 h-48 bg-primary/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl z-0"></div>
+                <figure class="relative z-10">
+                    <div class="aspect-[4/5] overflow-hidden rounded-lg shadow-xl mb-3">
+                        <img alt="Artesana de Siurells de Ca Mado Bet." class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="./media/images/about-01.webp"/>
+                    </div>
+                    <figcaption class="text-sm text-slate-500 dark:text-slate-400 italic text-right px-2">
+                        Artesana de Siurells de Ca Mado Bet al seu taller
+                    </figcaption>
+                </figure>    
             </div>
+            
         </div>
     </section>`;
 }
@@ -816,7 +835,16 @@ function renderCraftDetail(craft) {
                         <h4 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-display">Escriu una valoració</h4>
                         <form class="flex flex-col gap-4">
                             <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="name">Nom i Llinatges</label><input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="name" placeholder="Escriu el teu nom" type="text"/></div>
-                            <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label><div class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer"><span class="material-symbols-outlined hover:text-yellow-400">star</span><span class="material-symbols-outlined hover:text-yellow-400">star</span><span class="material-symbols-outlined hover:text-yellow-400">star</span><span class="material-symbols-outlined hover:text-yellow-400">star</span><span class="material-symbols-outlined hover:text-yellow-400">star</span></div></div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label>
+                                    <div class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer">
+                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
+                                    </div>
+                            </div>
                             <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="comment">Comentari (opcional)</label><textarea class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="comment" placeholder="Comparteix la teva experiència..." rows="4"></textarea></div>
                             <button class="flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-400 hover:border-terracotta hover:text-terracotta transition-colors bg-slate-50 dark:bg-slate-700/50" type="button"><span class="material-symbols-outlined">add_photo_alternate</span> Adjuntar imatges</button>
                             <button class="mt-2 bg-terracotta text-white py-2 px-4 rounded-lg font-medium hover:bg-terracotta/90 transition-colors" type="submit">Publicar ressenya</button>

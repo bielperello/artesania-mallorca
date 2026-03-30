@@ -43,7 +43,7 @@ function renderApp() {
         <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark font-sans transition-colors duration-300" id="design-root">
             <div class="layout-container flex h-full grow flex-col">
                 ${renderHeader()}
-                <main class="flex-1 w-full mx-auto" id="inici">
+                <main class="flex-1 w-full mx-auto" id="inici" tabindex="-1">
                     ${renderHero()}
                     ${renderAbout()}
                     ${renderCatalogSection()}

@@ -215,7 +215,7 @@ const APP_DATA = {
         { id: 'palma', label: 'Palma', icon: 'eco', active: false, color: 'green-600' },
     ],
     mapMarkers: [
-        { id: 'faded-marker', top: '35%', left: '20%', icon: 'potted_plant', color: 'primary', size: 'small', faded: true, tooltip: null },
+        { id: 'faded-marker', top: '20%', left: '40%', icon: 'potted_plant', color: 'primary', size: 'small', faded: true, tooltip: null },
         {
             id: 'gordiola', top: '50%', left: '45%', icon: 'water_drop', color: 'blue-500', size: 'large', faded: false,
             tooltip: { nom: 'Vidrieries Gordiola', badgeText: 'Focus', badgeColor: 'blue', lloc: 'Algaida', comarca: 'Pla de Mallorca', telefon: '+34 971 66 50 46', material: 'Vidre bufat', materialColor: 'blue-500', mapsQuery: 'Vidrieries+Gordiola+Algaida' }
