@@ -63,6 +63,8 @@ const APP_DATA = {
                     contactType: 'language',
                     temp: '24°C',
                     mapsQuery: 'Can+Bernadi+Nou+Marratxi',
+                    lat: 39.6340,
+                    lng: 2.7438,
                     mapPosition: { top: '40%', left: '45%' },
                 },
                 {
@@ -74,6 +76,8 @@ const APP_DATA = {
                     contactType: 'mail',
                     temp: '22°C',
                     mapsQuery: 'Ca+Mado+Bet+Sa+Cabaneta',
+                    lat: 39.6402,
+                    lng: 2.7312,
                     mapPosition: { top: '35%', left: '55%' },
                 },
             ],
@@ -111,8 +115,8 @@ const APP_DATA = {
                 { imatge: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_A0SUw9RqSKQLcR9plH8oQk7szdi5Jwz5Y2cIw7oFiTuC8QhhWD0GDPn9JDazVeRhNXLXDe3hyi_cAaMn-mttS4qbCn7B_hqztWhgY-gL85PLO-vpajx6t2L8r1oO0C-zpeZ_zbHvdasp2_VU_XIFcXAOUkCFiWHSlx8yV8nFjw7fxYypGVOQQsas9cUckIUjxuBiojI64zl4KsP01ytFkiW-M04BTdrJ3AHhKQNWfzXAduvg7dzvMiZYN25GE2HEQNRq8wPxubk1', titol: 'Peces Acabades', subtitol: 'Vidre verd mallorquí' },
             ],
             tallers: [
-                { id: 'gordiola', nom: 'Vidrieries Gordiola', adreca: 'Ctra. Palma-Manacor, km 19, Algaida', telefon: '+34 971 66 50 46', web: 'gordiola.com', contactType: 'language', temp: '26°C', mapsQuery: 'Vidrieries+Gordiola+Algaida', mapPosition: { top: '45%', left: '40%' } },
-                { id: 'menestralia', nom: 'La Menestralia', adreca: 'Carrer del Vidre, 8, Campanet', telefon: '+34 971 51 60 78', email: 'info@menestralia.es', contactType: 'mail', temp: '23°C', mapsQuery: 'La+Menestralia+Campanet', mapPosition: { top: '30%', left: '55%' } },
+                { id: 'gordiola', nom: 'Vidrieries Gordiola', adreca: 'Ctra. Palma-Manacor, km 19, Algaida', telefon: '+34 971 66 50 46', web: 'gordiola.com', contactType: 'language', temp: '26°C', mapsQuery: 'Vidrieries+Gordiola+Algaida', lat: 39.5600, lng: 2.8920, mapPosition: { top: '45%', left: '40%' } },
+                { id: 'menestralia', nom: 'La Menestralia', adreca: 'Carrer del Vidre, 8, Campanet', telefon: '+34 971 51 60 78', email: 'info@menestralia.es', contactType: 'mail', temp: '23°C', mapsQuery: 'La+Menestralia+Campanet', lat: 39.7800, lng: 2.9700, mapPosition: { top: '30%', left: '55%' } },
             ],
             artesans: [
                 { nom: 'Daniel Gordiola Majó', dates: '1890 - 1952', lloc: 'Algaida', foto: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3xh5NZqnIj1W1KyFaKZAm1s7xI0TgJrlz3S1av_YcbR4jkZrhwEN-AbbtUziWtsVydV1W_kd-b5wGn8SJHTjKFbZdlTlXiQbgATU6g_dqgy5L6dilxt96qBOt_k4jr6qEqZESh3Q3nKf01o1J_Rgs7BRbk62xprE85kwWPUMbwlO70jVVcLtX0GiNAyoahV4EjgdxQzc5JXcPUtvjQ06VEcYkaN9W2rh7m5Fw29ssDIikBIRJDmO-kitZ9YhSDgtAycouK0EAMjqX', bio: 'Fundador de Vidrieries Gordiola, va transmetre la tècnica del vidre bufat venecià adaptada als materials mallorquins durant tres generacions.' },
@@ -146,8 +150,8 @@ const APP_DATA = {
                 { imatge: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBS3Kdurvz_F1o6sWyequ6xzYwR8XPss85ax7fQ29S0AarYH3CEX0aiZH8fBrS-vv4RBPHxbv144Z9xH1rffu7Xb_Sruaye2cvuy1LmkegG1gdpWipWL-B7tYRyWPlMlLoo5nlp3Q8gHuM2VaLXwKDX9Q2DfidQ_LTfaQdHHFTfUwW5dceANbvvnkutAWkT8X-l9s80sN0sA6ekWva7Ivr5Vg2eBfK5-ZkcmNMnXmUSRpKWQN_6EWFnJG2q3Lj20mOV6thZnCkXwLYM', titol: 'Fils Tenyits', subtitol: 'Tintats naturals' },
             ],
             tallers: [
-                { id: 'vicens', nom: 'Teixits Vicens', adreca: 'Carrer de Sant Agustí, 1, Pollença', telefon: '+34 971 53 04 50', web: 'teixitsvicens.com', contactType: 'language', temp: '21°C', mapsQuery: 'Teixits+Vicens+Pollenca', mapPosition: { top: '25%', left: '50%' } },
-                { id: 'bujosa', nom: 'Teixits Bujosa', adreca: 'Carrer de Sa Rosa, 50, Santa Maria del Camí', telefon: '+34 971 62 00 54', web: 'bujosa.com', contactType: 'language', temp: '23°C', mapsQuery: 'Teixits+Bujosa+Santa+Maria', mapPosition: { top: '45%', left: '35%' } },
+                { id: 'vicens', nom: 'Teixits Vicens', adreca: 'Carrer de Sant Agustí, 1, Pollença', telefon: '+34 971 53 04 50', web: 'teixitsvicens.com', contactType: 'language', temp: '21°C', mapsQuery: 'Teixits+Vicens+Pollenca', lat: 39.8767, lng: 3.0152, mapPosition: { top: '25%', left: '50%' } },
+                { id: 'bujosa', nom: 'Teixits Bujosa', adreca: 'Carrer de Sa Rosa, 50, Santa Maria del Camí', telefon: '+34 971 62 00 54', web: 'bujosa.com', contactType: 'language', temp: '23°C', mapsQuery: 'Teixits+Bujosa+Santa+Maria', lat: 39.6510, lng: 2.7670, mapPosition: { top: '45%', left: '35%' } },
             ],
             artesans: [
                 { nom: 'Guillem Vicens Reynés', dates: '1854 - 1930', lloc: 'Pollença', foto: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD5I-2VcFluo_KFZe_CKLeS7-zN6gnCPN9GNButcoXeCmG1z6F2_dYdugujS-BSs4WyDP8MQx123zbZu6oHUIYKn_db3PLHx1cLXLQAxmvGmfKpEoeHMbVm5wDcVw6vlvJhxSg4TANfw5QAcmTksb2DE4chkWV85ixQptAHzJ7zDnimaY7D5hPnsrRgMB_xON_hdQ5RQQzb-13-Z2khEEV-a1PYTrpQMShadwWxMJC32xYDE8dlCVnjzdQ_qO-2coTQQAVI7RY4QjWv', bio: 'Fundador de Teixits Vicens, va preservar la tradició de la roba de llengües quan la industrialització amenaçava la seva desaparició. La seva fàbrica segueix operativa avui dia.' },
@@ -181,8 +185,8 @@ const APP_DATA = {
                 { imatge: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBS3Kdurvz_F1o6sWyequ6xzYwR8XPss85ax7fQ29S0AarYH3CEX0aiZH8fBrS-vv4RBPHxbv144Z9xH1rffu7Xb_Sruaye2cvuy1LmkegG1gdpWipWL-B7tYRyWPlMlLoo5nlp3Q8gHuM2VaLXwKDX9Q2DfidQ_LTfaQdHHFTfUwW5dceANbvvnkutAWkT8X-l9s80sN0sA6ekWva7Ivr5Vg2eBfK5-ZkcmNMnXmUSRpKWQN_6EWFnJG2q3Lj20mOV6thZnCkXwLYM', titol: 'Trenat Artesà', subtitol: 'Tècnica de les padrines' },
             ],
             tallers: [
-                { id: 'artespart', nom: 'Artespart Artà', adreca: 'Carrer de Ses Roques, 3, Artà', telefon: '+34 971 83 56 12', web: 'artespart.com', contactType: 'language', temp: '22°C', mapsQuery: 'Artespart+Arta', mapPosition: { top: '30%', left: '65%' } },
-                { id: 'ses-dones', nom: 'Associació Ses Dones de la Llatra', adreca: 'Capdepera, Centre Cultural', telefon: '+34 971 56 30 33', email: 'sesdones@llatra.cat', contactType: 'mail', temp: '21°C', mapsQuery: 'Capdepera+Centre+Cultural', mapPosition: { top: '25%', left: '70%' } },
+                { id: 'artespart', nom: 'Artespart Artà', adreca: 'Carrer de Ses Roques, 3, Artà', telefon: '+34 971 83 56 12', web: 'artespart.com', contactType: 'language', temp: '22°C', mapsQuery: 'Artespart+Arta', lat: 39.6960, lng: 3.3490, mapPosition: { top: '30%', left: '65%' } },
+                { id: 'ses-dones', nom: 'Associació Ses Dones de la Llatra', adreca: 'Capdepera, Centre Cultural', telefon: '+34 971 56 30 33', email: 'sesdones@llatra.cat', contactType: 'mail', temp: '21°C', mapsQuery: 'Capdepera+Centre+Cultural', lat: 39.7020, lng: 3.4320, mapPosition: { top: '25%', left: '70%' } },
             ],
             artesans: [
                 { nom: 'Margalida Ferrer Sureda', dates: '1908 - 2001', lloc: 'Artà', foto: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3xh5NZqnIj1W1KyFaKZAm1s7xI0TgJrlz3S1av_YcbR4jkZrhwEN-AbbtUziWtsVydV1W_kd-b5wGn8SJHTjKFbZdlTlXiQbgATU6g_dqgy5L6dilxt96qBOt_k4jr6qEqZESh3Q3nKf01o1J_Rgs7BRbk62xprE85kwWPUMbwlO70jVVcLtX0GiNAyoahV4EjgdxQzc5JXcPUtvjQ06VEcYkaN9W2rh7m5Fw29ssDIikBIRJDmO-kitZ9YhSDgtAycouK0EAMjqX', bio: 'Considerada la darrera gran mestra de la llatra d\'Artà. Va crear peces de complexitat extraordinària i va ensenyar l\'ofici a més de cinquanta dones del municipi.' },

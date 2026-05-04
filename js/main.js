@@ -1,8 +1,9 @@
 // main.js — Orquestrador de l'SPA d'Artesania Mallorquina
 
-// ── Variable global per a l'artesania activa ─────────────────
+// ── Variables globals ────────────────────────────────────────
 let currentCraft = null;
 let toastTimeout = null;
+let _weatherTallerId = null;
 
 // ══════════════════════════════════════════════════════════════
 // TOAST NOTIFICATIONS
@@ -72,6 +73,9 @@ function init() {
 
     // 3. Connectar event listeners
     attachFilterListeners();
+
+    // 4. Inicialitzar el mapa principal amb Leaflet
+    initMainMap();
 }
 
 function populateDynamicContent() {
@@ -87,13 +91,11 @@ function populateDynamicContent() {
     const catalogGrid = document.getElementById('catalog-grid');
     if (catalogGrid) catalogGrid.innerHTML = renderCatalogCards(APP_DATA.crafts);
 
-    // Mapa principal
+    // Mapa principal — filtres de comarca i material
     const mapComarquesEl = document.getElementById('map-comarques');
     const mapMaterialsEl = document.getElementById('map-materials');
-    const mapMarkersEl = document.getElementById('map-markers');
     if (mapComarquesEl) mapComarquesEl.innerHTML = renderMapComarques(APP_DATA.mapComarques);
     if (mapMaterialsEl) mapMaterialsEl.innerHTML = renderMapMaterials(APP_DATA.mapMaterials);
-    if (mapMarkersEl) mapMarkersEl.innerHTML = renderMapMarkers(APP_DATA.mapMarkers);
 
     // Geolocalització
     const geoList = document.getElementById('geo-list');
@@ -107,11 +109,78 @@ function populateDynamicContent() {
     const chatMessages = document.getElementById('ai-chat-messages');
     if (chatMessages) chatMessages.innerHTML = renderChatMessages(APP_DATA.chatMessages);
 
-    // Weather modal (pre-render)
+    // Weather modal — pre-render amb dades placeholder (seran substituïdes per dades reals)
     const weatherBody = document.getElementById('weather-modal-body');
     const weatherTitle = document.getElementById('weather-title');
     if (weatherBody) weatherBody.innerHTML = renderWeatherModal(APP_DATA.weather);
     if (weatherTitle) weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weather.lloc}</span>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// MAPES LEAFLET — Inicialització reutilitzable
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * Inicialitza el mapa principal de la secció #mapa.
+ * Centrat a Mallorca amb zoom per defecte.
+ */
+function initMainMap() {
+    const map = initLeafletMap('main-map');
+    if (!map) return;
+
+    // Connectar el botó "Restablir" del panell lateral al mapa
+    const resetBtn = document.querySelector('#mapa .absolute button');
+    if (resetBtn && resetBtn.textContent.includes('Restablir')) {
+        resetBtn.addEventListener('click', () => resetMapView('main-map'));
+    }
+}
+
+/**
+ * Inicialitza el mapa de la fitxa detallada dins el modal.
+ * Centra el mapa a la posició dels tallers de l'artesania.
+ * @param {Object} craft - Dades de l'artesania amb tallers
+ */
+function initCraftMap(craft) {
+    if (!craft || !craft.tallers || craft.tallers.length === 0) return;
+
+    // Petit delay per assegurar que el modal s'ha renderitzat completament
+    setTimeout(() => {
+        const map = initLeafletMap('craft-map-container', {
+            zoom: 10,
+            zoomControl: false
+        });
+
+        if (!map) return;
+
+        // Afegir marcadors dels tallers amb coordenades reals
+        const bounds = [];
+        craft.tallers.forEach((taller, index) => {
+            if (taller.lat && taller.lng) {
+                const marker = addWorkshopMarker(map, {
+                    lat: taller.lat,
+                    lng: taller.lng,
+                    nom: taller.nom,
+                    adreca: taller.adreca,
+                    telefon: taller.telefon,
+                    material: craft.material,
+                    mapsQuery: taller.mapsQuery,
+                    color: index === 0 ? '#e2725b' : '#64748b'
+                });
+                bounds.push([taller.lat, taller.lng]);
+                // Guardar referència del marcador per a selectWorkshopDetail
+                if (marker) marker._tallerId = taller.id;
+                // Obrir popup del primer taller
+                if (index === 0 && marker) marker.openPopup();
+            }
+        });
+
+        // Ajustar zoom per mostrar tots els marcadors
+        if (bounds.length > 1) {
+            map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
+        } else if (bounds.length === 1) {
+            map.setView(bounds[0], 12);
+        }
+    }, 250);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -247,6 +316,9 @@ function openModal(craftId) {
         modalContent.classList.remove('scale-95');
         modalContent.classList.add('scale-100');
     }, 10);
+
+    // Inicialitzar el mapa Leaflet de la fitxa
+    initCraftMap(craft);
 }
 
 function closeModal() {
@@ -261,12 +333,16 @@ function closeModal() {
     setTimeout(() => {
         modal.classList.remove('flex');
         modal.classList.add('hidden');
+        // Destruir el mapa de la fitxa per alliberar recursos
+        destroyMap('craft-map-container');
     }, 300);
     
     currentCraft = null;
 }
 
-function openWeatherModal() {
+function openWeatherModal(tallerId) {
+    _weatherTallerId = tallerId || null;
+
     const modal = document.getElementById('weather-modal');
     const modalContent = document.getElementById('weather-modal-content');
     if (!modal || !modalContent) return;
@@ -279,6 +355,9 @@ function openWeatherModal() {
         modalContent.classList.remove('scale-95');
         modalContent.classList.add('scale-100');
     }, 10);
+
+    // Obtenir dades meteorològiques reals des d'Open-Meteo
+    fetchAndRenderWeather();
 }
 
 function closeWeatherModal() {
@@ -294,6 +373,57 @@ function closeWeatherModal() {
         modal.classList.remove('flex');
         modal.classList.add('hidden');
     }, 300);
+}
+
+/**
+ * Obté les dades meteorològiques reals d'Open-Meteo i actualitza el modal.
+ * Prioritat de coordenades: 1) Taller concret, 2) Mallorca per defecte.
+ * En cas d'error, manté les dades placeholder.
+ */
+async function fetchAndRenderWeather() {
+    const weatherBody = document.getElementById('weather-modal-body');
+    const weatherTitle = document.getElementById('weather-title');
+    if (!weatherBody) return;
+
+    // Mostrar indicador de càrrega
+    weatherBody.innerHTML = `
+        <div class="flex items-center justify-center p-12">
+            <div class="flex flex-col items-center gap-3">
+                <span class="material-symbols-outlined text-terracotta text-4xl animate-spin">progress_activity</span>
+                <p class="text-sm text-slate-500 font-medium">Obtenint dades meteorològiques...</p>
+            </div>
+        </div>
+    `;
+
+    // Cercar el taller concret per obtenir les seves coordenades
+    let lat = null, lng = null, llocNom = 'Mallorca';
+
+    if (_weatherTallerId && currentCraft) {
+        const taller = currentCraft.tallers.find(t => t.id === _weatherTallerId);
+        if (taller && taller.lat && taller.lng) {
+            lat = taller.lat;
+            lng = taller.lng;
+            llocNom = taller.nom;
+        }
+    }
+
+    // Invalidar cache si canvien les coordenades (diferent taller)
+    WeatherService.invalidateCache();
+    const weatherData = await WeatherService.fetchWeather(lat, lng);
+
+    if (weatherData) {
+        weatherData.lloc = llocNom;
+        weatherBody.innerHTML = renderWeatherModal(weatherData);
+        if (weatherTitle) {
+            weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${llocNom}</span>`;
+        }
+    } else {
+        weatherBody.innerHTML = renderWeatherModal(APP_DATA.weather);
+        if (weatherTitle) {
+            weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weather.lloc}</span>`;
+        }
+        showToast('No s\'han pogut obtenir les dades meteorològiques reals', 'warning', 'cloud_off');
+    }
 }
 
 function openGalleryModal() {
@@ -452,32 +582,57 @@ function confirmGeolocation() {
     const geoPopup = document.getElementById('geo-popup');
     const geoIcon = document.getElementById('geo-icon');
 
-    geoActive = true;
-
-    // Hide confirmation
+    // Hide confirmation panel immediately
     if (confirmPanel) {
         confirmPanel.classList.remove('opacity-100', 'translate-y-0');
         confirmPanel.classList.add('opacity-0', 'translate-y-2');
         setTimeout(() => confirmPanel.classList.add('hidden'), 300);
     }
 
-    // Show workshop list
-    if (geoPopup) {
-        setTimeout(() => {
-            geoPopup.classList.remove('hidden');
-            setTimeout(() => {
-                geoPopup.classList.remove('opacity-0', 'translate-y-2');
-                geoPopup.classList.add('opacity-100', 'translate-y-0');
-            }, 10);
-        }, 350);
+    // Verificar suport de geolocalització
+    if (!GeoService.isSupported()) {
+        showToast('El teu navegador no suporta geolocalització', 'error', 'location_disabled');
+        return;
     }
 
-    // Update icon
-    if (geoIcon) {
-        geoIcon.classList.add('text-blue-600', 'animate-pulse');
-    }
+    // Activar l'API nativa de geolocalització del navegador
+    // Això mostrarà el diàleg natiu del navegador per demanar permisos
+    GeoService.requestPermission()
+        .then((coords) => {
+            // Permís concedit — ubicació obtinguda correctament
+            geoActive = true;
 
-    showToast('Ubicació compartida — Mostrant tallers propers', 'success', 'my_location');
+            // Show workshop list
+            if (geoPopup) {
+                setTimeout(() => {
+                    geoPopup.classList.remove('hidden');
+                    setTimeout(() => {
+                        geoPopup.classList.remove('opacity-0', 'translate-y-2');
+                        geoPopup.classList.add('opacity-100', 'translate-y-0');
+                    }, 10);
+                }, 350);
+            }
+
+            // Update icon
+            if (geoIcon) {
+                geoIcon.classList.add('text-blue-600', 'animate-pulse');
+            }
+
+            // Afegir marcador de la ubicació de l'usuari al mapa principal
+            const mainMap = getMapInstance('main-map');
+            if (mainMap) {
+                addUserLocationMarker(mainMap, coords.latitude, coords.longitude);
+            }
+
+            // Iniciar vigilància contínua de posició
+            GeoService.startWatching();
+
+            showToast(`Ubicació compartida (precisió: ${Math.round(coords.accuracy)}m)`, 'success', 'my_location');
+        })
+        .catch((error) => {
+            // Permís denegat o error
+            showToast(error.message, 'error', 'location_disabled');
+        });
 }
 
 function cancelGeolocation() {
@@ -494,6 +649,16 @@ function stopGeolocation() {
     const geoIcon = document.getElementById('geo-icon');
 
     geoActive = false;
+
+    // Aturar la vigilància de geolocalització i netejar coordenades
+    GeoService.stopWatching();
+
+    // Eliminar marcador d'ubicació del mapa principal
+    const mainMap = getMapInstance('main-map');
+    if (mainMap && mainMap._userMarker) {
+        mainMap.removeLayer(mainMap._userMarker);
+        mainMap._userMarker = null;
+    }
 
     // Hide workshop list
     if (geoPopup) {
@@ -530,6 +695,109 @@ function toggleAIChat() {
 }
 
 // ══════════════════════════════════════════════════════════════
+// CERCA I ORDENACIÓ DEL CATÀLEG
+// ══════════════════════════════════════════════════════════════
+
+let _searchDebounce = null;
+
+/**
+ * Cerca per text dins el catàleg. Filtra per nom, material, descripció i zona.
+ * @param {string} query - Text de cerca
+ */
+function handleSearch(query) {
+    const normalizedQuery = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const catalogGrid = document.getElementById('catalog-grid');
+    if (!catalogGrid) return;
+
+    // Mapa de zones id → nom complet per cercar-hi
+    const zoneNames = {};
+    APP_DATA.filterZones.forEach(z => { zoneNames[z.id] = z.label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); });
+
+    let visibleCount = 0;
+    const cards = catalogGrid.children;
+
+    APP_DATA.crafts.forEach((craft, i) => {
+        const card = cards[i];
+        if (!card) return;
+
+        if (!normalizedQuery) {
+            card.style.display = '';
+            visibleCount++;
+            return;
+        }
+
+        const searchFields = [
+            craft.nom,
+            craft.material,
+            craft.descripcio,
+            craft.descripcioLlarga,
+            craft.tecnica,
+            zoneNames[craft.zona] || '',
+            ...craft.tallers.map(t => t.nom),
+            ...craft.artesans.map(a => a.nom)
+        ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+        if (searchFields.includes(normalizedQuery)) {
+            card.style.display = '';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    if (normalizedQuery) {
+        showToast(`${visibleCount} resultat${visibleCount !== 1 ? 's' : ''} per "${query}"`, 'info', 'search');
+    }
+}
+
+/**
+ * Ordena les targetes del catàleg segons el criteri seleccionat.
+ * @param {string} criteria - Clau d'ordenació
+ */
+function handleSort(criteria) {
+    const catalogGrid = document.getElementById('catalog-grid');
+    if (!catalogGrid) return;
+
+    // Crear una còpia ordenada
+    const sorted = [...APP_DATA.crafts];
+
+    switch (criteria) {
+        case 'az':
+            sorted.sort((a, b) => a.nom.localeCompare(b.nom, 'ca'));
+            break;
+        case 'za':
+            sorted.sort((a, b) => b.nom.localeCompare(a.nom, 'ca'));
+            break;
+        case 'rating':
+            sorted.sort((a, b) => b.rating - a.rating);
+            break;
+        case 'comments':
+            sorted.sort((a, b) => b.numComentaris - a.numComentaris);
+            break;
+        case 'workshops':
+            sorted.sort((a, b) => b.numTallers - a.numTallers);
+            break;
+        case 'relevance':
+        default:
+            // Ordre original (per rating desc com a rellevància per defecte)
+            sorted.sort((a, b) => b.rating - a.rating);
+            break;
+    }
+
+    // Re-renderitzar les targetes amb el nou ordre
+    catalogGrid.innerHTML = renderCatalogCards(sorted);
+
+    // Re-aplicar la cerca si hi ha text
+    const searchInput = document.getElementById('catalog-search');
+    if (searchInput && searchInput.value.trim()) {
+        handleSearch(searchInput.value.trim());
+    }
+
+    const labels = { az: 'A-Z', za: 'Z-A', rating: 'Valoració', comments: 'Comentaris', workshops: 'Tallers', relevance: 'Rellevància' };
+    showToast(`Ordenat per: ${labels[criteria] || criteria}`, 'info', 'sort');
+}
+
+// ══════════════════════════════════════════════════════════════
 // FITXA DETALLADA: Interacció Mapa-Llista de Tallers
 // ══════════════════════════════════════════════════════════════
 
@@ -557,32 +825,18 @@ function selectWorkshopDetail(id) {
         }
     }
 
-    // Reset markers
-    document.querySelectorAll('[id^="mk-label-"]').forEach(el => {
-        el.classList.remove('opacity-100');
-        el.classList.add('opacity-0');
-    });
-    document.querySelectorAll('[id^="mk-pulse-"]').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll('[id^="mk-icon-"]').forEach(el => {
-        el.classList.remove('text-5xl', 'text-terracotta', 'scale-110');
-        el.classList.add('text-4xl', 'text-slate-700', 'dark:text-slate-300', 'opacity-60');
-    });
-
-    // Set active marker
-    const activeMarkerWrap = document.getElementById('mk-' + id);
-    if (activeMarkerWrap) {
-        activeMarkerWrap.classList.remove('opacity-60');
-
-        const label = document.getElementById('mk-label-' + id);
-        if (label) { label.classList.remove('opacity-0'); label.classList.add('opacity-100'); }
-
-        const pulse = document.getElementById('mk-pulse-' + id);
-        if (pulse) pulse.classList.remove('hidden');
-
-        const icon = document.getElementById('mk-icon-' + id);
-        if (icon) {
-            icon.classList.remove('text-4xl', 'text-slate-700', 'dark:text-slate-300', 'opacity-60');
-            icon.classList.add('text-5xl', 'text-terracotta', 'scale-110');
+    // Centrar el mapa Leaflet al taller seleccionat i obrir el seu popup
+    const craftMap = getMapInstance('craft-map-container');
+    if (craftMap && currentCraft) {
+        const taller = currentCraft.tallers.find(t => t.id === id);
+        if (taller && taller.lat && taller.lng) {
+            craftMap.setView([taller.lat, taller.lng], 13, { animate: true });
+            // Obrir popup del marcador corresponent
+            craftMap.eachLayer(layer => {
+                if (layer._tallerId === id && layer.openPopup) {
+                    layer.openPopup();
+                }
+            });
         }
     }
 }
@@ -644,6 +898,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', () => {
             showToast('No hi ha més artesanies per carregar per ara', 'info', 'inventory_2');
+        });
+    }
+
+    // Cerca per text amb debounce
+    const searchInput = document.getElementById('catalog-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(_searchDebounce);
+            _searchDebounce = setTimeout(() => {
+                handleSearch(e.target.value.trim());
+            }, 300);
+        });
+    }
+
+    // Ordenació dinàmica
+    const sortSelect = document.getElementById('catalog-sort');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            handleSort(e.target.value);
         });
     }
 });

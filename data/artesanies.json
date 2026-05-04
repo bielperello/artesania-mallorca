@@ -1,0 +1,424 @@
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Catàleg Interactiu d'Artesania Mallorquina",
+    "description": "Descobreix l'artesania tradicional de Mallorca. Catàleg interactiu amb mapa, filtres, fitxes detallades i multimèdia de les artesanies autèntiques de l'illa.",
+    "url": "https://artesania-mallorca.cat",
+    "inLanguage": "ca",
+    "about": {
+        "@type": "Thing",
+        "name": "Artesania tradicional de Mallorca",
+        "description": "Les arts i oficis tradicionals de les Illes Balears, transmetsos de generació en generació."
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Artesania Mallorquina",
+        "url": "https://artesania-mallorca.cat",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "./media/images/logo.png"
+        }
+    },
+    "mainEntity": {
+        "@type": "ItemList",
+        "name": "Catàleg d'Artesanies de Mallorca",
+        "description": "Col·lecció de tipus d'artesania tradicional mallorquina amb informació detallada de tallers, artesans i ressenyes.",
+        "numberOfItems": 4,
+        "itemListOrder": "https://schema.org/ItemListOrderDescending",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@type": "CreativeWorkSeries",
+                    "@id": "https://artesania-mallorca.cat/#siurells",
+                    "name": "Siurells",
+                    "alternateName": "Siurell mallorquí",
+                    "description": "Figures de fang cuit amb un xiulet, pintades tradicionalment de blanc amb traços verds i vermells.",
+                    "abstract": "El siurell és una peça d'artesania autèntica de Mallorca, els orígens de la qual es remunten a segles enrere, amb una forta influència mediterrània. Originalment usat per pastors per controlar els ramats, avui dia és un símbol de l'illa, present en festes tradicionals i celebracions. La seva creació implica modelar el fang, afegir el característic xiulet, enfornar i, finalment, el banyat en calç blanca abans de rebre els tocs finals de color.",
+                    "image": "./media/images/siurells-01.png",
+                    "artform": "Escultura en fang",
+                    "artMedium": "Fang",
+                    "genre": "Artesania tradicional",
+                    "locationCreated": {
+                        "@type": "Place",
+                        "name": "Pla de Mallorca",
+                        "containedInPlace": {
+                            "@type": "AdministrativeArea",
+                            "name": "Mallorca, Illes Balears, Espanya"
+                        }
+                    },
+                    "aggregateRating": {
+                        "@type": "AggregateRating",
+                        "ratingValue": 4.8,
+                        "reviewCount": 124,
+                        "bestRating": 5,
+                        "worstRating": 1
+                    },
+                    "review": [
+                        {
+                            "@type": "Review",
+                            "author": {
+                                "@type": "Person",
+                                "name": "Maria Antonieta"
+                            },
+                            "datePublished": "2023-10-12",
+                            "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": 5,
+                                "bestRating": 5
+                            },
+                            "reviewBody": "Vaig visitar el taller de Ca Madò Bet i va ser una experiència fantàstica. Poder veure com pinten els siurells en directe i conèixer la història de la família és molt recomanable. Les figures són precioses."
+                        },
+                        {
+                            "@type": "Review",
+                            "author": {
+                                "@type": "Person",
+                                "name": "Joan Prats"
+                            },
+                            "datePublished": "2023-09-05",
+                            "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": 4,
+                                "bestRating": 5
+                            },
+                            "reviewBody": "Molt interessant la visita a Can Bernadí Nou. El mestre artesà ens va explicar tot el procés de cocció de manera molt amena."
+                        }
+                    ],
+                    "author": [
+                        {
+                            "@type": "Person",
+                            "name": "Margalida Juan Amengual",
+                            "birthDate": "1890",
+                            "deathDate": "1976",
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Marratxí, Mallorca"
+                            },
+                            "description": "Mestra artesana històrica de Sa Cabaneta, va ser pionera en la modernització del procés d'esmaltat, mantenint vius els dissenys originals de les figures eqüestres que avui considerem un estàndard per la figura del siurell de cavall clàssic.",
+                            "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuC3xh5NZqnIj1W1KyFaKZAm1s7xI0TgJrlz3S1av_YcbR4jkZrhwEN-AbbtUziWtsVydV1W_kd-b5wGn8SJHTjKFbZdlTlXiQbgATU6g_dqgy5L6dilxt96qBOt_k4jr6qEqZESh3Q3nKf01o1J_Rgs7BRbk62xprE85kwWPUMbwlO70jVVcLtX0GiNAyoahV4EjgdxQzc5JXcPUtvjQ06VEcYkaN9W2rh7m5Fw29ssDIikBIRJDmO-kitZ9YhSDgtAycouK0EAMjqX",
+                            "hasOccupation": {
+                                "@type": "Occupation",
+                                "name": "Mestra Artesana de Siurells"
+                            }
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Pere Coll Mir",
+                            "birthDate": "1955",
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Inca, Mallorca"
+                            },
+                            "description": "Artesà contemporani que ha revitalitzat la producció de siurells combinant les tècniques de pastat antics amb nous dissenys de figures antropomòrfiques. Les seves peces han estat exposades a diverses galeries d'art popular europees.",
+                            "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAhvCrZUGVYHcWFWt49QGdC-BRfT6F6X9Kx6xl4C__KsYNpHCumleKx_vNeN4HsJZ2_nOqDhemugsb4Yp_hFStp9pl3pdJbNgt4Rhc75XHq9eKLPdBzfF013c7Gqrw1iwwQe5RUNvzq54Om8VYRt5OiSpRQx90wA5uAKmi-5XjOEa54Hb2Wjg9TmjuQDA3_8uRoHJrvQcs_X66vfml9QCN2JkvJWWkxFhRddFqBJVFFM8B5_KfWXMA0c7kfHvFQnDQwii8MgLnQSd6R"
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Catalina Pou Lliteras",
+                            "birthDate": "1923",
+                            "deathDate": "2005",
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Felanitx, Mallorca"
+                            },
+                            "description": "Coneguda popularment com a \"Madò Catalina\", va dedicar tota la seva vida a l'elaboració de siurells utilitzant un forn de llenya tradicional que encara es conserva avui dia com a patrimoni etnològic del municipi.",
+                            "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuD5I-2VcFluo_KFZe_CKLeS7-zN6gnCPN9GNButcoXeCmG1z6F2_dYdugujS-BSs4WyDP8MQx123zbZu6oHUIYKn_db3PLHx1cLXLQAxmvGmfKpEoeHMbVm5wDcVw6vlvJhxSg4TANfw5QAcmTksb2DE4chkWV85ixQptAHzJ7zDnimaY7D5hPnsrRgMB_xON_hdQ5RQQzb-13-Z2khEEV-a1PYTrpQMShadwWxMJC32xYDE8dlCVnjzdQ_qO-2coTQQAVI7RY4QjWv"
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Antoni Riutort Gelabert",
+                            "birthDate": "1968",
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Palma, Mallorca"
+                            },
+                            "description": "Reconegut pel Govern de les Illes Balears amb la Carta de Mestre Artesà el 2015. Riutort destaca per l'ús de pigments naturals ecològics i per la realització de tallers didàctics orientats a la preservació de l'ofici entre els joves.",
+                            "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAfEd0i0nYqrnE1ZvoW4QXjH1hEEzUxXvbBr7uQiSJK6Vo59lN6BmvoICSP2GaeLjnG9euJtqYk_g2OvwRYjZsp5SUtif6kUF9Jhf8kOkMNYbLYpK5xfFl__jiT8oW-fRInYLlzfMMYTV2hEgf-Up8bOuSqwPJPr5Icj49GxPt4FX-TKHm6iLB81ahWYexeE95n3gEibGdSkMlzHc0gcLE6vTo5neM-4bnPU5oxuoG1C7LeJnmq2B_gqUlZPFYSP9kiSYOJUEvR0FcB"
+                        }
+                    ],
+                    "provider": [
+                        {
+                            "@type": "LocalBusiness",
+                            "@id": "https://artesania-mallorca.cat/#taller-bernadi",
+                            "name": "Can Bernadí Nou",
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Carrer de la Creu, 14",
+                                "addressLocality": "Marratxí",
+                                "addressRegion": "Illes Balears",
+                                "addressCountry": "ES"
+                            },
+                            "telephone": "+34 971 60 12 34",
+                            "url": "https://canbernadi.com",
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 39.6340,
+                                "longitude": 2.7438
+                            }
+                        },
+                        {
+                            "@type": "LocalBusiness",
+                            "@id": "https://artesania-mallorca.cat/#taller-camado",
+                            "name": "Siurells Ca Madò Bet",
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Plaça de l'Església",
+                                "addressLocality": "Sa Cabaneta, Marratxí",
+                                "addressRegion": "Illes Balears",
+                                "addressCountry": "ES"
+                            },
+                            "telephone": "+34 971 79 45 67",
+                            "email": "info@camadobet.cat",
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 39.6402,
+                                "longitude": 2.7312
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                    "@type": "CreativeWorkSeries",
+                    "@id": "https://artesania-mallorca.cat/#vidre-bufat",
+                    "name": "Vidre Bufat",
+                    "description": "Art ancestral de donar forma al vidre fos mitjançant el buf, creant peces transparents i colorides.",
+                    "abstract": "El vidre bufat a Mallorca té una tradició que es remunta al segle XIV. La tècnica consisteix a recollir vidre fos amb una canya de bufar i donar-li forma amb eines i el propi alè de l'artesà. Les vidrieries mallorquines són conegudes per la qualitat del seu vidre, que combina la transparència amb tonalitats verdes, blaves i ambre, resultants dels minerals locals.",
+                    "image": "./media/images/vidre-bufat-01.jpg",
+                    "artform": "Vidre bufat artesanal",
+                    "artMedium": "Vidre",
+                    "genre": "Artesania tradicional",
+                    "locationCreated": {
+                        "@type": "Place",
+                        "name": "Pla de Mallorca"
+                    },
+                    "aggregateRating": {
+                        "@type": "AggregateRating",
+                        "ratingValue": 4.6,
+                        "reviewCount": 89,
+                        "bestRating": 5,
+                        "worstRating": 1
+                    },
+                    "review": [
+                        {
+                            "@type": "Review",
+                            "author": { "@type": "Person", "name": "Miquel Àngel Socias" },
+                            "datePublished": "2023-11-20",
+                            "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+                            "reviewBody": "Una experiència increïble veure els mestres vidriers treballar amb el foc. La botiga té peces meravelloses a preus raonables."
+                        },
+                        {
+                            "@type": "Review",
+                            "author": { "@type": "Person", "name": "Laura Bennàssar" },
+                            "datePublished": "2023-08-03",
+                            "reviewRating": { "@type": "Rating", "ratingValue": 4, "bestRating": 5 },
+                            "reviewBody": "El museu del vidre és fascinant. Recomanable la visita guiada per entendre tot el procés."
+                        }
+                    ],
+                    "author": [
+                        {
+                            "@type": "Person",
+                            "name": "Daniel Gordiola Majó",
+                            "birthDate": "1890",
+                            "deathDate": "1952",
+                            "birthPlace": { "@type": "Place", "name": "Algaida, Mallorca" },
+                            "description": "Fundador de Vidrieries Gordiola, va transmetre la tècnica del vidre bufat venecià adaptada als materials mallorquins durant tres generacions."
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Francesca Torrens Oliver",
+                            "birthDate": "1978",
+                            "birthPlace": { "@type": "Place", "name": "Campanet, Mallorca" },
+                            "description": "Artesana contemporània que combina el vidre bufat tradicional amb tècniques modernes de coloració. Les seves peces han estat exposades a fires internacionals."
+                        }
+                    ],
+                    "provider": [
+                        {
+                            "@type": "LocalBusiness",
+                            "@id": "https://artesania-mallorca.cat/#taller-gordiola",
+                            "name": "Vidrieries Gordiola",
+                            "address": { "@type": "PostalAddress", "streetAddress": "Ctra. Palma-Manacor, km 19", "addressLocality": "Algaida", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "telephone": "+34 971 66 50 46",
+                            "url": "https://gordiola.com",
+                            "geo": { "@type": "GeoCoordinates", "latitude": 39.5600, "longitude": 2.8920 }
+                        },
+                        {
+                            "@type": "LocalBusiness",
+                            "@id": "https://artesania-mallorca.cat/#taller-menestralia",
+                            "name": "La Menestralia",
+                            "address": { "@type": "PostalAddress", "streetAddress": "Carrer del Vidre, 8", "addressLocality": "Campanet", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "telephone": "+34 971 51 60 78",
+                            "email": "info@menestralia.es",
+                            "geo": { "@type": "GeoCoordinates", "latitude": 39.7800, "longitude": 2.9700 }
+                        }
+                    ]
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                    "@type": "CreativeWorkSeries",
+                    "@id": "https://artesania-mallorca.cat/#roba-llengues",
+                    "name": "Tela de Llengües",
+                    "alternateName": "Roba de llengües",
+                    "description": "Teixit tradicional mallorquí amb patrons geomètrics en forma de flames, teixit en telers manuals.",
+                    "abstract": "La roba de llengües (o tela de llengos) és un teixit únic de Mallorca, caracteritzat pels seus patrons en forma de flama o \"ikat\". La tècnica consisteix a tenyir els fils abans de teixir-los, creant dibuixos difuminats típics. Originàriament usada per a cortines, coixins i tapisseria, avui és un símbol de la identitat artesanal mallorquina reconegut internacionalment.",
+                    "image": "./media/images/llengues-01.jpg",
+                    "artform": "Teixit ikat",
+                    "artMedium": "Llana",
+                    "genre": "Artesania tèxtil",
+                    "locationCreated": {
+                        "@type": "Place",
+                        "name": "Serra de Tramuntana, Mallorca"
+                    },
+                    "aggregateRating": {
+                        "@type": "AggregateRating",
+                        "ratingValue": 4.9,
+                        "reviewCount": 156,
+                        "bestRating": 5,
+                        "worstRating": 1
+                    },
+                    "review": [
+                        {
+                            "@type": "Review",
+                            "author": { "@type": "Person", "name": "Aina Maria Coll" },
+                            "datePublished": "2024-03-08",
+                            "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+                            "reviewBody": "Visitar Teixits Vicens és com viatjar al passat. Els telers centenaris encara funcionen perfectament i el resultat és espectacular."
+                        },
+                        {
+                            "@type": "Review",
+                            "author": { "@type": "Person", "name": "Bernat Tous" },
+                            "datePublished": "2024-01-15",
+                            "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+                            "reviewBody": "Vaig comprar una peça de roba de llengües per decorar el sofà i és simplement meravellosa. El tacte i els colors són únics."
+                        }
+                    ],
+                    "author": [
+                        {
+                            "@type": "Person",
+                            "name": "Guillem Vicens Reynés",
+                            "birthDate": "1854",
+                            "deathDate": "1930",
+                            "birthPlace": { "@type": "Place", "name": "Pollença, Mallorca" },
+                            "description": "Fundador de Teixits Vicens, va preservar la tradició de la roba de llengües quan la industrialització amenaçava la seva desaparició. La seva fàbrica segueix operativa avui dia."
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Catalina Bujosa Martorell",
+                            "birthDate": "1920",
+                            "deathDate": "2010",
+                            "birthPlace": { "@type": "Place", "name": "Santa Maria del Camí, Mallorca" },
+                            "description": "Mestra teixidora que va innovar amb nous patrons de roba de llengües mantenint la tècnica ancestral del teler de fusta. Va formar més de 30 aprenents al llarg de la seva vida."
+                        }
+                    ],
+                    "provider": [
+                        {
+                            "@type": "LocalBusiness",
+                            "@id": "https://artesania-mallorca.cat/#taller-vicens",
+                            "name": "Teixits Vicens",
+                            "address": { "@type": "PostalAddress", "streetAddress": "Carrer de Sant Agustí, 1", "addressLocality": "Pollença", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "telephone": "+34 971 53 04 50",
+                            "url": "https://teixitsvicens.com",
+                            "geo": { "@type": "GeoCoordinates", "latitude": 39.8767, "longitude": 3.0152 }
+                        },
+                        {
+                            "@type": "LocalBusiness",
+                            "@id": "https://artesania-mallorca.cat/#taller-bujosa",
+                            "name": "Teixits Bujosa",
+                            "address": { "@type": "PostalAddress", "streetAddress": "Carrer de Sa Rosa, 50", "addressLocality": "Santa Maria del Camí", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "telephone": "+34 971 62 00 54",
+                            "url": "https://bujosa.com",
+                            "geo": { "@type": "GeoCoordinates", "latitude": 39.6510, "longitude": 2.7670 }
+                        }
+                    ]
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                    "@type": "CreativeWorkSeries",
+                    "@id": "https://artesania-mallorca.cat/#llatra",
+                    "name": "Llata d'Espart",
+                    "alternateName": "Llatra mallorquina",
+                    "description": "Art del trenat de fulles de margalló per crear senalles, cistelles i objectes quotidians de la vida rural.",
+                    "abstract": "La llatra és l'art de trenar les fulles del margalló (Chamaerops humilis), l'única palmera autòctona d'Europa. A Mallorca, especialment a la comarca del Llevant, aquesta activitat ha estat fonamental per a l'economia rural durant segles. Les artesanes —ja que històricament era un ofici majoritàriament femení— creaven senalles, cistelles, estores i barrets amb una destresa extraordinària trasmesa de generació en generació.",
+                    "image": "./media/images/llata-01.jpg",
+                    "artform": "Trenat d'espart",
+                    "artMedium": "Espart",
+                    "genre": "Artesania vegetal",
+                    "locationCreated": {
+                        "@type": "Place",
+                        "name": "Llevant, Mallorca"
+                    },
+                    "aggregateRating": {
+                        "@type": "AggregateRating",
+                        "ratingValue": 4.5,
+                        "reviewCount": 72,
+                        "bestRating": 5,
+                        "worstRating": 1
+                    },
+                    "review": [
+                        {
+                            "@type": "Review",
+                            "author": { "@type": "Person", "name": "Margalida Font" },
+                            "datePublished": "2024-06-01",
+                            "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+                            "reviewBody": "Les senalles d'Artespart són precioses i molt resistents. Fa anys que n'ús una per anar al mercat cada setmana."
+                        },
+                        {
+                            "@type": "Review",
+                            "author": { "@type": "Person", "name": "Tomeu Servera" },
+                            "datePublished": "2024-04-28",
+                            "reviewRating": { "@type": "Rating", "ratingValue": 4, "bestRating": 5 },
+                            "reviewBody": "Molt bona explicació del procés. Caldria més difusió d'aquest ofici que s'està perdent ràpidament."
+                        }
+                    ],
+                    "author": [
+                        {
+                            "@type": "Person",
+                            "name": "Margalida Ferrer Sureda",
+                            "birthDate": "1908",
+                            "deathDate": "2001",
+                            "birthPlace": { "@type": "Place", "name": "Artà, Mallorca" },
+                            "description": "Considerada la darrera gran mestra de la llatra d'Artà. Va crear peces de complexitat extraordinària i va ensenyar l'ofici a més de cinquanta dones del municipi."
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Joana Maria Massanet",
+                            "birthDate": "1965",
+                            "birthPlace": { "@type": "Place", "name": "Capdepera, Mallorca" },
+                            "description": "Artesana actual que treballa per preservar la llatra combinant dissenys contemporanis amb la tècnica ancestral. Organitza tallers a escoles per transmetre l'ofici als més joves."
+                        }
+                    ],
+                    "provider": [
+                        {
+                            "@type": "LocalBusiness",
+                            "@id": "https://artesania-mallorca.cat/#taller-artespart",
+                            "name": "Artespart Artà",
+                            "address": { "@type": "PostalAddress", "streetAddress": "Carrer de Ses Roques, 3", "addressLocality": "Artà", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "telephone": "+34 971 83 56 12",
+                            "url": "https://artespart.com",
+                            "geo": { "@type": "GeoCoordinates", "latitude": 39.6960, "longitude": 3.3490 }
+                        },
+                        {
+                            "@type": "LocalBusiness",
+                            "@id": "https://artesania-mallorca.cat/#taller-ses-dones",
+                            "name": "Associació Ses Dones de la Llatra",
+                            "address": { "@type": "PostalAddress", "streetAddress": "Centre Cultural", "addressLocality": "Capdepera", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "telephone": "+34 971 56 30 33",
+                            "email": "sesdones@llatra.cat",
+                            "geo": { "@type": "GeoCoordinates", "latitude": 39.7020, "longitude": 3.4320 }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

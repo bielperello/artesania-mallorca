@@ -97,3 +97,171 @@ html { scroll-behavior: smooth; }
     to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in { animation: fadeIn 0.3s ease-out; }
+
+/* ── Leaflet Map Containers ────────────────────────── */
+.leaflet-map-container {
+    width: 100%;
+    height: 100%;
+    min-height: 80vh;
+    z-index: 1;
+    border-radius: inherit;
+}
+
+#craft-map-container {
+    min-height: 400px;
+}
+
+/* Override Leaflet default controls to match app style */
+.leaflet-control-zoom a {
+    color: #334155 !important;
+    border-color: #e2e8f0 !important;
+}
+.leaflet-control-zoom a:hover {
+    color: #ec4913 !important;
+}
+.leaflet-control-attribution {
+    font-size: 9px !important;
+    background: rgba(255,255,255,0.85) !important;
+    backdrop-filter: blur(4px);
+}
+
+/* ── Custom Workshop Markers ───────────────────────── */
+.leaflet-workshop-marker {
+    background: none !important;
+    border: none !important;
+}
+.workshop-pin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--marker-color, #ec4913);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease;
+}
+.workshop-pin:hover {
+    transform: rotate(-45deg) scale(1.15);
+}
+.workshop-pin .material-symbols-outlined {
+    transform: rotate(45deg);
+    color: white;
+    font-size: 18px;
+}
+
+/* ── User Location Marker ──────────────────────────── */
+.leaflet-user-marker {
+    background: none !important;
+    border: none !important;
+}
+.user-location-pin {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.user-location-dot {
+    width: 14px;
+    height: 14px;
+    background: #3b82f6;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
+    position: relative;
+    z-index: 2;
+}
+.user-location-pulse {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: rgba(59, 130, 246, 0.25);
+    border-radius: 50%;
+    z-index: 1;
+    animation: user-pulse 2s ease-out infinite;
+}
+@keyframes user-pulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── Custom Popup Styles ───────────────────────────── */
+.workshop-popup .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 0;
+    overflow: hidden;
+}
+.workshop-popup .leaflet-popup-content {
+    margin: 0;
+    min-width: 200px;
+}
+.workshop-popup .leaflet-popup-tip {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.popup-workshop-content {
+    padding: 14px 16px;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+.popup-title {
+    font-family: 'Newsreader', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+}
+.popup-badge {
+    display: inline-block;
+    background: #fceee9;
+    color: #ec4913;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.popup-address,
+.popup-phone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: #475569;
+    margin: 4px 0;
+    line-height: 1.4;
+}
+.popup-icon {
+    font-size: 16px;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+.popup-directions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #ec4913;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.popup-directions:hover {
+    background: #d4400f;
+    color: white;
+}
+.popup-directions .popup-icon {
+    color: white;
+}

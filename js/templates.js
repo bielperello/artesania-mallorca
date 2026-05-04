@@ -148,7 +148,7 @@ function renderCatalogSection() {
                 <div class="flex flex-col md:flex-row gap-4 items-center bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
                     <div class="relative flex-1 w-full">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                        <input class="w-full pl-10 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary dark:text-white placeholder-slate-400 transition-all" placeholder="Cerca artesans, materials, tècniques..." type="text"/>
+                        <input id="catalog-search" class="w-full pl-10 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary dark:text-white placeholder-slate-400 transition-all" placeholder="Cerca artesans, materials, tècniques..." type="text"/>
                         <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors flex items-center justify-center p-1" title="Cerca per veu">
                             <span class="material-symbols-outlined">mic</span>
                         </button>
@@ -156,7 +156,7 @@ function renderCatalogSection() {
                     <div class="flex gap-4 items-center w-full md:w-auto">
                         <div class="w-full md:w-48 relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10 pointer-events-none text-sm">sort</span>
-                            <select class="w-full pl-9 pr-8 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary text-slate-700 dark:text-slate-200 appearance-none cursor-pointer">
+                            <select id="catalog-sort" class="w-full pl-9 pr-8 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary text-slate-700 dark:text-slate-200 appearance-none cursor-pointer">
                                 <option value="relevance">Més rellevants</option>
                                 <option value="az">Alfabètic (A-Z)</option>
                                 <option value="za">Alfabètic (Z-A)</option>
@@ -188,9 +188,8 @@ function renderMapSection() {
     return `
     <section class="mb-20" id="mapa">
         <div class="relative w-full h-[80vh] min-h-[600px] bg-slate-100 dark:bg-slate-800 overflow-hidden group">
-            <div class="absolute inset-0 z-0 transition-transform duration-1000 ease-in-out scale-[2] translate-x-[15%] translate-y-[20%]">
-                <img alt="Mapa gran de Balears" class="w-full h-full object-cover opacity-80" src="./media/images/mapa-mallorca-01.jpg"/>
-            </div>
+            <!-- Mapa interactiu Leaflet -->
+            <div id="main-map" class="leaflet-map-container absolute inset-0 z-0"></div>
             <!-- Panell lateral del mapa -->
             <div class="absolute top-6 left-6 z-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 max-w-sm w-full max-h-[90vh] overflow-y-auto">
                 <div class="flex justify-between items-start mb-2">
@@ -261,9 +260,6 @@ function renderMapSection() {
                     <span class="material-symbols-outlined text-[14px]">location_off</span> Deixar de compartir ubicació
                 </button>
             </div>
-
-            <!-- Marcadors del mapa -->
-            <div id="map-markers"><!-- JS --></div>
 
             <!-- Botó geolocalització -->
             <div class="absolute bottom-6 right-6 flex flex-col gap-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.1)] rounded-xl p-1.5 z-30 border border-slate-200 dark:border-slate-700">
@@ -687,7 +683,7 @@ function renderCraftDetail(craft) {
                     <span class="text-xs font-bold text-slate-800 dark:text-slate-100">${t.temp}</span>
                 </div>
                 <div class="w-px h-3 bg-slate-300 dark:bg-slate-600"></div>
-                <button onclick="openWeatherModal(); event.stopPropagation();" class="text-xs font-medium text-terracotta hover:underline">Veure previsió</button>
+                <button onclick="openWeatherModal('${t.id}'); event.stopPropagation();" class="text-xs font-medium text-terracotta hover:underline">Veure previsió</button>
             </div>
             <div class="flex flex-col gap-2 text-sm text-slate-700 dark:text-slate-300 mb-4">
                 <div class="flex items-start gap-2"><span class="material-symbols-outlined text-[18px] ${iconColor} mt-0.5">location_on</span><span>${t.adreca}</span></div>
@@ -806,19 +802,8 @@ function renderCraftDetail(craft) {
                 <div class="flex flex-col gap-4 overflow-y-auto max-h-[400px] pr-2">${tallersHTML}</div>
             </div>
             <div class="lg:col-span-2 relative min-h-[400px] bg-slate-200 dark:bg-slate-700 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-in-out scale-100" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80'); opacity: 0.9; filter: contrast(1.1) brightness(0.95);"></div>
-                <div class="absolute inset-0 bg-blue-50/40 dark:bg-slate-900/40 backdrop-blur-[1px]"></div>
-                ${markersHTML}
-                <div class="absolute top-4 left-4 z-30">
-                    <button class="flex items-center gap-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm text-slate-800 dark:text-slate-200 px-4 py-2 rounded-full font-medium shadow-md hover:bg-white dark:hover:bg-slate-700 hover:text-terracotta transition-all text-sm border border-slate-200 dark:border-slate-700">
-                        <span class="material-symbols-outlined text-lg">zoom_out_map</span> Restablir vista
-                    </button>
-                </div>
-                <div class="absolute bottom-4 right-4 flex flex-col gap-2 bg-white dark:bg-slate-800 rounded-lg shadow-md p-1 z-30">
-                    <button class="p-2 text-slate-600 dark:text-slate-300 hover:text-terracotta transition-colors"><span class="material-symbols-outlined">add</span></button>
-                    <div class="h-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
-                    <button class="p-2 text-slate-600 dark:text-slate-300 hover:text-terracotta transition-colors"><span class="material-symbols-outlined">remove</span></button>
-                </div>
+                <!-- Mapa interactiu Leaflet per als tallers de la fitxa -->
+                <div id="craft-map-container" class="leaflet-map-container"></div>
             </div>
         </div>
 
@@ -920,7 +905,7 @@ function renderWeatherModal(weather) {
             <div class="flex flex-col gap-2">${diesHTML}</div>
         </div>
         <div class="w-full text-center pt-2 pb-2">
-            <p class="text-[9px] font-bold tracking-[0.2em] text-slate-400 uppercase">Dades actualitzades fa 5 minuts • Font: Servei Meteorològic</p>
+            <p class="text-[9px] font-bold tracking-[0.2em] text-slate-400 uppercase">Font: Open-Meteo API • Dades actualitzades en temps real</p>
         </div>
     </div>`;
 }
