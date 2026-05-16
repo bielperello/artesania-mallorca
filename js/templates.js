@@ -5,7 +5,25 @@
 // SECCIONS DE PÀGINA (Estructura principal)
 // ══════════════════════════════════════════════════════════════
 function renderHeader() {
-    const navLinkClass = "text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal";
+    const navLinkClass = "text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal truncate";
+
+    const navItems = [
+        { href: '#inici', label: 'Inici', icon: 'home' },
+        { href: '#sobre-nosaltres', label: 'Sobre nosaltres', icon: 'info' },
+        { href: '#cataleg', label: 'Catàleg', icon: 'category' },
+        { href: '#mapa', label: 'Mapa', icon: 'map' },
+        { href: '#multimedia', label: 'Multimèdia', icon: 'perm_media' }
+    ];
+
+    const desktopNavHtml = navItems.map(item =>
+        `<a class="${navLinkClass}" href="${item.href}">${item.label}</a>`
+    ).join('\n                    ');
+
+    const mobileNavHtml = navItems.filter(item => item.label !== 'Catàleg').map(item =>
+        `<a onclick="toggleMobileMenu()" class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3" href="${item.href}">
+                    <span class="material-symbols-outlined">${item.icon}</span> ${item.label}
+                </a>`
+    ).join('\n                ');
 
     return `
     <header class="sticky top-0 z-50 border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur">
@@ -21,11 +39,7 @@ function renderHeader() {
             <!-- Navegació i accions -->
             <div class="flex items-center gap-4 md:gap-8">
                 <nav class="hidden lg:flex items-center gap-9" aria-label="Navegació principal">
-                    <a class="${navLinkClass}" href="#inici">Inici</a>
-                    <a class="${navLinkClass} truncate" href="#sobre-nosaltres">Sobre nosaltres</a>
-                    <a class="${navLinkClass}" href="#cataleg">Catàleg</a>
-                    <a class="${navLinkClass}" href="#mapa">Mapa</a>
-                    <a class="${navLinkClass}" href="#multimedia">Multimèdia</a>
+                    ${desktopNavHtml}
                 </nav>
 
                 <a class="hidden sm:flex min-w-[84px] items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/80 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]" href="#cataleg">
@@ -33,10 +47,23 @@ function renderHeader() {
                 </a>
 
                 <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIBFSPvXm1blUZAmzogrEkNLJc1G2QH6VzlbGREboNvrtRiuDpcLyrq6B3OxezEAScJc-mpWw6Q3HJw80T-nOCdrvIXjMC9PRUYZTIxYD7FtNG3PQdUy-uxRmSNjyhiGDNeAY4Q7C3KNYHil5fIq4_4yZUQMJY6Gg1bLx6Bfb6UH4ITm5jIfUS-DNkkdn2wRFOU5P9n4gpMNeKUvJgX7alA8apkIHKoAoO98pzemjTwr4IY78Dx6wWCF_H9zfjYXw7VhZGUkA2UulF" alt="" aria-hidden="true" class="hidden sm:block h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"/>
-                <button class="lg:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300" aria-label="Obrir menú de navegació">
-                    <span class="material-symbols-outlined">menu</span>
+                <button onclick="toggleMobileMenu()" id="mobile-menu-btn" class="lg:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Obrir menú de navegació">
+                    <span class="material-symbols-outlined" id="mobile-menu-icon">menu</span>
                 </button>
             </div>
+        </div>
+
+        <!-- Menú mòbil (amagat per defecte) -->
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden transition-all duration-300 opacity-0 transform -translate-y-2">
+            <nav class="flex flex-col p-6 gap-6">
+                ${mobileNavHtml}
+                
+                <div class="h-px w-full bg-slate-200 dark:bg-slate-800 my-2"></div>
+                
+                <a onclick="toggleMobileMenu()" class="flex items-center justify-center rounded-lg h-12 bg-primary hover:bg-primary/80 transition-colors text-white text-base font-bold sm:hidden" href="#cataleg">
+                    Explora el catàleg
+                </a>
+            </nav>
         </div>
     </header>`;
 }
@@ -370,7 +397,7 @@ function renderModals() {
                     <span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">smart_toy</span>
                 </div>
                 <div>
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">Arxiu IA</h4>
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">Assistent IA</h4>
                     <p class="text-[10px] text-green-600 dark:text-green-400 flex items-center gap-1 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> En línia</p>
                 </div>
             </div>

@@ -33,6 +33,34 @@ function showToast(message, type = 'info', icon = 'info', duration = 2500) {
 }
 
 // ══════════════════════════════════════════════════════════════
+// NAVEGACIÓ MÒBIL
+// ══════════════════════════════════════════════════════════════
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('mobile-menu-icon');
+    if (!menu || !icon) return;
+
+    if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        // Wait a frame for display: block to apply before animating opacity
+        requestAnimationFrame(() => {
+            menu.classList.remove('opacity-0', '-translate-y-2');
+            menu.classList.add('opacity-100', 'translate-y-0');
+        });
+        icon.textContent = 'close';
+    } else {
+        menu.classList.remove('opacity-100', 'translate-y-0');
+        menu.classList.add('opacity-0', '-translate-y-2');
+        icon.textContent = 'menu';
+        // Wait for animation to finish before hiding
+        setTimeout(() => {
+            menu.classList.add('hidden');
+        }, 300);
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
 // RENDERITZAT CENTRAL: Monta tota la pàgina
 // ══════════════════════════════════════════════════════════════
 
@@ -64,7 +92,42 @@ function renderApp() {
 // INICIALITZACIÓ: renderApp → poblar contingut dinàmic → listeners
 // ══════════════════════════════════════════════════════════════
 
-function init() {
+async function init() {
+    // 0. Carregar dades dinàmiques des dels JSON
+    try {
+        const [craftsRes, tallersRes] = await Promise.all([
+            fetch('./data/tipus_artesania.json'),
+            fetch('./data/tallers_i_mestres.json')
+        ]);
+        
+        if (!craftsRes.ok || !tallersRes.ok) {
+            throw new Error('No s\'han pogut carregar els fitxers JSON (CORS/File protocol error)');
+        }
+        
+        const craftsData = await craftsRes.json();
+        const { tallers, mestres } = await tallersRes.json();
+
+        // Reconstruir l'estructura original per a les plantilles UI
+        APP_DATA.crafts = craftsData.map(craft => {
+            return {
+                ...craft,
+                tallers: (craft.tallers_ids || []).map(id => tallers.find(t => t.id === id)).filter(Boolean),
+                artesans: (craft.artesans_ids || []).map(id => mestres.find(m => m.id === id)).filter(Boolean)
+            };
+        });
+        
+        APP_DATA.tallers = tallers;
+        APP_DATA.mestres = mestres;
+    } catch(err) {
+        console.error("Error carregant les dades JSON:", err);
+        alert("⚠️ ATENCIÓ: No s'han pogut carregar les dades (JSON).\n\nSi has obert l'arxiu fent doble clic (file://), el navegador bloqueja la càrrega per seguretat.\n\nHas d'iniciar un servidor local, per exemple executant:\nnpx serve .");
+        
+        // Evitar que l'app peti si falla la càrrega
+        APP_DATA.crafts = [];
+        APP_DATA.tallers = [];
+        APP_DATA.mestres = [];
+    }
+
     // 1. Renderitzar tota l'estructura de la pàgina
     renderApp();
 
