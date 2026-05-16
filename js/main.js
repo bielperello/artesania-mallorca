@@ -109,8 +109,14 @@ async function init() {
 
         // Reconstruir l'estructura original per a les plantilles UI
         APP_DATA.crafts = craftsData.map(craft => {
+            const savedReviewStr = localStorage.getItem('reviewed_' + craft.id);
+            let savedReviews = [];
+            if (savedReviewStr) {
+                try { savedReviews.push(JSON.parse(savedReviewStr)); } catch(e){}
+            }
             return {
                 ...craft,
+                ressenyes: [...savedReviews, ...(craft.ressenyes || [])],
                 tallers: (craft.tallers_ids || []).map(id => tallers.find(t => t.id === id)).filter(Boolean),
                 artesans: (craft.artesans_ids || []).map(id => mestres.find(m => m.id === id)).filter(Boolean)
             };
@@ -361,7 +367,10 @@ function openModal(craftId) {
 
     // Poblar el cos del modal
     const body = document.getElementById('craft-modal-body');
-    if (body) body.innerHTML = renderCraftDetail(craft);
+    if (body) {
+        body.innerHTML = renderCraftDetail(craft);
+        checkReviewStatus(craft.id);
+    }
 
     // Poblar galeria modal
     const galleryGrid = document.getElementById('gallery-grid');
@@ -1108,5 +1117,148 @@ async function handleChatSubmit(event) {
         APP_DATA.chatMessages.push({ role: 'assistant', html: `<p class="text-sm text-red-600 dark:text-red-400"><strong>Error:</strong> ${err.message}</p>` });
         chatMessagesEl.innerHTML = renderChatMessages(APP_DATA.chatMessages);
         setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RESSENYES
+// ══════════════════════════════════════════════════════════════
+
+let currentReviewRating = 0;
+let currentReviewPhotos = [];
+
+function setReviewRating(rating) {
+    currentReviewRating = rating;
+    const starsContainer = document.getElementById('review-stars');
+    if (!starsContainer) return;
+    
+    document.getElementById('review-rating').value = rating;
+    
+    const stars = starsContainer.querySelectorAll('span');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add('text-yellow-400');
+            star.style.fontVariationSettings = "'FILL' 1";
+        } else {
+            star.classList.remove('text-yellow-400');
+            star.style.fontVariationSettings = "";
+        }
+    });
+}
+
+function handlePhotoUpload(input) {
+    if (!input.files || input.files.length === 0) return;
+    
+    const previewContainer = document.getElementById('review-photos-preview');
+    if (!previewContainer) return;
+    
+    // Màxim 3 fotos per no saturar el localStorage
+    const files = Array.from(input.files).slice(0, 3 - currentReviewPhotos.length);
+    
+    files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Comprimir imatge amb Canvas perquè càpiga al localStorage
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 400;
+                let width = img.width;
+                let height = img.height;
+                
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Qualitat JPEG al 60%
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.6); 
+                currentReviewPhotos.push(dataUrl);
+                
+                // Mostrar preview
+                const previewEl = document.createElement('div');
+                previewEl.className = 'w-16 h-16 rounded-lg bg-cover bg-center border border-slate-200 dark:border-slate-700 shadow-sm';
+                previewEl.style.backgroundImage = `url(${dataUrl})`;
+                previewContainer.appendChild(previewEl);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+    
+    input.value = ''; // Reset per poder triar mateixos arxius si cal
+}
+
+function handleReviewSubmit(event, craftId) {
+    event.preventDefault();
+    
+    if (localStorage.getItem('reviewed_' + craftId)) {
+        showToast("Ja has deixat una ressenya per aquesta artesania", 'warning', 'error');
+        return;
+    }
+    
+    if (currentReviewRating === 0) {
+        showToast("Si us plau, selecciona una puntuació", 'warning', 'star');
+        return;
+    }
+    
+    const nameInput = document.getElementById('review-name').value;
+    const commentInput = document.getElementById('review-comment').value;
+    
+    const newReview = {
+        autor: nameInput,
+        data: new Date().toLocaleDateString('ca-ES', { day: 'numeric', month: 'long', year: 'numeric' }),
+        rating: currentReviewRating,
+        text: commentInput,
+        imatges: currentReviewPhotos
+    };
+    
+    // Add to current APP_DATA
+    const craftIndex = APP_DATA.crafts.findIndex(c => c.id === craftId);
+    if (craftIndex !== -1) {
+        APP_DATA.crafts[craftIndex].ressenyes.unshift(newReview);
+    }
+    
+    // Save to local storage to persist state for this user
+    try {
+        localStorage.setItem('reviewed_' + craftId, JSON.stringify(newReview));
+    } catch (e) {
+        // En cas que les imatges encara siguin massa grans
+        newReview.imatges = [];
+        localStorage.setItem('reviewed_' + craftId, JSON.stringify(newReview));
+        showToast("Memòria plena: s'ha guardat sense imatges", 'warning', 'sd_card_alert');
+    }
+    
+    // Refresh modal to show new review
+    const modalBody = document.getElementById('craft-modal-body');
+    if (modalBody && APP_DATA.crafts[craftIndex]) {
+        modalBody.innerHTML = renderCraftDetail(APP_DATA.crafts[craftIndex]);
+        checkReviewStatus(craftId);
+    }
+    
+    showToast("Ressenya publicada amb èxit!", 'success', 'check_circle');
+}
+
+function checkReviewStatus(craftId) {
+    const formContainer = document.getElementById('review-form-container');
+    if (!formContainer) return;
+    
+    const savedReviewStr = localStorage.getItem('reviewed_' + craftId);
+    if (savedReviewStr) {
+        formContainer.innerHTML = `
+            <div class="bg-terracotta-light/30 dark:bg-terracotta/10 border border-terracotta/20 rounded-lg p-6 text-center shadow-sm">
+                <span class="material-symbols-outlined text-terracotta text-5xl mb-3">verified</span>
+                <h5 class="font-display font-bold text-xl text-slate-800 dark:text-slate-200">Gràcies per la teva ressenya!</h5>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Ja has compartit la teva experiència per a aquesta artesania. La teva opinió ajuda a mantenir vius aquests oficis.</p>
+            </div>
+        `;
+    } else {
+        currentReviewRating = 0;
+        currentReviewPhotos = [];
     }
 }

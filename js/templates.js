@@ -844,23 +844,30 @@ function renderCraftDetail(craft) {
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-1">
                     <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
-                        <h4 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-display">Escriu una valoració</h4>
-                        <form class="flex flex-col gap-4">
-                            <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="name">Nom i Llinatges</label><input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="name" placeholder="Escriu el teu nom" type="text"/></div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label>
-                                    <div class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer">
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
+                        <div id="review-form-container">
+                            <h4 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-display">Escriu una valoració</h4>
+                            <form id="review-form" onsubmit="handleReviewSubmit(event, '${craft.id}')" class="flex flex-col gap-4">
+                                <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="review-name">Nom i Llinatges</label><input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="review-name" placeholder="Escriu el teu nom" type="text" required/></div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label>
+                                    <div id="review-stars" class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer">
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(1)">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(2)">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(3)">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(4)">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(5)">star</span>
                                     </div>
-                            </div>
-                            <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="comment">Comentari (opcional)</label><textarea class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="comment" placeholder="Comparteix la teva experiència..." rows="4"></textarea></div>
-                            <button class="flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-400 hover:border-terracotta hover:text-terracotta transition-colors bg-slate-50 dark:bg-slate-700/50" type="button"><span class="material-symbols-outlined">add_photo_alternate</span> Adjuntar imatges</button>
-                            <button class="mt-2 bg-terracotta text-white py-2 px-4 rounded-lg font-medium hover:bg-terracotta/90 transition-colors" type="submit">Publicar ressenya</button>
-                        </form>
+                                    <input type="hidden" id="review-rating" value="0" required>
+                                </div>
+                                <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="review-comment">Comentari (opcional)</label><textarea class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="review-comment" placeholder="Comparteix la teva experiència..." rows="4"></textarea></div>
+                                <label class="cursor-pointer flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-400 hover:border-terracotta hover:text-terracotta transition-colors bg-slate-50 dark:bg-slate-700/50">
+                                    <span class="material-symbols-outlined">add_photo_alternate</span> Adjuntar imatges
+                                    <input type="file" id="review-photos-input" multiple accept="image/*" class="hidden" onchange="handlePhotoUpload(this)">
+                                </label>
+                                <div id="review-photos-preview" class="flex gap-2 flex-wrap empty:hidden"></div>
+                                <button class="mt-2 bg-terracotta text-white py-2 px-4 rounded-lg font-medium hover:bg-terracotta/90 transition-colors" type="submit">Publicar ressenya</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="lg:col-span-2 flex flex-col gap-6">
