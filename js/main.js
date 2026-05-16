@@ -106,6 +106,7 @@ function populateDynamicContent() {
     if (multimediaGrid) multimediaGrid.innerHTML = renderMultimediaGrid(APP_DATA.multimedia);
 
     // Xat IA
+    loadChatHistory();
     const chatMessages = document.getElementById('ai-chat-messages');
     if (chatMessages) chatMessages.innerHTML = renderChatMessages(APP_DATA.chatMessages);
 
@@ -189,7 +190,7 @@ function initCraftMap(craft) {
 
 function attachFilterListeners() {
     // Funció auxiliar per alternar l'estat d'una píndola (botó de filtre)
-    const togglePill = function() {
+    const togglePill = function () {
         if (this.classList.contains('filter-pill-active') || this.classList.contains('bg-primary')) {
             // Desactivar
             this.classList.remove('bg-primary', 'text-white', 'filter-pill-active');
@@ -207,11 +208,11 @@ function attachFilterListeners() {
     document.querySelectorAll('[data-filter="zone"]').forEach(pill => {
         pill.addEventListener('click', togglePill);
     });
-    
+
     document.querySelectorAll('[data-filter="technique"]').forEach(pill => {
         pill.addEventListener('click', togglePill);
     });
-    
+
     document.querySelectorAll('[data-filter="material"]').forEach(pill => {
         pill.addEventListener('click', togglePill);
     });
@@ -233,7 +234,7 @@ function getActiveFilters() {
     const zones = getActiveIds('zone');
     const techniques = getActiveIds('technique');
     const materials = getActiveIds('material');
-    
+
     return { zones, techniques, materials };
 }
 
@@ -292,17 +293,17 @@ function applyFilters() {
 function openModal(craftId) {
     const craft = APP_DATA.crafts.find(c => c.id === craftId);
     if (!craft) return;
-    
+
     currentCraft = craft;
-    
+
     // Poblar el cos del modal
     const body = document.getElementById('craft-modal-body');
     if (body) body.innerHTML = renderCraftDetail(craft);
-    
+
     // Poblar galeria modal
     const galleryGrid = document.getElementById('gallery-grid');
     if (galleryGrid) galleryGrid.innerHTML = renderGalleryImages(craft);
-    
+
     // Mostrar el modal
     const modal = document.getElementById('craft-modal');
     const modalContent = document.getElementById('craft-modal-content');
@@ -336,7 +337,7 @@ function closeModal() {
         // Destruir el mapa de la fitxa per alliberar recursos
         destroyMap('craft-map-container');
     }, 300);
-    
+
     currentCraft = null;
 }
 
@@ -468,7 +469,7 @@ function toggleFavoriteCard(btn, event) {
     if (event) event.stopPropagation();
     const icon = btn.querySelector('.material-symbols-outlined');
     const card = btn.closest('[data-craft-id]') || btn.closest('.group');
-    
+
     // Find the craft name from card
     const nameEl = card ? card.querySelector('h3') : null;
     const craftName = nameEl ? nameEl.textContent : 'Artesania';
@@ -489,7 +490,7 @@ function toggleFavoriteCard(btn, event) {
 function toggleModalFavorite(btn) {
     const icon = btn.querySelector('.material-symbols-outlined');
     if (!icon) return;
-    
+
     const craftName = currentCraft ? currentCraft.nom : 'Artesania';
     const isActive = btn.classList.contains('is-favorite');
 
@@ -872,7 +873,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Map filter buttons toggle (comarques + materials)
     document.querySelectorAll('#map-comarques button, #map-materials button').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             if (this.classList.contains('border-primary') || this.classList.contains('bg-primary/10')) {
                 // Deactivate
                 this.classList.remove('bg-primary/10', 'border-primary', 'text-primary', 'shadow-[0_0_15px_rgba(236,73,19,0.3)]');
@@ -920,3 +921,129 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ══════════════════════════════════════════════════════════════
+// GROQ API INTEGRATION & LOCAL STORAGE
+// ══════════════════════════════════════════════════════════════
+
+function saveChatHistory() {
+    try {
+        const dataToSave = {
+            timestamp: Date.now(),
+            messages: APP_DATA.chatMessages.filter(m => !m.html || !m.html.includes('Error:')) // No guardem els errors
+        };
+        localStorage.setItem('artesania_chat_history', JSON.stringify(dataToSave));
+    } catch (e) {
+        console.warn("Could not save chat history to localStorage", e);
+    }
+}
+
+function loadChatHistory() {
+    try {
+        const saved = localStorage.getItem('artesania_chat_history');
+        if (saved) {
+            const data = JSON.parse(saved);
+            const ONE_HOUR = 15 * 60 * 1000; // 15 minuts
+            if (Date.now() - data.timestamp < ONE_HOUR) {
+                APP_DATA.chatMessages = data.messages;
+            } else {
+                localStorage.removeItem('artesania_chat_history');
+            }
+        }
+    } catch (e) {
+        console.warn("Could not load chat history from localStorage", e);
+    }
+}
+
+async function handleChatSubmit(event) {
+    event.preventDefault();
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    // Afegir missatge d'usuari
+    APP_DATA.chatMessages.push({ role: 'user', text: text });
+    saveChatHistory(); // Guardar historial amb el missatge de l'usuari
+    const chatMessagesEl = document.getElementById('ai-chat-messages');
+    chatMessagesEl.innerHTML = renderChatMessages(APP_DATA.chatMessages);
+    input.value = '';
+
+    // Auto-scroll al final
+    setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+
+    // Mostrar indicador de carregament
+    const loadingId = 'loading-' + Date.now();
+    chatMessagesEl.insertAdjacentHTML('beforeend', `
+        <div id="${loadingId}" class="flex items-start gap-2 mt-2 mb-2 shrink-0">
+            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[16px] text-slate-600 dark:text-slate-400" style="font-variation-settings: 'FILL' 1">smart_toy</span>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-sm border border-slate-100 dark:border-slate-700 shadow-sm flex gap-1 items-center">
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce"></span>
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 0.1s"></span>
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 0.2s"></span>
+            </div>
+        </div>
+    `);
+    setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+
+    try {
+        const token = APP_DATA.groqToken;
+        if (!token || token === 'EL_TEU_TOKEN_AQUI') {
+            throw new Error("Si us plau, configura el teu token de Groq (APP_DATA.groqToken) a js/data.js");
+        }
+
+        // Preparar històrial de conversa
+        const messages = APP_DATA.chatMessages
+            .filter(m => !m.html || !m.html.includes('Error:'))
+            .map(m => {
+                const role = m.role === 'assistant' ? 'assistant' : 'user';
+                // Eliminació bàsica de HTML si no hi ha text
+                const contentText = m.text || (m.html ? m.html.replace(/<[^>]+>/g, '').trim() : '');
+                return { role: role, content: contentText };
+            });
+
+        // Afegir message del sistema
+        messages.unshift({
+            role: "system",
+            content: "Ets l'assistent virtual del catàleg d'artesania de Mallorca. Respon sempre en català de forma concisa i amable i MOLT IMPORTANT només a preguntes directament relacionades amb artesania mallorquina, sense excepció ni analogies amb altres coses. Evita l'ús de taules i emojis, sí pots separar info en paràgrafs ben formats i formatejats."
+        });
+
+        const response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: "openai/gpt-oss-120b",
+                messages: messages
+            })
+        });
+
+        const data = await response.json();
+
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+
+        if (!response.ok || data.error) {
+            throw new Error((data.error && data.error.message) || "Error en l'API de Groq");
+        }
+
+        const replyText = data.choices[0].message.content;
+        let formattedHtml = replyText.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        APP_DATA.chatMessages.push({ role: 'assistant', html: `<p class="text-sm text-slate-700 dark:text-slate-300">${formattedHtml}</p>`, text: replyText });
+        saveChatHistory(); // Guardar historial amb la resposta de Groq
+        chatMessagesEl.innerHTML = renderChatMessages(APP_DATA.chatMessages);
+        setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+
+    } catch (err) {
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+
+        APP_DATA.chatMessages.push({ role: 'assistant', html: `<p class="text-sm text-red-600 dark:text-red-400"><strong>Error:</strong> ${err.message}</p>` });
+        chatMessagesEl.innerHTML = renderChatMessages(APP_DATA.chatMessages);
+        setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+    }
+}

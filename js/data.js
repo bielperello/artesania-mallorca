@@ -3,6 +3,8 @@
 
 const APP_DATA = {
 
+    groqToken: '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', // Token de Groq API
+
     // ── Filtres del Catàleg ──────────────────────────────────
     filterZones: [
         { id: 'tramuntana', label: 'Serra de Tramuntana', active: false },
@@ -268,7 +270,5 @@ const APP_DATA = {
     // ── Xat IA (Missatges Placeholder) ──────────────────────
     chatMessages: [
         { role: 'assistant', text: 'Hola! Som l\'assistent del catàleg d\'artesania de Mallorca. Et puc ajudar a descobrir oficis, trobar tallers o conèixer la història dels materials. Què busques?' },
-        { role: 'user', text: 'Quina diferència hi ha entre els siurells de Marratxí i els brodats tìpics?' },
-        { role: 'assistant', html: '<p class="text-sm text-slate-700 dark:text-slate-300 mb-2">Són oficis completamente diferents en materials i història:</p><ul class="text-sm text-slate-700 dark:text-slate-300 list-disc pl-4 space-y-1 mb-2"><li><strong>Siurells:</strong> Peces de fang modelat, típicament blanques amb ratlles verdes i vermelles. Porten un xiulet originàriament d\'ús pastoral.</li><li><strong>Brodats:</strong> Treball tèxtil femení, generalment sobre lli o cotó, amb cadeneta o punt de creu, per a parament de llar o roba.</li></ul><button class="text-xs text-blue-600 dark:text-blue-400 font-bold hover:underline mb-1 mt-1 block">Veure taller de siurells</button>' },
     ],
 };

@@ -363,8 +363,8 @@ function renderModals() {
     </div>
 
     <!-- AI Chat Panel -->
-    <div id="ai-chat-panel" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col z-[90] hidden opacity-0 transition-opacity duration-300 transform translate-y-4">
-        <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-700">
+    <div id="ai-chat-panel" class="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] max-h-[80vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col z-[90] hidden opacity-0 transition-opacity duration-300 transform translate-y-4">
+        <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-700 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-purple-100 dark:from-orange-900/40 dark:to-purple-900/40 flex items-center justify-center border border-orange-200 dark:border-orange-800/50">
                     <span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">smart_toy</span>
@@ -376,12 +376,12 @@ function renderModals() {
             </div>
             <button onclick="toggleAIChat()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><span class="material-symbols-outlined text-[20px]">close</span></button>
         </div>
-        <div id="ai-chat-messages" class="flex-1 p-4 h-80 overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-slate-900 mb-2">
+        <div id="ai-chat-messages" class="flex-1 min-h-0 p-4 overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-slate-900 pb-4">
             <!-- JS renderChatMessages() -->
         </div>
-        <div class="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700">
-            <form class="relative flex items-center" onsubmit="event.preventDefault()">
-                <input type="text" placeholder="Fes la teva consulta..." class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-full px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-terracotta pr-10">
+        <div class="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700 shrink-0">
+            <form class="relative flex items-center" onsubmit="handleChatSubmit(event)">
+                <input id="chat-input" type="text" placeholder="Fes la teva consulta..." class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-full px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-terracotta pr-10">
                 <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full text-terracotta hover:bg-terracotta/10 transition-colors">
                     <span class="material-symbols-outlined text-[18px]" style="transform: rotate(-45deg); padding-left: 2px;">send</span>
                 </button>
@@ -988,16 +988,16 @@ function renderChatMessages(messages) {
     return messages.map(msg => {
         if (msg.role === 'user') {
             return `
-            <div class="flex items-start gap-2 flex-row-reverse">
+            <div class="flex items-start gap-2 flex-row-reverse shrink-0">
                 <div class="w-8 h-8 rounded-full bg-terracotta shrink-0 flex items-center justify-center"><span class="material-symbols-outlined text-[16px] text-white">person</span></div>
-                <div class="bg-terracotta text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%]"><p class="text-sm font-medium">${msg.text}</p></div>
+                <div class="bg-terracotta text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%] overflow-x-auto break-words"><p class="text-sm font-medium">${msg.text}</p></div>
             </div>`;
         }
         const content = msg.html || `<p class="text-sm text-slate-700 dark:text-slate-300">${msg.text}</p>`;
         return `
-        <div class="flex items-start gap-2">
+        <div class="flex items-start gap-2 shrink-0">
             <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0 flex items-center justify-center"><span class="material-symbols-outlined text-[16px] text-slate-600 dark:text-slate-400" style="font-variation-settings: 'FILL' 1">smart_toy</span></div>
-            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-sm border border-slate-100 dark:border-slate-700 shadow-sm max-w-[85%]">${content}</div>
+            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-sm border border-slate-100 dark:border-slate-700 shadow-sm max-w-[85%] overflow-x-auto break-words">${content}</div>
         </div>`;
     }).join('');
 }
