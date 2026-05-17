@@ -165,7 +165,7 @@ function renderCatalogSection() {
                             <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Només favorits</span>
                         </div>
                         <div class="relative">
-                            <input class="sr-only peer" type="checkbox"/>
+                            <input id="favorites-toggle" class="sr-only peer" type="checkbox"/>
                             <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
                         </div>
                     </label>
@@ -431,39 +431,45 @@ function renderStars(rating, size = 'text-sm') {
 // ── Filtres del Catàleg ──────────────────────────────────────
 
 function renderFilterZones(zones) {
-    return zones.map(z => {
+    const pills = zones.map(z => {
         if (z.active) {
             return `<span class="px-3 py-1 bg-primary text-white text-xs font-medium rounded-full cursor-pointer hover:bg-primary/90 transition-colors" data-filter="zone" data-id="${z.id}">${z.label}</span>`;
         }
         return `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700" data-filter="zone" data-id="${z.id}">${z.label}</span>`;
     }).join('');
+    return pills + `<button type="button" onclick="resetFilterGroup('zone')" class="px-3 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 text-xs font-semibold rounded-full border border-red-200 dark:border-red-900 transition-colors flex items-center gap-1 cursor-pointer" title="Netejar filtre de zona"><span class="material-symbols-outlined text-[14px]">restart_alt</span> Netejar</button>`;
 }
 
 function renderFilterTechniques(techniques) {
-    return techniques.map(t => {
+    const pills = techniques.map(t => {
         if (t.active) {
             return `<span class="px-3 py-1 bg-primary text-white text-xs font-medium rounded-full cursor-pointer hover:bg-primary/90 transition-colors" data-filter="technique" data-id="${t.id}">${t.label}</span>`;
         }
         return `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700" data-filter="technique" data-id="${t.id}">${t.label}</span>`;
     }).join('');
+    return pills + `<button type="button" onclick="resetFilterGroup('technique')" class="px-3 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 text-xs font-semibold rounded-full border border-red-200 dark:border-red-900 transition-colors flex items-center gap-1 cursor-pointer" title="Netejar filtre de tècnica"><span class="material-symbols-outlined text-[14px]">restart_alt</span> Netejar</button>`;
 }
 
 function renderFilterMaterials(materials) {
-    return materials.map(m => {
+    const pills = materials.map(m => {
         if (m.active) {
             return `<span class="px-3 py-1 bg-primary text-white text-xs font-medium rounded-full cursor-pointer hover:bg-primary/90 transition-colors" data-filter="material" data-id="${m.id}">${m.label}</span>`;
         }
         return `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700" data-filter="material" data-id="${m.id}">${m.label}</span>`;
     }).join('');
+    return pills + `<button type="button" onclick="resetFilterGroup('material')" class="px-3 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 text-xs font-semibold rounded-full border border-red-200 dark:border-red-900 transition-colors flex items-center gap-1 cursor-pointer" title="Netejar filtre de material"><span class="material-symbols-outlined text-[14px]">restart_alt</span> Netejar</button>`;
 }
 
 // ── Targetes del Catàleg ─────────────────────────────────────
 
 function renderCatalogCards(crafts) {
-    return crafts.map(c => `
-        <div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow relative">
-            <button onclick="toggleFavoriteCard(this, event)" class="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center ${c.favorit ? 'text-red-500' : 'text-slate-400'} hover:text-red-500 transition-colors shadow-sm">
-                <span class="material-symbols-outlined text-sm font-bold ${c.favorit ? 'fill-current text-red-500' : ''}">favorite</span>
+    const favorites = getFavorites();
+    return crafts.map(c => {
+        const isFav = favorites.has(c.id);
+        return `
+        <div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow relative" data-craft-id="${c.id}">
+            <button onclick="toggleFavoriteCard('${c.id}', this, event)" class="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center ${isFav ? 'text-red-500' : 'text-slate-400'} hover:text-red-500 transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-sm font-bold" style="font-variation-settings: 'FILL' ${isFav ? 1 : 0};">favorite</span>
             </button>
             <div class="overflow-hidden aspect-[4/3] relative">
                 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
@@ -493,8 +499,8 @@ function renderCatalogCards(crafts) {
                     <button onclick="openModal('${c.id}')" class="text-primary hover:text-primary/80 text-sm font-bold transition-colors">Veure detalls</button>
                 </div>
             </div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
 }
 
 // ── Mapa: Comarques i Materials ──────────────────────────────
@@ -580,19 +586,22 @@ function renderMapMarkers(markers) {
 
 // ── Geolocalització: Tallers Propers ─────────────────────────
 
-function renderGeoNearby(nearby) {
-    return nearby.map(n => `
+function renderGeoNearby(tallers) {
+    if (!tallers || tallers.length === 0) {
+        return `<p class="text-xs text-slate-500 dark:text-slate-400 text-center py-2">Activa la ubicació per veure tallers propers</p>`;
+    }
+    return tallers.map(t => `
         <div class="flex items-start justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
             <div>
-                <p class="font-bold text-sm text-slate-900 dark:text-slate-100">${n.nom}</p>
-                <p class="text-[10px] text-slate-500">${n.zona} (${n.material})</p>
+                <p class="font-bold text-sm text-slate-900 dark:text-slate-100">${t.nom}</p>
+                <p class="text-[10px] text-slate-500">${t.adreca || t.zona || ''}</p>
                 <div class="flex items-center gap-1 mt-1 font-bold text-blue-600 text-[10px]">
-                    <span class="material-symbols-outlined text-[12px]">directions_car</span> ${n.distancia}
+                    <span class="material-symbols-outlined text-[12px]">directions_car</span> ${t.distancia || 'Calculant...'}
                 </div>
             </div>
-            <button class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 p-1.5 rounded-md hover:bg-blue-100 transition-colors">
+            <a href="https://maps.google.com/?q=${t.mapsQuery || encodeURIComponent(t.nom)}" target="_blank" class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 p-1.5 rounded-md hover:bg-blue-100 transition-colors">
                 <span class="material-symbols-outlined text-[16px]">directions</span>
-            </button>
+            </a>
         </div>
     `).join('');
 }

@@ -1,72 +1,35 @@
-// data.js — Dades placeholder per a l'SPA d'Artesania Mallorquina
-// En el futur, aquestes dades es carregaran des de fitxers JSON via fetch()
+// data.js — Configuració i dades estàtiques de l'SPA d'Artesania Mallorquina
+// Les dades dinàmiques (crafts, tallers, mestres) es carreguen des de fitxers JSON via fetch()
 
 const APP_DATA = {
 
     groqToken: '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', // Token de Groq API
 
     // ── Filtres del Catàleg ──────────────────────────────────
+    // Dades estàtiques de configuració — defineixen les opcions de filtre
     filterZones: [
-        { id: 'tramuntana', label: 'Serra de Tramuntana', active: false },
-        { id: 'raiguer', label: 'Es Raiguer', active: false },
-        { id: 'pla', label: 'Pla de Mallorca', active: false },
-        { id: 'migjorn', label: 'Migjorn', active: false },
-        { id: 'palma', label: 'Palma', active: false },
-        { id: 'llevant', label: 'Llevant', active: false },
+        { id: 'tramuntana', label: 'Serra de Tramuntana' },
+        { id: 'raiguer', label: 'Es Raiguer' },
+        { id: 'pla', label: 'Pla de Mallorca' },
+        { id: 'migjorn', label: 'Migjorn' },
+        { id: 'palma', label: 'Palma' },
+        { id: 'llevant', label: 'Llevant' },
     ],
     filterTechniques: [
-        { id: 'modelatge', label: 'Modelatge', active: false },
-        { id: 'bufat', label: 'Bufat de vidre', active: false },
-        { id: 'brodat', label: 'Brodat i Costura', active: false },
-        { id: 'trenat', label: 'Trenat d\'espart', active: false },
+        { id: 'modelatge', label: 'Modelatge' },
+        { id: 'bufat', label: 'Bufat de vidre' },
+        { id: 'brodat', label: 'Brodat i Costura' },
+        { id: 'trenat', label: 'Trenat d\'espart' },
     ],
     filterMaterials: [
-        { id: 'fang', label: 'Fang', active: false },
-        { id: 'vidre', label: 'Vidre', active: false },
-        { id: 'llana', label: 'Llana', active: false },
-        { id: 'espart', label: 'Espart', active: false },
-        { id: 'fusta', label: 'Fusta', active: false },
-        { id: 'ceramica', label: 'Ceràmica', active: false },
-        { id: 'pedra', label: 'Pedra', active: false },
-        { id: 'palma', label: 'Palma', active: false },
-    ],
-
-    // ── Mapa Principal ──────────────────────────────────────
-    mapComarques: [
-        { id: 'palma', label: 'Palma', active: false },
-        { id: 'tramuntana', label: 'Serra de Tramuntana', active: false },
-        { id: 'raiguer', label: 'Raiguer', active: false },
-        { id: 'pla', label: 'Pla de Mallorca', active: true },
-        { id: 'migjorn', label: 'Migjorn', active: false },
-        { id: 'llevant', label: 'Llevant', active: false },
-    ],
-    mapMaterials: [
-        { id: 'fang', label: 'Fang', icon: 'potted_plant', active: false, color: 'primary' },
-        { id: 'vidre', label: 'Vidre', icon: 'water_drop', active: false, color: 'blue-500' },
-        { id: 'llana', label: 'Llana', icon: 'styler', active: false, color: 'pink-500' },
-        { id: 'espart', label: 'Espart', icon: 'grass', active: false, color: 'amber-600' },
-        { id: 'fusta', label: 'Fusta', icon: 'park', active: false, color: 'amber-800' },
-        { id: 'ceramica', label: 'Ceràmica', icon: 'emoji_objects', active: false, color: 'orange-500' },
-        { id: 'pedra', label: 'Pedra', icon: 'landscape', active: false, color: 'slate-500' },
-        { id: 'palma', label: 'Palma', icon: 'eco', active: false, color: 'green-600' },
-    ],
-    mapMarkers: [
-        { id: 'faded-marker', top: '20%', left: '40%', icon: 'potted_plant', color: 'primary', size: 'small', faded: true, tooltip: null },
-        {
-            id: 'gordiola', top: '50%', left: '45%', icon: 'water_drop', color: 'blue-500', size: 'large', faded: false,
-            tooltip: { nom: 'Vidrieries Gordiola', badgeText: 'Focus', badgeColor: 'blue', lloc: 'Algaida', comarca: 'Pla de Mallorca', telefon: '+34 971 66 50 46', material: 'Vidre bufat', materialColor: 'blue-500', mapsQuery: 'Vidrieries+Gordiola+Algaida' }
-        },
-        {
-            id: 'canpere', top: '45%', left: '55%', icon: 'potted_plant', color: 'primary', size: 'large', faded: false,
-            tooltip: { nom: 'Can Pere Ignasi', badgeText: 'Focus', badgeColor: 'primary', lloc: 'Montuïri', comarca: 'Pla de Mallorca', telefon: '+34 971 64 61 22', material: 'Fang tradicional', materialColor: 'primary', mapsQuery: 'Can+Pere+Ignasi+Montuiri' }
-        },
-    ],
-
-    // ── Geolocalització ─────────────────────────────────────
-    geoNearby: [
-        { nom: 'Siurells Ca Madò Bet', zona: 'Sa Cabaneta', material: 'Fang', distancia: '2.4 km' },
-        { nom: 'Can Bernadí Nou', zona: 'Marratxí', material: 'Fang', distancia: '3.1 km' },
-        { nom: 'Teixits Vicens', zona: 'Pollença', material: 'Tèxtil', distancia: '12.8 km' },
+        { id: 'fang', label: 'Fang', icon: 'potted_plant', color: 'primary' },
+        { id: 'vidre', label: 'Vidre', icon: 'water_drop', color: 'blue-500' },
+        { id: 'llana', label: 'Llana', icon: 'styler', color: 'pink-500' },
+        { id: 'espart', label: 'Espart', icon: 'grass', color: 'amber-600' },
+        { id: 'fusta', label: 'Fusta', icon: 'park', color: 'amber-800' },
+        { id: 'ceramica', label: 'Ceràmica', icon: 'emoji_objects', color: 'orange-500' },
+        { id: 'pedra', label: 'Pedra', icon: 'landscape', color: 'slate-500' },
+        { id: 'palma', label: 'Palma', icon: 'eco', color: 'green-600' },
     ],
 
     // ── Multimèdia ──────────────────────────────────────────
@@ -77,28 +40,26 @@ const APP_DATA = {
         { tipus: 'audio', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W', titol: 'El ritme del teler', durada: '02:45' },
     ],
 
-    // ── Dades del Temps (Placeholder) ───────────────────────
-    weather: {
-        lloc: 'Marratxí',
-        actual: { temp: '24°C', desc: 'Assolellat i brisa marina', icon: 'light_mode' },
+    // ── Dades del Temps (Fallback) ──────────────────────────
+    // S'usa NOMÉS si la crida a Open-Meteo falla.
+    weatherFallback: {
+        lloc: 'Mallorca',
+        actual: { temp: '--°C', desc: 'Dades no disponibles', icon: 'cloud_off' },
         hores: [
-            { hora: '14:00', icon: 'light_mode', iconColor: 'terracotta', temp: '24°', pluja: '0%', highlight: true },
-            { hora: '15:00', icon: 'light_mode', iconColor: 'terracotta', temp: '25°', pluja: '0%' },
-            { hora: '16:00', icon: 'partly_cloudy_day', iconColor: 'yellow-500', temp: '23°', pluja: '5%' },
-            { hora: '17:00', icon: 'partly_cloudy_day', iconColor: 'yellow-500', temp: '22°', pluja: '10%' },
-            { hora: '18:00', icon: 'cloud', iconColor: 'slate-400', temp: '20°', pluja: '15%' },
-            { hora: '19:00', icon: 'cloud', iconColor: 'slate-400', temp: '19°', pluja: '20%' },
+            { hora: '--:--', icon: 'cloud', iconColor: 'slate-400', temp: '--°', pluja: '--%', highlight: false },
         ],
         dies: [
-            { dia: 'Demà', icon: 'light_mode', iconColor: 'terracotta', desc: 'Majorment assolellat', pluja: '5%', max: '26°', min: '18°', highlight: true },
-            { dia: 'Dimecres', icon: 'partly_cloudy_day', iconColor: 'yellow-500', desc: 'Intervals de núvols', pluja: '20%', max: '24°', min: '17°' },
-            { dia: 'Dijous', icon: 'rainy', iconColor: 'blue-400', desc: 'Possibilitat de pluja', pluja: '75%', max: '21°', min: '15°' },
-            { dia: 'Divendres', icon: 'light_mode', iconColor: 'terracotta', desc: 'Cel clar', pluja: '0%', max: '23°', min: '16°' },
+            { dia: '--', icon: 'cloud', iconColor: 'slate-400', desc: 'Sense dades', pluja: '--%', max: '--°', min: '--°', highlight: false },
         ],
     },
 
-    // ── Xat IA  ──────────────────────
+    // ── Xat IA ──────────────────────────────────────────────
     chatMessages: [
         { role: 'assistant', text: 'Hola! Som l\'assistent del catàleg d\'artesania de Mallorca. Et puc ajudar a descobrir oficis, trobar tallers o conèixer la història dels materials. Què busques?' },
     ],
+
+    // ── Dades dinàmiques (carregades a init() des de JSON) ──
+    crafts: [],
+    tallers: [],
+    mestres: [],
 };
