@@ -5,7 +5,25 @@
 // SECCIONS DE PÀGINA (Estructura principal)
 // ══════════════════════════════════════════════════════════════
 function renderHeader() {
-    const navLinkClass = "text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal";
+    const navLinkClass = "text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal truncate";
+
+    const navItems = [
+        { href: '#inici', label: 'Inici', icon: 'home' },
+        { href: '#sobre-nosaltres', label: 'Sobre nosaltres', icon: 'info' },
+        { href: '#cataleg', label: 'Catàleg', icon: 'category' },
+        { href: '#mapa', label: 'Mapa', icon: 'map' },
+        { href: '#multimedia', label: 'Multimèdia', icon: 'perm_media' }
+    ];
+
+    const desktopNavHtml = navItems.map(item =>
+        `<a class="${navLinkClass}" href="${item.href}">${item.label}</a>`
+    ).join('\n                    ');
+
+    const mobileNavHtml = navItems.filter(item => item.label !== 'Catàleg').map(item =>
+        `<a onclick="toggleMobileMenu()" class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3" href="${item.href}">
+                    <span class="material-symbols-outlined">${item.icon}</span> ${item.label}
+                </a>`
+    ).join('\n                ');
 
     return `
     <header class="sticky top-0 z-50 border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur">
@@ -21,11 +39,7 @@ function renderHeader() {
             <!-- Navegació i accions -->
             <div class="flex items-center gap-4 md:gap-8">
                 <nav class="hidden lg:flex items-center gap-9" aria-label="Navegació principal">
-                    <a class="${navLinkClass}" href="#inici">Inici</a>
-                    <a class="${navLinkClass} truncate" href="#sobre-nosaltres">Sobre nosaltres</a>
-                    <a class="${navLinkClass}" href="#cataleg">Catàleg</a>
-                    <a class="${navLinkClass}" href="#mapa">Mapa</a>
-                    <a class="${navLinkClass}" href="#multimedia">Multimèdia</a>
+                    ${desktopNavHtml}
                 </nav>
 
                 <a class="hidden sm:flex min-w-[84px] items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/80 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]" href="#cataleg">
@@ -33,10 +47,23 @@ function renderHeader() {
                 </a>
 
                 <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIBFSPvXm1blUZAmzogrEkNLJc1G2QH6VzlbGREboNvrtRiuDpcLyrq6B3OxezEAScJc-mpWw6Q3HJw80T-nOCdrvIXjMC9PRUYZTIxYD7FtNG3PQdUy-uxRmSNjyhiGDNeAY4Q7C3KNYHil5fIq4_4yZUQMJY6Gg1bLx6Bfb6UH4ITm5jIfUS-DNkkdn2wRFOU5P9n4gpMNeKUvJgX7alA8apkIHKoAoO98pzemjTwr4IY78Dx6wWCF_H9zfjYXw7VhZGUkA2UulF" alt="" aria-hidden="true" class="hidden sm:block h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"/>
-                <button class="lg:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300" aria-label="Obrir menú de navegació">
-                    <span class="material-symbols-outlined">menu</span>
+                <button onclick="toggleMobileMenu()" id="mobile-menu-btn" class="lg:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Obrir menú de navegació">
+                    <span class="material-symbols-outlined" id="mobile-menu-icon">menu</span>
                 </button>
             </div>
+        </div>
+
+        <!-- Menú mòbil (amagat per defecte) -->
+        <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden transition-all duration-300 opacity-0 transform -translate-y-2">
+            <nav class="flex flex-col p-6 gap-6">
+                ${mobileNavHtml}
+                
+                <div class="h-px w-full bg-slate-200 dark:bg-slate-800 my-2"></div>
+                
+                <a onclick="toggleMobileMenu()" class="flex items-center justify-center rounded-lg h-12 bg-primary hover:bg-primary/80 transition-colors text-white text-base font-bold sm:hidden" href="#cataleg">
+                    Explora el catàleg
+                </a>
+            </nav>
         </div>
     </header>`;
 }
@@ -138,7 +165,7 @@ function renderCatalogSection() {
                             <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Només favorits</span>
                         </div>
                         <div class="relative">
-                            <input class="sr-only peer" type="checkbox"/>
+                            <input id="favorites-toggle" class="sr-only peer" type="checkbox"/>
                             <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
                         </div>
                     </label>
@@ -363,25 +390,25 @@ function renderModals() {
     </div>
 
     <!-- AI Chat Panel -->
-    <div id="ai-chat-panel" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col z-[90] hidden opacity-0 transition-opacity duration-300 transform translate-y-4">
-        <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-700">
+    <div id="ai-chat-panel" class="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] max-h-[80vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col z-[90] hidden opacity-0 transition-opacity duration-300 transform translate-y-4">
+        <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-700 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-purple-100 dark:from-orange-900/40 dark:to-purple-900/40 flex items-center justify-center border border-orange-200 dark:border-orange-800/50">
                     <span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">smart_toy</span>
                 </div>
                 <div>
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">Arxiu IA</h4>
+                    <h4 class="font-bold text-sm text-slate-900 dark:text-slate-100">Assistent IA</h4>
                     <p class="text-[10px] text-green-600 dark:text-green-400 flex items-center gap-1 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> En línia</p>
                 </div>
             </div>
             <button onclick="toggleAIChat()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><span class="material-symbols-outlined text-[20px]">close</span></button>
         </div>
-        <div id="ai-chat-messages" class="flex-1 p-4 h-80 overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-slate-900 mb-2">
+        <div id="ai-chat-messages" class="flex-1 min-h-0 p-4 overflow-y-auto flex flex-col gap-4 bg-slate-50/50 dark:bg-slate-900 pb-4">
             <!-- JS renderChatMessages() -->
         </div>
-        <div class="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700">
-            <form class="relative flex items-center" onsubmit="event.preventDefault()">
-                <input type="text" placeholder="Fes la teva consulta..." class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-full px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-terracotta pr-10">
+        <div class="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-700 shrink-0">
+            <form class="relative flex items-center" onsubmit="handleChatSubmit(event)">
+                <input id="chat-input" type="text" placeholder="Fes la teva consulta..." class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-full px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-terracotta pr-10">
                 <button type="submit" class="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full text-terracotta hover:bg-terracotta/10 transition-colors">
                     <span class="material-symbols-outlined text-[18px]" style="transform: rotate(-45deg); padding-left: 2px;">send</span>
                 </button>
@@ -404,39 +431,45 @@ function renderStars(rating, size = 'text-sm') {
 // ── Filtres del Catàleg ──────────────────────────────────────
 
 function renderFilterZones(zones) {
-    return zones.map(z => {
+    const pills = zones.map(z => {
         if (z.active) {
             return `<span class="px-3 py-1 bg-primary text-white text-xs font-medium rounded-full cursor-pointer hover:bg-primary/90 transition-colors" data-filter="zone" data-id="${z.id}">${z.label}</span>`;
         }
         return `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700" data-filter="zone" data-id="${z.id}">${z.label}</span>`;
     }).join('');
+    return pills + `<button type="button" onclick="resetFilterGroup('zone')" class="px-3 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 text-xs font-semibold rounded-full border border-red-200 dark:border-red-900 transition-colors flex items-center gap-1 cursor-pointer" title="Netejar filtre de zona"><span class="material-symbols-outlined text-[14px]">restart_alt</span> Netejar</button>`;
 }
 
 function renderFilterTechniques(techniques) {
-    return techniques.map(t => {
+    const pills = techniques.map(t => {
         if (t.active) {
             return `<span class="px-3 py-1 bg-primary text-white text-xs font-medium rounded-full cursor-pointer hover:bg-primary/90 transition-colors" data-filter="technique" data-id="${t.id}">${t.label}</span>`;
         }
         return `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700" data-filter="technique" data-id="${t.id}">${t.label}</span>`;
     }).join('');
+    return pills + `<button type="button" onclick="resetFilterGroup('technique')" class="px-3 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 text-xs font-semibold rounded-full border border-red-200 dark:border-red-900 transition-colors flex items-center gap-1 cursor-pointer" title="Netejar filtre de tècnica"><span class="material-symbols-outlined text-[14px]">restart_alt</span> Netejar</button>`;
 }
 
 function renderFilterMaterials(materials) {
-    return materials.map(m => {
+    const pills = materials.map(m => {
         if (m.active) {
             return `<span class="px-3 py-1 bg-primary text-white text-xs font-medium rounded-full cursor-pointer hover:bg-primary/90 transition-colors" data-filter="material" data-id="${m.id}">${m.label}</span>`;
         }
         return `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700" data-filter="material" data-id="${m.id}">${m.label}</span>`;
     }).join('');
+    return pills + `<button type="button" onclick="resetFilterGroup('material')" class="px-3 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 text-xs font-semibold rounded-full border border-red-200 dark:border-red-900 transition-colors flex items-center gap-1 cursor-pointer" title="Netejar filtre de material"><span class="material-symbols-outlined text-[14px]">restart_alt</span> Netejar</button>`;
 }
 
 // ── Targetes del Catàleg ─────────────────────────────────────
 
 function renderCatalogCards(crafts) {
-    return crafts.map(c => `
-        <div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow relative">
-            <button onclick="toggleFavoriteCard(this, event)" class="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center ${c.favorit ? 'text-red-500' : 'text-slate-400'} hover:text-red-500 transition-colors shadow-sm">
-                <span class="material-symbols-outlined text-sm font-bold ${c.favorit ? 'fill-current text-red-500' : ''}">favorite</span>
+    const favorites = getFavorites();
+    return crafts.map(c => {
+        const isFav = favorites.has(c.id);
+        return `
+        <div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow relative" data-craft-id="${c.id}">
+            <button onclick="toggleFavoriteCard('${c.id}', this, event)" class="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center ${isFav ? 'text-red-500' : 'text-slate-400'} hover:text-red-500 transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-sm font-bold" style="font-variation-settings: 'FILL' ${isFav ? 1 : 0};">favorite</span>
             </button>
             <div class="overflow-hidden aspect-[4/3] relative">
                 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
@@ -466,8 +499,8 @@ function renderCatalogCards(crafts) {
                     <button onclick="openModal('${c.id}')" class="text-primary hover:text-primary/80 text-sm font-bold transition-colors">Veure detalls</button>
                 </div>
             </div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
 }
 
 // ── Mapa: Comarques i Materials ──────────────────────────────
@@ -553,19 +586,22 @@ function renderMapMarkers(markers) {
 
 // ── Geolocalització: Tallers Propers ─────────────────────────
 
-function renderGeoNearby(nearby) {
-    return nearby.map(n => `
+function renderGeoNearby(tallers) {
+    if (!tallers || tallers.length === 0) {
+        return `<p class="text-xs text-slate-500 dark:text-slate-400 text-center py-2">Activa la ubicació per veure tallers propers</p>`;
+    }
+    return tallers.map(t => `
         <div class="flex items-start justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
             <div>
-                <p class="font-bold text-sm text-slate-900 dark:text-slate-100">${n.nom}</p>
-                <p class="text-[10px] text-slate-500">${n.zona} (${n.material})</p>
+                <p class="font-bold text-sm text-slate-900 dark:text-slate-100">${t.nom}</p>
+                <p class="text-[10px] text-slate-500">${t.adreca || t.zona || ''}</p>
                 <div class="flex items-center gap-1 mt-1 font-bold text-blue-600 text-[10px]">
-                    <span class="material-symbols-outlined text-[12px]">directions_car</span> ${n.distancia}
+                    <span class="material-symbols-outlined text-[12px]">directions_car</span> ${t.distancia || 'Calculant...'}
                 </div>
             </div>
-            <button class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 p-1.5 rounded-md hover:bg-blue-100 transition-colors">
+            <a href="https://maps.google.com/?q=${t.mapsQuery || encodeURIComponent(t.nom)}" target="_blank" class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 p-1.5 rounded-md hover:bg-blue-100 transition-colors">
                 <span class="material-symbols-outlined text-[16px]">directions</span>
-            </button>
+            </a>
         </div>
     `).join('');
 }
@@ -817,23 +853,30 @@ function renderCraftDetail(craft) {
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-1">
                     <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
-                        <h4 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-display">Escriu una valoració</h4>
-                        <form class="flex flex-col gap-4">
-                            <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="name">Nom i Llinatges</label><input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="name" placeholder="Escriu el teu nom" type="text"/></div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label>
-                                    <div class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer">
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400">star</span>
+                        <div id="review-form-container">
+                            <h4 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-display">Escriu una valoració</h4>
+                            <form id="review-form" onsubmit="handleReviewSubmit(event, '${craft.id}')" class="flex flex-col gap-4">
+                                <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="review-name">Nom i Llinatges</label><input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="review-name" placeholder="Escriu el teu nom" type="text" required/></div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label>
+                                    <div id="review-stars" class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer">
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(1)">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(2)">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(3)">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(4)">star</span>
+                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(5)">star</span>
                                     </div>
-                            </div>
-                            <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="comment">Comentari (opcional)</label><textarea class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="comment" placeholder="Comparteix la teva experiència..." rows="4"></textarea></div>
-                            <button class="flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-400 hover:border-terracotta hover:text-terracotta transition-colors bg-slate-50 dark:bg-slate-700/50" type="button"><span class="material-symbols-outlined">add_photo_alternate</span> Adjuntar imatges</button>
-                            <button class="mt-2 bg-terracotta text-white py-2 px-4 rounded-lg font-medium hover:bg-terracotta/90 transition-colors" type="submit">Publicar ressenya</button>
-                        </form>
+                                    <input type="hidden" id="review-rating" value="0" required>
+                                </div>
+                                <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="review-comment">Comentari (opcional)</label><textarea class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="review-comment" placeholder="Comparteix la teva experiència..." rows="4"></textarea></div>
+                                <label class="cursor-pointer flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-400 hover:border-terracotta hover:text-terracotta transition-colors bg-slate-50 dark:bg-slate-700/50">
+                                    <span class="material-symbols-outlined">add_photo_alternate</span> Adjuntar imatges
+                                    <input type="file" id="review-photos-input" multiple accept="image/*" class="hidden" onchange="handlePhotoUpload(this)">
+                                </label>
+                                <div id="review-photos-preview" class="flex gap-2 flex-wrap empty:hidden"></div>
+                                <button class="mt-2 bg-terracotta text-white py-2 px-4 rounded-lg font-medium hover:bg-terracotta/90 transition-colors" type="submit">Publicar ressenya</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="lg:col-span-2 flex flex-col gap-6">
@@ -988,16 +1031,16 @@ function renderChatMessages(messages) {
     return messages.map(msg => {
         if (msg.role === 'user') {
             return `
-            <div class="flex items-start gap-2 flex-row-reverse">
+            <div class="flex items-start gap-2 flex-row-reverse shrink-0">
                 <div class="w-8 h-8 rounded-full bg-terracotta shrink-0 flex items-center justify-center"><span class="material-symbols-outlined text-[16px] text-white">person</span></div>
-                <div class="bg-terracotta text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%]"><p class="text-sm font-medium">${msg.text}</p></div>
+                <div class="bg-terracotta text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%] overflow-x-auto break-words"><p class="text-sm font-medium">${msg.text}</p></div>
             </div>`;
         }
         const content = msg.html || `<p class="text-sm text-slate-700 dark:text-slate-300">${msg.text}</p>`;
         return `
-        <div class="flex items-start gap-2">
+        <div class="flex items-start gap-2 shrink-0">
             <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0 flex items-center justify-center"><span class="material-symbols-outlined text-[16px] text-slate-600 dark:text-slate-400" style="font-variation-settings: 'FILL' 1">smart_toy</span></div>
-            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-sm border border-slate-100 dark:border-slate-700 shadow-sm max-w-[85%]">${content}</div>
+            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-sm border border-slate-100 dark:border-slate-700 shadow-sm max-w-[85%] overflow-x-auto break-words">${content}</div>
         </div>`;
     }).join('');
 }

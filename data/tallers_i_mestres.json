@@ -1,0 +1,232 @@
+{
+    "tallers": [
+        {
+            "id": "bernadi",
+            "nom": "Can Bernadí Nou",
+            "adreca": "Carrer de la Creu, 14, Marratxí",
+            "telefon": "+34 971 60 12 34",
+            "web": "canbernadi.com",
+            "contactType": "language",
+            "temp": "24°C",
+            "mapsQuery": "Can+Bernadi+Nou+Marratxi",
+            "lat": 39.634,
+            "lng": 2.7438,
+            "mapPosition": {
+                "top": "40%",
+                "left": "45%"
+            },
+            "craftId": "siurells"
+        },
+        {
+            "id": "camado",
+            "nom": "Siurells Ca Madò Bet",
+            "adreca": "Plaça de l'Església, Sa Cabaneta",
+            "telefon": "+34 971 79 45 67",
+            "email": "info@camadobet.cat",
+            "contactType": "mail",
+            "temp": "22°C",
+            "mapsQuery": "Ca+Mado+Bet+Sa+Cabaneta",
+            "lat": 39.6402,
+            "lng": 2.7312,
+            "mapPosition": {
+                "top": "35%",
+                "left": "55%"
+            },
+            "craftId": "siurells"
+        },
+        {
+            "id": "gordiola",
+            "nom": "Vidrieries Gordiola",
+            "adreca": "Ctra. Palma-Manacor, km 19, Algaida",
+            "telefon": "+34 971 66 50 46",
+            "web": "gordiola.com",
+            "contactType": "language",
+            "temp": "26°C",
+            "mapsQuery": "Vidrieries+Gordiola+Algaida",
+            "lat": 39.56,
+            "lng": 2.892,
+            "mapPosition": {
+                "top": "45%",
+                "left": "40%"
+            },
+            "craftId": "vidre-bufat"
+        },
+        {
+            "id": "menestralia",
+            "nom": "La Menestralia",
+            "adreca": "Carrer del Vidre, 8, Campanet",
+            "telefon": "+34 971 51 60 78",
+            "email": "info@menestralia.es",
+            "contactType": "mail",
+            "temp": "23°C",
+            "mapsQuery": "La+Menestralia+Campanet",
+            "lat": 39.78,
+            "lng": 2.97,
+            "mapPosition": {
+                "top": "30%",
+                "left": "55%"
+            },
+            "craftId": "vidre-bufat"
+        },
+        {
+            "id": "vicens",
+            "nom": "Teixits Vicens",
+            "adreca": "Carrer de Sant Agustí, 1, Pollença",
+            "telefon": "+34 971 53 04 50",
+            "web": "teixitsvicens.com",
+            "contactType": "language",
+            "temp": "21°C",
+            "mapsQuery": "Teixits+Vicens+Pollenca",
+            "lat": 39.8767,
+            "lng": 3.0152,
+            "mapPosition": {
+                "top": "25%",
+                "left": "50%"
+            },
+            "craftId": "roba-llengues"
+        },
+        {
+            "id": "bujosa",
+            "nom": "Teixits Bujosa",
+            "adreca": "Carrer de Sa Rosa, 50, Santa Maria del Camí",
+            "telefon": "+34 971 62 00 54",
+            "web": "bujosa.com",
+            "contactType": "language",
+            "temp": "23°C",
+            "mapsQuery": "Teixits+Bujosa+Santa+Maria",
+            "lat": 39.651,
+            "lng": 2.767,
+            "mapPosition": {
+                "top": "45%",
+                "left": "35%"
+            },
+            "craftId": "roba-llengues"
+        },
+        {
+            "id": "artespart",
+            "nom": "Artespart Artà",
+            "adreca": "Carrer de Ses Roques, 3, Artà",
+            "telefon": "+34 971 83 56 12",
+            "web": "artespart.com",
+            "contactType": "language",
+            "temp": "22°C",
+            "mapsQuery": "Artespart+Arta",
+            "lat": 39.696,
+            "lng": 3.349,
+            "mapPosition": {
+                "top": "30%",
+                "left": "65%"
+            },
+            "craftId": "llatra"
+        },
+        {
+            "id": "ses-dones",
+            "nom": "Associació Ses Dones de la Llatra",
+            "adreca": "Capdepera, Centre Cultural",
+            "telefon": "+34 971 56 30 33",
+            "email": "sesdones@llatra.cat",
+            "contactType": "mail",
+            "temp": "21°C",
+            "mapsQuery": "Capdepera+Centre+Cultural",
+            "lat": 39.702,
+            "lng": 3.432,
+            "mapPosition": {
+                "top": "25%",
+                "left": "70%"
+            },
+            "craftId": "llatra"
+        }
+    ],
+    "mestres": [
+        {
+            "id": "siurells_artesa_0",
+            "nom": "Margalida Juan Amengual",
+            "dates": "1890 - 1976",
+            "lloc": "Marratxí",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuC3xh5NZqnIj1W1KyFaKZAm1s7xI0TgJrlz3S1av_YcbR4jkZrhwEN-AbbtUziWtsVydV1W_kd-b5wGn8SJHTjKFbZdlTlXiQbgATU6g_dqgy5L6dilxt96qBOt_k4jr6qEqZESh3Q3nKf01o1J_Rgs7BRbk62xprE85kwWPUMbwlO70jVVcLtX0GiNAyoahV4EjgdxQzc5JXcPUtvjQ06VEcYkaN9W2rh7m5Fw29ssDIikBIRJDmO-kitZ9YhSDgtAycouK0EAMjqX",
+            "bio": "Mestra artesana històrica de Sa Cabaneta, va ser pionera en la modernització del procés d'esmaltat, mantenint vius els dissenys originals de les figures eqüestres que avui considerem un estàndard per la figura del siurell de cavall clàssic.",
+            "craftId": "siurells"
+        },
+        {
+            "id": "siurells_artesa_1",
+            "nom": "Pere Coll Mir",
+            "dates": "1955",
+            "lloc": "Inca",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuAhvCrZUGVYHcWFWt49QGdC-BRfT6F6X9Kx6xl4C__KsYNpHCumleKx_vNeN4HsJZ2_nOqDhemugsb4Yp_hFStp9pl3pdJbNgt4Rhc75XHq9eKLPdBzfF013c7Gqrw1iwwQe5RUNvzq54Om8VYRt5OiSpRQx90wA5uAKmi-5XjOEa54Hb2Wjg9TmjuQDA3_8uRoHJrvQcs_X66vfml9QCN2JkvJWWkxFhRddFqBJVFFM8B5_KfWXMA0c7kfHvFQnDQwii8MgLnQSd6R",
+            "bio": "Artesà contemporani que ha revitalitzat la producció de siurells combinant les tècniques de pastat antics amb nous dissenys de figures antropomòrfiques. Les seves peces han estat exposades a diverses galeries d'art popular europees.",
+            "craftId": "siurells"
+        },
+        {
+            "id": "siurells_artesa_2",
+            "nom": "Catalina Pou Lliteras",
+            "dates": "1923 - 2005",
+            "lloc": "Felanitx",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuD5I-2VcFluo_KFZe_CKLeS7-zN6gnCPN9GNButcoXeCmG1z6F2_dYdugujS-BSs4WyDP8MQx123zbZu6oHUIYKn_db3PLHx1cLXLQAxmvGmfKpEoeHMbVm5wDcVw6vlvJhxSg4TANfw5QAcmTksb2DE4chkWV85ixQptAHzJ7zDnimaY7D5hPnsrRgMB_xON_hdQ5RQQzb-13-Z2khEEV-a1PYTrpQMShadwWxMJC32xYDE8dlCVnjzdQ_qO-2coTQQAVI7RY4QjWv",
+            "bio": "Coneguda popularment com a \"Madò Catalina\", va dedicar tota la seva vida a l'elaboració de siurells utilitzant un forn de llenya tradicional que encara es conserva avui dia com a patrimoni etnològic del municipi.",
+            "craftId": "siurells"
+        },
+        {
+            "id": "siurells_artesa_3",
+            "nom": "Antoni Riutort Gelabert",
+            "dates": "1968",
+            "lloc": "Palma",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuAfEd0i0nYqrnE1ZvoW4QXjH1hEEzUxXvbBr7uQiSJK6Vo59lN6BmvoICSP2GaeLjnG9euJtqYk_g2OvwRYjZsp5SUtif6kUF9Jhf8kOkMNYbLYpK5xfFl__jiT8oW-fRInYLlzfMMYTV2hEgf-Up8bOuSqwPJPr5Icj49GxPt4FX-TKHm6iLB81ahWYexeE95n3gEibGdSkMlzHc0gcLE6vTo5neM-4bnPU5oxuoG1C7LeJnmq2B_gqUlZPFYSP9kiSYOJUEvR0FcB",
+            "bio": "Reconegut pel Govern de les Illes Balears amb la Carta de Mestre Artesà el 2015. Riutort destaca per l'ús de pigments naturals ecològics i per la realització de tallers didàctics orientats a la preservació de l'ofici entre els joves.",
+            "craftId": "siurells"
+        },
+        {
+            "id": "vidre-bufat_artesa_0",
+            "nom": "Daniel Gordiola Majó",
+            "dates": "1890 - 1952",
+            "lloc": "Algaida",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuC3xh5NZqnIj1W1KyFaKZAm1s7xI0TgJrlz3S1av_YcbR4jkZrhwEN-AbbtUziWtsVydV1W_kd-b5wGn8SJHTjKFbZdlTlXiQbgATU6g_dqgy5L6dilxt96qBOt_k4jr6qEqZESh3Q3nKf01o1J_Rgs7BRbk62xprE85kwWPUMbwlO70jVVcLtX0GiNAyoahV4EjgdxQzc5JXcPUtvjQ06VEcYkaN9W2rh7m5Fw29ssDIikBIRJDmO-kitZ9YhSDgtAycouK0EAMjqX",
+            "bio": "Fundador de Vidrieries Gordiola, va transmetre la tècnica del vidre bufat venecià adaptada als materials mallorquins durant tres generacions.",
+            "craftId": "vidre-bufat"
+        },
+        {
+            "id": "vidre-bufat_artesa_1",
+            "nom": "Francesca Torrens Oliver",
+            "dates": "1978",
+            "lloc": "Campanet",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuAhvCrZUGVYHcWFWt49QGdC-BRfT6F6X9Kx6xl4C__KsYNpHCumleKx_vNeN4HsJZ2_nOqDhemugsb4Yp_hFStp9pl3pdJbNgt4Rhc75XHq9eKLPdBzfF013c7Gqrw1iwwQe5RUNvzq54Om8VYRt5OiSpRQx90wA5uAKmi-5XjOEa54Hb2Wjg9TmjuQDA3_8uRoHJrvQcs_X66vfml9QCN2JkvJWWkxFhRddFqBJVFFM8B5_KfWXMA0c7kfHvFQnDQwii8MgLnQSd6R",
+            "bio": "Artesana contemporània que combina el vidre bufat tradicional amb tècniques modernes de coloració. Les seves peces han estat exposades a fires internacionals.",
+            "craftId": "vidre-bufat"
+        },
+        {
+            "id": "roba-llengues_artesa_0",
+            "nom": "Guillem Vicens Reynés",
+            "dates": "1854 - 1930",
+            "lloc": "Pollença",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuD5I-2VcFluo_KFZe_CKLeS7-zN6gnCPN9GNButcoXeCmG1z6F2_dYdugujS-BSs4WyDP8MQx123zbZu6oHUIYKn_db3PLHx1cLXLQAxmvGmfKpEoeHMbVm5wDcVw6vlvJhxSg4TANfw5QAcmTksb2DE4chkWV85ixQptAHzJ7zDnimaY7D5hPnsrRgMB_xON_hdQ5RQQzb-13-Z2khEEV-a1PYTrpQMShadwWxMJC32xYDE8dlCVnjzdQ_qO-2coTQQAVI7RY4QjWv",
+            "bio": "Fundador de Teixits Vicens, va preservar la tradició de la roba de llengües quan la industrialització amenaçava la seva desaparició. La seva fàbrica segueix operativa avui dia.",
+            "craftId": "roba-llengues"
+        },
+        {
+            "id": "roba-llengues_artesa_1",
+            "nom": "Catalina Bujosa Martorell",
+            "dates": "1920 - 2010",
+            "lloc": "Santa Maria del Camí",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuAfEd0i0nYqrnE1ZvoW4QXjH1hEEzUxXvbBr7uQiSJK6Vo59lN6BmvoICSP2GaeLjnG9euJtqYk_g2OvwRYjZsp5SUtif6kUF9Jhf8kOkMNYbLYpK5xfFl__jiT8oW-fRInYLlzfMMYTV2hEgf-Up8bOuSqwPJPr5Icj49GxPt4FX-TKHm6iLB81ahWYexeE95n3gEibGdSkMlzHc0gcLE6vTo5neM-4bnPU5oxuoG1C7LeJnmq2B_gqUlZPFYSP9kiSYOJUEvR0FcB",
+            "bio": "Mestra teixidora que va innovar amb nous patrons de roba de llengües mantenint la tècnica ancestral del teler de fusta. Va formar més de 30 aprenents al llarg de la seva vida.",
+            "craftId": "roba-llengues"
+        },
+        {
+            "id": "llatra_artesa_0",
+            "nom": "Margalida Ferrer Sureda",
+            "dates": "1908 - 2001",
+            "lloc": "Artà",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuC3xh5NZqnIj1W1KyFaKZAm1s7xI0TgJrlz3S1av_YcbR4jkZrhwEN-AbbtUziWtsVydV1W_kd-b5wGn8SJHTjKFbZdlTlXiQbgATU6g_dqgy5L6dilxt96qBOt_k4jr6qEqZESh3Q3nKf01o1J_Rgs7BRbk62xprE85kwWPUMbwlO70jVVcLtX0GiNAyoahV4EjgdxQzc5JXcPUtvjQ06VEcYkaN9W2rh7m5Fw29ssDIikBIRJDmO-kitZ9YhSDgtAycouK0EAMjqX",
+            "bio": "Considerada la darrera gran mestra de la llatra d'Artà. Va crear peces de complexitat extraordinària i va ensenyar l'ofici a més de cinquanta dones del municipi.",
+            "craftId": "llatra"
+        },
+        {
+            "id": "llatra_artesa_1",
+            "nom": "Joana Maria Massanet",
+            "dates": "1965",
+            "lloc": "Capdepera",
+            "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuAhvCrZUGVYHcWFWt49QGdC-BRfT6F6X9Kx6xl4C__KsYNpHCumleKx_vNeN4HsJZ2_nOqDhemugsb4Yp_hFStp9pl3pdJbNgt4Rhc75XHq9eKLPdBzfF013c7Gqrw1iwwQe5RUNvzq54Om8VYRt5OiSpRQx90wA5uAKmi-5XjOEa54Hb2Wjg9TmjuQDA3_8uRoHJrvQcs_X66vfml9QCN2JkvJWWkxFhRddFqBJVFFM8B5_KfWXMA0c7kfHvFQnDQwii8MgLnQSd6R",
+            "bio": "Artesana actual que treballa per preservar la llatra combinant dissenys contemporanis amb la tècnica ancestral. Organitza tallers a escoles per transmetre l'ofici als més joves.",
+            "craftId": "llatra"
+        }
+    ]
+}

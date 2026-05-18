@@ -33,6 +33,34 @@ function showToast(message, type = 'info', icon = 'info', duration = 2500) {
 }
 
 // ══════════════════════════════════════════════════════════════
+// NAVEGACIÓ MÒBIL
+// ══════════════════════════════════════════════════════════════
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('mobile-menu-icon');
+    if (!menu || !icon) return;
+
+    if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        // Wait a frame for display: block to apply before animating opacity
+        requestAnimationFrame(() => {
+            menu.classList.remove('opacity-0', '-translate-y-2');
+            menu.classList.add('opacity-100', 'translate-y-0');
+        });
+        icon.textContent = 'close';
+    } else {
+        menu.classList.remove('opacity-100', 'translate-y-0');
+        menu.classList.add('opacity-0', '-translate-y-2');
+        icon.textContent = 'menu';
+        // Wait for animation to finish before hiding
+        setTimeout(() => {
+            menu.classList.add('hidden');
+        }, 300);
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
 // RENDERITZAT CENTRAL: Monta tota la pàgina
 // ══════════════════════════════════════════════════════════════
 
@@ -64,7 +92,48 @@ function renderApp() {
 // INICIALITZACIÓ: renderApp → poblar contingut dinàmic → listeners
 // ══════════════════════════════════════════════════════════════
 
-function init() {
+async function init() {
+    // 0. Carregar dades dinàmiques des dels JSON
+    try {
+        const [craftsRes, tallersRes] = await Promise.all([
+            fetch('./data/tipus_artesania.json'),
+            fetch('./data/tallers_i_mestres.json')
+        ]);
+
+        if (!craftsRes.ok || !tallersRes.ok) {
+            throw new Error('No s\'han pogut carregar els fitxers JSON (CORS/File protocol error)');
+        }
+
+        const craftsData = await craftsRes.json();
+        const { tallers, mestres } = await tallersRes.json();
+
+        // Reconstruir l'estructura original per a les plantilles UI
+        APP_DATA.crafts = craftsData.map(craft => {
+            const savedReviewStr = localStorage.getItem('reviewed_' + craft.id);
+            let savedReviews = [];
+            if (savedReviewStr) {
+                try { savedReviews.push(JSON.parse(savedReviewStr)); } catch (e) { }
+            }
+            return {
+                ...craft,
+                ressenyes: [...savedReviews, ...(craft.ressenyes || [])],
+                tallers: (craft.tallers_ids || []).map(id => tallers.find(t => t.id === id)).filter(Boolean),
+                artesans: (craft.artesans_ids || []).map(id => mestres.find(m => m.id === id)).filter(Boolean)
+            };
+        });
+
+        APP_DATA.tallers = tallers;
+        APP_DATA.mestres = mestres;
+    } catch (err) {
+        console.error("Error carregant les dades JSON:", err);
+        alert("⚠️ ATENCIÓ: No s'han pogut carregar les dades (JSON).\n\nSi has obert l'arxiu fent doble clic (file://), el navegador bloqueja la càrrega per seguretat.\n\nHas d'iniciar un servidor local, per exemple executant:\nnpx serve .");
+
+        // Evitar que l'app peti si falla la càrrega
+        APP_DATA.crafts = [];
+        APP_DATA.tallers = [];
+        APP_DATA.mestres = [];
+    }
+
     // 1. Renderitzar tota l'estructura de la pàgina
     renderApp();
 
@@ -73,6 +142,8 @@ function init() {
 
     // 3. Connectar event listeners
     attachFilterListeners();
+    attachFavoritesToggle();
+    attachGlobalListeners();
 
     // 4. Inicialitzar el mapa principal amb Leaflet
     initMainMap();
@@ -91,29 +162,30 @@ function populateDynamicContent() {
     const catalogGrid = document.getElementById('catalog-grid');
     if (catalogGrid) catalogGrid.innerHTML = renderCatalogCards(APP_DATA.crafts);
 
-    // Mapa principal — filtres de comarca i material
+    // Mapa principal — filtres de comarca i material (reutilitzen les mateixes dades que els filtres del catàleg)
     const mapComarquesEl = document.getElementById('map-comarques');
     const mapMaterialsEl = document.getElementById('map-materials');
-    if (mapComarquesEl) mapComarquesEl.innerHTML = renderMapComarques(APP_DATA.mapComarques);
-    if (mapMaterialsEl) mapMaterialsEl.innerHTML = renderMapMaterials(APP_DATA.mapMaterials);
+    if (mapComarquesEl) mapComarquesEl.innerHTML = renderMapComarques(APP_DATA.filterZones);
+    if (mapMaterialsEl) mapMaterialsEl.innerHTML = renderMapMaterials(APP_DATA.filterMaterials);
 
-    // Geolocalització
+    // Geolocalització — es pobla dinàmicament quan l'usuari activa la seva ubicació
     const geoList = document.getElementById('geo-list');
-    if (geoList) geoList.innerHTML = renderGeoNearby(APP_DATA.geoNearby);
+    if (geoList) geoList.innerHTML = renderGeoNearby(APP_DATA.tallers || []);
 
     // Multimèdia
     const multimediaGrid = document.getElementById('multimedia-grid');
     if (multimediaGrid) multimediaGrid.innerHTML = renderMultimediaGrid(APP_DATA.multimedia);
 
     // Xat IA
+    loadChatHistory();
     const chatMessages = document.getElementById('ai-chat-messages');
     if (chatMessages) chatMessages.innerHTML = renderChatMessages(APP_DATA.chatMessages);
 
-    // Weather modal — pre-render amb dades placeholder (seran substituïdes per dades reals)
+    // Weather modal — pre-render amb dades de fallback (seran substituïdes per dades reals d'Open-Meteo)
     const weatherBody = document.getElementById('weather-modal-body');
     const weatherTitle = document.getElementById('weather-title');
-    if (weatherBody) weatherBody.innerHTML = renderWeatherModal(APP_DATA.weather);
-    if (weatherTitle) weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weather.lloc}</span>`;
+    if (weatherBody) weatherBody.innerHTML = renderWeatherModal(APP_DATA.weatherFallback);
+    if (weatherTitle) weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weatherFallback.lloc}</span>`;
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -189,7 +261,7 @@ function initCraftMap(craft) {
 
 function attachFilterListeners() {
     // Funció auxiliar per alternar l'estat d'una píndola (botó de filtre)
-    const togglePill = function() {
+    const togglePill = function () {
         if (this.classList.contains('filter-pill-active') || this.classList.contains('bg-primary')) {
             // Desactivar
             this.classList.remove('bg-primary', 'text-white', 'filter-pill-active');
@@ -207,14 +279,25 @@ function attachFilterListeners() {
     document.querySelectorAll('[data-filter="zone"]').forEach(pill => {
         pill.addEventListener('click', togglePill);
     });
-    
+
     document.querySelectorAll('[data-filter="technique"]').forEach(pill => {
         pill.addEventListener('click', togglePill);
     });
-    
+
     document.querySelectorAll('[data-filter="material"]').forEach(pill => {
         pill.addEventListener('click', togglePill);
     });
+}
+
+/**
+ * Neteja totes les seleccions d'un tipus de filtre concret (zone, technique, material).
+ */
+function resetFilterGroup(filterType) {
+    document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(pill => {
+        pill.classList.remove('bg-primary', 'text-white', 'filter-pill-active');
+        pill.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700');
+    });
+    applyFilters();
 }
 
 function getActiveFilters() {
@@ -233,7 +316,7 @@ function getActiveFilters() {
     const zones = getActiveIds('zone');
     const techniques = getActiveIds('technique');
     const materials = getActiveIds('material');
-    
+
     return { zones, techniques, materials };
 }
 
@@ -247,11 +330,21 @@ function applyFilters() {
     const cards = document.querySelectorAll('#catalog-grid > div');
     let visibleCount = 0;
 
+    // Comprovar si el filtre de favorits està actiu
+    const favToggle = document.getElementById('favorites-toggle');
+    const onlyFavorites = favToggle && favToggle.checked;
+    const favorites = onlyFavorites ? getFavorites() : null;
+
     APP_DATA.crafts.forEach((craft, i) => {
         const card = cards[i];
         if (!card) return;
 
         let visible = true;
+
+        // Favorites filter
+        if (onlyFavorites && !favorites.has(craft.id)) {
+            visible = false;
+        }
 
         // Zone filter
         if (zones.length > 0 && craft.zona && !zones.includes(craft.zona)) {
@@ -280,7 +373,8 @@ function applyFilters() {
     });
 
     // Show toast with filter result
-    if (zones.length > 0 || techniques.length > 0 || materials.length > 0) {
+    const hasFilters = zones.length > 0 || techniques.length > 0 || materials.length > 0 || onlyFavorites;
+    if (hasFilters) {
         showToast(`${visibleCount} artesani${visibleCount === 1 ? 'a' : 'es'} trobad${visibleCount === 1 ? 'a' : 'es'}`, 'info', 'filter_list');
     }
 }
@@ -292,17 +386,35 @@ function applyFilters() {
 function openModal(craftId) {
     const craft = APP_DATA.crafts.find(c => c.id === craftId);
     if (!craft) return;
-    
+
     currentCraft = craft;
-    
+
     // Poblar el cos del modal
     const body = document.getElementById('craft-modal-body');
-    if (body) body.innerHTML = renderCraftDetail(craft);
-    
+    if (body) {
+        body.innerHTML = renderCraftDetail(craft);
+        checkReviewStatus(craft.id);
+    }
+
     // Poblar galeria modal
     const galleryGrid = document.getElementById('gallery-grid');
     if (galleryGrid) galleryGrid.innerHTML = renderGalleryImages(craft);
-    
+
+    // Sincronitzar estat del botó de favorit del modal
+    const isFav = getFavorites().has(craftId);
+    const modalFavBtn = document.querySelector('#craft-modal-content [aria-label="Afegir a preferits"]');
+    if (modalFavBtn) {
+        const modalFavIcon = modalFavBtn.querySelector('.material-symbols-outlined');
+        if (isFav) {
+            modalFavBtn.classList.add('is-favorite', 'text-red-500', 'bg-red-50');
+            modalFavBtn.classList.remove('text-slate-400', 'bg-slate-100');
+            if (modalFavIcon) modalFavIcon.style.fontVariationSettings = "'FILL' 1";
+        } else {
+            modalFavBtn.classList.remove('is-favorite', 'text-red-500', 'bg-red-50');
+            if (modalFavIcon) modalFavIcon.style.fontVariationSettings = '';
+        }
+    }
+
     // Mostrar el modal
     const modal = document.getElementById('craft-modal');
     const modalContent = document.getElementById('craft-modal-content');
@@ -336,7 +448,7 @@ function closeModal() {
         // Destruir el mapa de la fitxa per alliberar recursos
         destroyMap('craft-map-container');
     }, 300);
-    
+
     currentCraft = null;
 }
 
@@ -418,9 +530,9 @@ async function fetchAndRenderWeather() {
             weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${llocNom}</span>`;
         }
     } else {
-        weatherBody.innerHTML = renderWeatherModal(APP_DATA.weather);
+        weatherBody.innerHTML = renderWeatherModal(APP_DATA.weatherFallback);
         if (weatherTitle) {
-            weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weather.lloc}</span>`;
+            weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weatherFallback.lloc}</span>`;
         }
         showToast('No s\'han pogut obtenir les dades meteorològiques reals', 'warning', 'cloud_off');
     }
@@ -461,48 +573,141 @@ function closeGalleryModal() {
 }
 
 // ══════════════════════════════════════════════════════════════
-// INTERACCIÓ: Favorits amb Toast
+// FAVORITS: localStorage + UI
 // ══════════════════════════════════════════════════════════════
 
-function toggleFavoriteCard(btn, event) {
-    if (event) event.stopPropagation();
-    const icon = btn.querySelector('.material-symbols-outlined');
-    const card = btn.closest('[data-craft-id]') || btn.closest('.group');
-    
-    // Find the craft name from card
-    const nameEl = card ? card.querySelector('h3') : null;
-    const craftName = nameEl ? nameEl.textContent : 'Artesania';
+const FAVORITES_KEY = 'artesania_favorites';
 
-    if (icon.classList.contains('fill-current') && icon.classList.contains('text-red-500')) {
-        icon.classList.remove('fill-current', 'text-red-500');
-        btn.classList.remove('text-red-500');
-        btn.classList.add('text-slate-400');
-        showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
-    } else {
-        icon.classList.add('fill-current', 'text-red-500');
-        btn.classList.remove('text-slate-400');
-        btn.classList.add('text-red-500');
-        showToast(`${craftName} afegit a favorits`, 'favorite', 'favorite');
+/**
+ * Retorna un Set amb els IDs de les artesanies marcades com a favorites.
+ */
+function getFavorites() {
+    try {
+        const stored = localStorage.getItem(FAVORITES_KEY);
+        return stored ? new Set(JSON.parse(stored)) : new Set();
+    } catch (e) {
+        return new Set();
     }
 }
 
+/**
+ * Desa el Set de favorits a localStorage.
+ */
+function saveFavorites(favSet) {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favSet]));
+}
+
+/**
+ * Afegeix o elimina un craft dels favorits.
+ * @returns {boolean} true si ara és favorit, false si s'ha eliminat.
+ */
+function toggleFavorite(craftId) {
+    const favs = getFavorites();
+    if (favs.has(craftId)) {
+        favs.delete(craftId);
+        saveFavorites(favs);
+        return false;
+    } else {
+        favs.add(craftId);
+        saveFavorites(favs);
+        return true;
+    }
+}
+
+/**
+ * Actualitza visualment el cor d'una targeta del catàleg.
+ */
+function updateCardHeart(craftId, isFav) {
+    const card = document.querySelector(`[data-craft-id="${craftId}"]`);
+    if (!card) return;
+    const btn = card.querySelector('button');
+    const icon = btn ? btn.querySelector('.material-symbols-outlined') : null;
+    if (!btn || !icon) return;
+
+    if (isFav) {
+        btn.classList.remove('text-slate-400');
+        btn.classList.add('text-red-500');
+        icon.style.fontVariationSettings = "'FILL' 1";
+    } else {
+        btn.classList.remove('text-red-500');
+        btn.classList.add('text-slate-400');
+        icon.style.fontVariationSettings = "'FILL' 0";
+    }
+}
+
+/**
+ * Toggle favorit des d'una targeta del catàleg.
+ */
+function toggleFavoriteCard(craftId, btn, event) {
+    if (event) event.stopPropagation();
+
+    const isFav = toggleFavorite(craftId);
+    const icon = btn.querySelector('.material-symbols-outlined');
+    const card = btn.closest('[data-craft-id]');
+    const nameEl = card ? card.querySelector('h3') : null;
+    const craftName = nameEl ? nameEl.textContent : 'Artesania';
+
+    // Actualitzar icona
+    if (isFav) {
+        btn.classList.remove('text-slate-400');
+        btn.classList.add('text-red-500');
+        icon.style.fontVariationSettings = "'FILL' 1";
+        showToast(`${craftName} afegit a favorits`, 'favorite', 'favorite');
+    } else {
+        btn.classList.remove('text-red-500');
+        btn.classList.add('text-slate-400');
+        icon.style.fontVariationSettings = "'FILL' 0";
+        showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
+    }
+
+    // Si el filtre de favorits està actiu, reaplicar filtres
+    const favToggle = document.getElementById('favorites-toggle');
+    if (favToggle && favToggle.checked) {
+        applyFilters();
+    }
+}
+
+/**
+ * Toggle favorit des del modal de la fitxa detallada.
+ */
 function toggleModalFavorite(btn) {
     const icon = btn.querySelector('.material-symbols-outlined');
-    if (!icon) return;
-    
-    const craftName = currentCraft ? currentCraft.nom : 'Artesania';
-    const isActive = btn.classList.contains('is-favorite');
+    if (!icon || !currentCraft) return;
 
-    if (isActive) {
-        btn.classList.remove('is-favorite', 'text-red-500', 'bg-red-50');
-        btn.classList.add('text-slate-400', 'bg-slate-100');
-        icon.style.fontVariationSettings = '';
-        showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
-    } else {
+    const isFav = toggleFavorite(currentCraft.id);
+    const craftName = currentCraft.nom;
+
+    if (isFav) {
         btn.classList.add('is-favorite', 'text-red-500', 'bg-red-50');
         btn.classList.remove('text-slate-400', 'bg-slate-100');
         icon.style.fontVariationSettings = "'FILL' 1";
         showToast(`${craftName} afegit a favorits`, 'favorite', 'favorite');
+    } else {
+        btn.classList.remove('is-favorite', 'text-red-500', 'bg-red-50');
+        btn.classList.add('text-slate-400', 'bg-slate-100');
+        icon.style.fontVariationSettings = "'FILL' 0";
+        showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
+    }
+
+    // Sincronitzar el cor de la targeta del catàleg
+    updateCardHeart(currentCraft.id, isFav);
+
+    // Si el filtre de favorits està actiu, reaplicar filtres
+    const favToggle = document.getElementById('favorites-toggle');
+    if (favToggle && favToggle.checked) {
+        applyFilters();
+    }
+}
+
+/**
+ * Connecta el listener del toggle "Només favorits".
+ */
+function attachFavoritesToggle() {
+    const favToggle = document.getElementById('favorites-toggle');
+    if (favToggle) {
+        favToggle.addEventListener('change', () => {
+            applyFilters();
+        });
     }
 }
 
@@ -848,7 +1053,12 @@ function selectWorkshopDetail(id) {
 document.addEventListener('DOMContentLoaded', () => {
     // Inicialitzar la SPA
     init();
+});
 
+/**
+ * Connecta els event listeners globals de l'aplicació un cop l'estructura HTML ha estat injectada al DOM.
+ */
+function attachGlobalListeners() {
     // Event listeners per tancar modals clicant fora
     const modal = document.getElementById('craft-modal');
     const weatherModal = document.getElementById('weather-modal');
@@ -872,7 +1082,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Map filter buttons toggle (comarques + materials)
     document.querySelectorAll('#map-comarques button, #map-materials button').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             if (this.classList.contains('border-primary') || this.classList.contains('bg-primary/10')) {
                 // Deactivate
                 this.classList.remove('bg-primary/10', 'border-primary', 'text-primary', 'shadow-[0_0_15px_rgba(236,73,19,0.3)]');
@@ -919,4 +1129,273 @@ document.addEventListener('DOMContentLoaded', () => {
             handleSort(e.target.value);
         });
     }
-});
+}
+
+// ══════════════════════════════════════════════════════════════
+// GROQ API INTEGRATION & LOCAL STORAGE
+// ══════════════════════════════════════════════════════════════
+
+function saveChatHistory() {
+    try {
+        const dataToSave = {
+            timestamp: Date.now(),
+            messages: APP_DATA.chatMessages.filter(m => !m.html || !m.html.includes('Error:')) // No guardem els errors
+        };
+        localStorage.setItem('artesania_chat_history', JSON.stringify(dataToSave));
+    } catch (e) {
+        console.warn("Could not save chat history to localStorage", e);
+    }
+}
+
+function loadChatHistory() {
+    try {
+        const saved = localStorage.getItem('artesania_chat_history');
+        if (saved) {
+            const data = JSON.parse(saved);
+            const ONE_HOUR = 15 * 60 * 1000; // 15 minuts
+            if (Date.now() - data.timestamp < ONE_HOUR) {
+                APP_DATA.chatMessages = data.messages;
+            } else {
+                localStorage.removeItem('artesania_chat_history');
+            }
+        }
+    } catch (e) {
+        console.warn("Could not load chat history from localStorage", e);
+    }
+}
+
+async function handleChatSubmit(event) {
+    event.preventDefault();
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    // Afegir missatge d'usuari
+    APP_DATA.chatMessages.push({ role: 'user', text: text });
+    saveChatHistory(); // Guardar historial amb el missatge de l'usuari
+    const chatMessagesEl = document.getElementById('ai-chat-messages');
+    chatMessagesEl.innerHTML = renderChatMessages(APP_DATA.chatMessages);
+    input.value = '';
+
+    // Auto-scroll al final
+    setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+
+    // Mostrar indicador de carregament
+    const loadingId = 'loading-' + Date.now();
+    chatMessagesEl.insertAdjacentHTML('beforeend', `
+        <div id="${loadingId}" class="flex items-start gap-2 mt-2 mb-2 shrink-0">
+            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[16px] text-slate-600 dark:text-slate-400" style="font-variation-settings: 'FILL' 1">smart_toy</span>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-sm border border-slate-100 dark:border-slate-700 shadow-sm flex gap-1 items-center">
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce"></span>
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 0.1s"></span>
+                <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 0.2s"></span>
+            </div>
+        </div>
+    `);
+    setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+
+    try {
+        const token = APP_DATA.groqToken;
+        if (!token || token === 'EL_TEU_TOKEN_AQUI') {
+            throw new Error("Si us plau, configura el teu token de Groq (APP_DATA.groqToken) a js/data.js");
+        }
+
+        // Preparar històrial de conversa
+        const messages = APP_DATA.chatMessages
+            .filter(m => !m.html || !m.html.includes('Error:'))
+            .map(m => {
+                const role = m.role === 'assistant' ? 'assistant' : 'user';
+                // Eliminació bàsica de HTML si no hi ha text
+                const contentText = m.text || (m.html ? m.html.replace(/<[^>]+>/g, '').trim() : '');
+                return { role: role, content: contentText };
+            });
+
+        // Afegir message del sistema
+        messages.unshift({
+            role: "system",
+            content: "Ets l'assistent virtual del catàleg d'artesania de Mallorca. Respon sempre en català de forma concisa i amable i MOLT IMPORTANT només a preguntes directament relacionades amb artesania mallorquina, sense excepció ni analogies amb altres coses. Evita l'ús de taules i emojis, sí pots separar info en paràgrafs ben formats i formatejats."
+        });
+
+        const response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: "openai/gpt-oss-120b",
+                messages: messages
+            })
+        });
+
+        const data = await response.json();
+
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+
+        if (!response.ok || data.error) {
+            throw new Error((data.error && data.error.message) || "Error en l'API de Groq");
+        }
+
+        const replyText = data.choices[0].message.content;
+        let formattedHtml = replyText.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        APP_DATA.chatMessages.push({ role: 'assistant', html: `<p class="text-sm text-slate-700 dark:text-slate-300">${formattedHtml}</p>`, text: replyText });
+        saveChatHistory(); // Guardar historial amb la resposta de Groq
+        chatMessagesEl.innerHTML = renderChatMessages(APP_DATA.chatMessages);
+        setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+
+    } catch (err) {
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+
+        APP_DATA.chatMessages.push({ role: 'assistant', html: `<p class="text-sm text-red-600 dark:text-red-400"><strong>Error:</strong> ${err.message}</p>` });
+        chatMessagesEl.innerHTML = renderChatMessages(APP_DATA.chatMessages);
+        setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RESSENYES
+// ══════════════════════════════════════════════════════════════
+
+let currentReviewRating = 0;
+let currentReviewPhotos = [];
+
+function setReviewRating(rating) {
+    currentReviewRating = rating;
+    const starsContainer = document.getElementById('review-stars');
+    if (!starsContainer) return;
+
+    document.getElementById('review-rating').value = rating;
+
+    const stars = starsContainer.querySelectorAll('span');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add('text-yellow-400');
+            star.style.fontVariationSettings = "'FILL' 1";
+        } else {
+            star.classList.remove('text-yellow-400');
+            star.style.fontVariationSettings = "";
+        }
+    });
+}
+
+function handlePhotoUpload(input) {
+    if (!input.files || input.files.length === 0) return;
+
+    const previewContainer = document.getElementById('review-photos-preview');
+    if (!previewContainer) return;
+
+    // Màxim 3 fotos per no saturar el localStorage
+    const files = Array.from(input.files).slice(0, 3 - currentReviewPhotos.length);
+
+    files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            // Comprimir imatge amb Canvas perquè càpiga al localStorage
+            const img = new Image();
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 400;
+                let width = img.width;
+                let height = img.height;
+
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Qualitat JPEG al 60%
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                currentReviewPhotos.push(dataUrl);
+
+                // Mostrar preview
+                const previewEl = document.createElement('div');
+                previewEl.className = 'w-16 h-16 rounded-lg bg-cover bg-center border border-slate-200 dark:border-slate-700 shadow-sm';
+                previewEl.style.backgroundImage = `url(${dataUrl})`;
+                previewContainer.appendChild(previewEl);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    input.value = ''; // Reset per poder triar mateixos arxius si cal
+}
+
+function handleReviewSubmit(event, craftId) {
+    event.preventDefault();
+
+    if (localStorage.getItem('reviewed_' + craftId)) {
+        showToast("Ja has deixat una ressenya per aquesta artesania", 'warning', 'error');
+        return;
+    }
+
+    if (currentReviewRating === 0) {
+        showToast("Si us plau, selecciona una puntuació", 'warning', 'star');
+        return;
+    }
+
+    const nameInput = document.getElementById('review-name').value;
+    const commentInput = document.getElementById('review-comment').value;
+
+    const newReview = {
+        autor: nameInput,
+        data: new Date().toLocaleDateString('ca-ES', { day: 'numeric', month: 'long', year: 'numeric' }),
+        rating: currentReviewRating,
+        text: commentInput,
+        imatges: currentReviewPhotos
+    };
+
+    // Add to current APP_DATA
+    const craftIndex = APP_DATA.crafts.findIndex(c => c.id === craftId);
+    if (craftIndex !== -1) {
+        APP_DATA.crafts[craftIndex].ressenyes.unshift(newReview);
+    }
+
+    // Save to local storage to persist state for this user
+    try {
+        localStorage.setItem('reviewed_' + craftId, JSON.stringify(newReview));
+    } catch (e) {
+        // En cas que les imatges encara siguin massa grans
+        newReview.imatges = [];
+        localStorage.setItem('reviewed_' + craftId, JSON.stringify(newReview));
+        showToast("Memòria plena: s'ha guardat sense imatges", 'warning', 'sd_card_alert');
+    }
+
+    // Refresh modal to show new review
+    const modalBody = document.getElementById('craft-modal-body');
+    if (modalBody && APP_DATA.crafts[craftIndex]) {
+        modalBody.innerHTML = renderCraftDetail(APP_DATA.crafts[craftIndex]);
+        checkReviewStatus(craftId);
+    }
+
+    showToast("Ressenya publicada amb èxit!", 'success', 'check_circle');
+}
+
+function checkReviewStatus(craftId) {
+    const formContainer = document.getElementById('review-form-container');
+    if (!formContainer) return;
+
+    const savedReviewStr = localStorage.getItem('reviewed_' + craftId);
+    if (savedReviewStr) {
+        formContainer.innerHTML = `
+            <div class="bg-terracotta-light/30 dark:bg-terracotta/10 border border-terracotta/20 rounded-lg p-6 text-center shadow-sm">
+                <span class="material-symbols-outlined text-terracotta text-5xl mb-3">verified</span>
+                <h5 class="font-display font-bold text-xl text-slate-800 dark:text-slate-200">Gràcies per la teva ressenya!</h5>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Ja has compartit la teva experiència per a aquesta artesania. La teva opinió ajuda a mantenir vius aquests oficis.</p>
+            </div>
+        `;
+    } else {
+        currentReviewRating = 0;
+        currentReviewPhotos = [];
+    }
+}

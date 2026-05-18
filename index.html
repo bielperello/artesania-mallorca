@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="ca" class="scroll-smooth scroll-pt-24">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta name="description" content="Descobreix l'artesania tradicional de Mallorca. Catàleg interactiu amb mapa, filtres, fitxes detallades i multimèdia."/>
-    <meta name="theme-color" content="#ec4913"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="description"
+        content="Descobreix l'artesania tradicional de Mallorca. Catàleg interactiu amb mapa, filtres, fitxes detallades i multimèdia." />
+    <meta name="theme-color" content="#ec4913" />
 
     <title>Catàleg Interactiu d'Artesania Mallorquina</title>
-    <link rel="icon" href="./media/images/logo.png"/>
+    <link rel="icon" href="./media/images/logo.png" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;900&amp;family=Playfair+Display:wght@400;600;700;900&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;900&amp;family=Playfair+Display:wght@400;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -35,16 +44,16 @@
                         "body": ["Plus Jakarta Sans", "sans-serif"],
                         "sans": ["Inter", "sans-serif"]
                     },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
-    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="css/styles.css" />
 
     <!-- JSON-LD Structured Data (schema.org) per SEO i web semàntica -->
     <script>
-        fetch('data/artesanies.json')
+        fetch('data/artesanies-LD.json')
             .then(r => r.text())
             .then(json => {
                 const el = document.createElement('script');
@@ -55,17 +64,21 @@
             .catch(() => console.warn('[JSON-LD] No s\'ha pogut carregar el fitxer de dades estructurades.'));
     </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-body text-slate-900 dark:text-slate-100 antialiased min-h-screen relative">
+
+<body
+    class="bg-background-light dark:bg-background-dark font-body text-slate-900 dark:text-slate-100 antialiased min-h-screen relative">
 
     <!-- SPA: Tot el contingut es renderitza via JS -->
     <div id="app"></div>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/data.js" defer></script>
     <script src="js/services.js" defer></script>
     <script src="js/map.js" defer></script>
     <script src="js/templates.js" defer></script>
     <script src="js/main.js" defer></script>
 </body>
+
 </html>
