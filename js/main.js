@@ -4,6 +4,8 @@
 let currentCraft = null;
 let toastTimeout = null;
 let _weatherTallerId = null;
+let craftsRes = null;
+let tallersRes = null;
 
 // ══════════════════════════════════════════════════════════════
 // TOAST NOTIFICATIONS
@@ -95,17 +97,48 @@ function renderApp() {
 async function init() {
     // 0. Carregar dades dinàmiques des dels JSON
     try {
-        const [craftsRes, tallersRes] = await Promise.all([
+        const [craftsResObj, tallersResObj] = await Promise.all([
             fetch('./data/tipus_artesania.json'),
             fetch('./data/tallers_i_mestres.json')
         ]);
 
-        if (!craftsRes.ok || !tallersRes.ok) {
+        if (!craftsResObj.ok || !tallersResObj.ok) {
             throw new Error('No s\'han pogut carregar els fitxers JSON (CORS/File protocol error)');
         }
 
-        const craftsData = await craftsRes.json();
-        const { tallers, mestres } = await tallersRes.json();
+        const craftsData = await craftsResObj.json();
+        const tallersDataObj = await tallersResObj.json();
+        const { tallers, mestres } = tallersDataObj;
+
+        // Guardar només els camps sol·licitats a les variables globals per al xat de l'assistent IA
+        craftsRes = craftsData.map(c => ({
+            id: c.id,
+            nom: c.nom,
+            material: c.material,
+            zona: c.zona,
+            tecnica: c.tecnica,
+            descripcioLlarga: c.descripcioLlarga,
+            tallers_ids: c.tallers_ids,
+            artesans_ids: c.artesans_ids
+        }));
+
+        tallersRes = {
+            tallers: tallers.map(t => ({
+                id: t.id,
+                nom: t.nom,
+                adreca: t.adreca,
+                telefon: t.telefon,
+                web: t.web
+            })),
+            mestres: mestres.map(m => ({
+                id: m.id,
+                nom: m.nom,
+                dates: m.dates,
+                lloc: m.lloc,
+                bio: m.bio,
+                craftId: m.craftId
+            }))
+        };
 
         // Reconstruir l'estructura original per a les plantilles UI
         APP_DATA.crafts = craftsData.map(craft => {
@@ -203,7 +236,163 @@ function initMainMap() {
     // Connectar el botó "Restablir" del panell lateral al mapa
     const resetBtn = document.querySelector('#mapa .absolute button');
     if (resetBtn && resetBtn.textContent.includes('Restablir')) {
-        resetBtn.addEventListener('click', () => resetMapView('main-map'));
+        resetBtn.addEventListener('click', () => {
+            resetMapFilters();
+            resetMapView('main-map');
+        });
+    }
+
+    // Array per desar referències als marcadors dels tallers per al filtratge
+    map._workshopMarkers = [];
+
+    // Afegir marcadors de tots els tallers a la pàgina principal
+    if (APP_DATA.tallers && APP_DATA.tallers.length > 0) {
+        APP_DATA.tallers.forEach(taller => {
+            if (taller.lat && taller.lng) {
+                // Trobar l'artesania corresponent per obtenir el material
+                const craft = APP_DATA.crafts.find(c => c.id === taller.craftId);
+                const material = craft ? craft.material : '';
+
+                // Color segons el material per a una millor estètica
+                let markerColor = '#ec4913'; // terracotta per defecte
+                if (craft) {
+                    const matId = materialNameToId(craft.material);
+                    const matConfig = APP_DATA.filterMaterials.find(m => m.id === matId);
+                    if (matConfig) {
+                        const colorMap = {
+                            'primary': '#ec4913',      // Terracotta/Fang
+                            'blue-500': '#3b82f6',     // Vidre
+                            'pink-500': '#ec4899',     // Llana
+                            'amber-600': '#d97706',    // Espart
+                            'amber-800': '#92400e',    // Fusta
+                            'orange-500': '#f97316',   // Ceràmica
+                            'slate-500': '#64748b',    // Pedra
+                            'green-600': '#16a34a'     // Palma
+                        };
+                        markerColor = colorMap[matConfig.color] || '#ec4913';
+                    }
+                }
+
+                const marker = addWorkshopMarker(map, {
+                    lat: taller.lat,
+                    lng: taller.lng,
+                    nom: taller.nom,
+                    adreca: taller.adreca,
+                    telefon: taller.telefon,
+                    material: material,
+                    mapsQuery: taller.mapsQuery,
+                    color: markerColor
+                });
+
+                if (marker) {
+                    // Guardar informació útil per al filtratge al marcador
+                    marker._tallerData = taller;
+                    map._workshopMarkers.push(marker);
+                }
+            }
+        });
+    }
+}
+
+/**
+ * Filtra els marcadors del mapa principal basant-se en els botons actius del panell lateral (comarques i materials).
+ */
+function applyMapFilters() {
+    const mainMap = getMapInstance('main-map');
+    if (!mainMap || !mainMap._workshopMarkers) return;
+
+    // Obtenir els filtres de comarca actius
+    const activeComarques = [];
+    document.querySelectorAll('#map-comarques button').forEach(btn => {
+        if (btn.classList.contains('border-primary') || btn.classList.contains('bg-primary/10')) {
+            activeComarques.push(btn.dataset.comarca);
+        }
+    });
+
+    // Obtenir els filtres de material actius
+    const activeMaterials = [];
+    document.querySelectorAll('#map-materials button').forEach(btn => {
+        if (btn.classList.contains('border-primary') || btn.classList.contains('bg-primary/10')) {
+            activeMaterials.push(btn.dataset.material);
+        }
+    });
+
+    // Filtrar els marcadors del mapa
+    let visibleCount = 0;
+    const bounds = [];
+
+    mainMap._workshopMarkers.forEach(marker => {
+        const taller = marker._tallerData;
+        const craft = APP_DATA.crafts.find(c => c.id === taller.craftId);
+
+        let visible = true;
+
+        // Filtrar per comarca/zona (artesania.zona)
+        if (activeComarques.length > 0) {
+            const craftZona = craft ? craft.zona : '';
+            if (!activeComarques.includes(craftZona)) {
+                visible = false;
+            }
+        }
+
+        // Filtrar per material (materialNameToId(artesania.material))
+        if (activeMaterials.length > 0) {
+            const craftMaterial = craft ? materialNameToId(craft.material) : '';
+            if (!activeMaterials.includes(craftMaterial)) {
+                visible = false;
+            }
+        }
+
+        if (visible) {
+            if (!mainMap.hasLayer(marker)) {
+                marker.addTo(mainMap);
+            }
+            bounds.push([taller.lat, taller.lng]);
+            visibleCount++;
+        } else {
+            if (mainMap.hasLayer(marker)) {
+                mainMap.removeLayer(marker);
+            }
+        }
+    });
+
+    // Ajustar vista del mapa per enfocar els tallers filtrats si hi ha filtres actius
+    if (activeComarques.length > 0 || activeMaterials.length > 0) {
+        if (bounds.length > 1) {
+            mainMap.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
+        } else if (bounds.length === 1) {
+            mainMap.setView(bounds[0], 12);
+        }
+        showToast(`${visibleCount} taller${visibleCount === 1 ? '' : 's'} trobat${visibleCount === 1 ? '' : 's'} al mapa`, 'info', 'map');
+    } else {
+        // Si no hi ha filtres actius, restablir la vista de Mallorca
+        resetMapView('main-map');
+    }
+}
+
+/**
+ * Desactiva tots els filtres del panell lateral del mapa i torna a mostrar tots els marcadors.
+ */
+function resetMapFilters() {
+    // Desactivar tots els botons del panell lateral del mapa
+    document.querySelectorAll('#map-comarques button, #map-materials button').forEach(btn => {
+        btn.classList.remove('bg-primary/10', 'border-primary', 'text-primary', 'shadow-[0_0_15px_rgba(236,73,19,0.3)]');
+        btn.classList.add('bg-white', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
+        const textSpan = Array.from(btn.querySelectorAll('span')).find(s => !s.classList.contains('material-symbols-outlined'));
+        if (textSpan) {
+            textSpan.classList.remove('font-bold');
+            textSpan.classList.add('font-medium');
+        }
+    });
+
+    // Tornar a afegir tots els marcadors al mapa
+    const mainMap = getMapInstance('main-map');
+    if (mainMap && mainMap._workshopMarkers) {
+        mainMap._workshopMarkers.forEach(marker => {
+            if (!mainMap.hasLayer(marker)) {
+                marker.addTo(mainMap);
+            }
+        });
     }
 }
 
@@ -327,7 +516,7 @@ function materialNameToId(materialName) {
 
 function applyFilters() {
     const { zones, techniques, materials } = getActiveFilters();
-    const cards = document.querySelectorAll('#catalog-grid > div');
+    const cards = Array.from(document.querySelectorAll('#catalog-grid > div'));
     let visibleCount = 0;
 
     // Comprovar si el filtre de favorits està actiu
@@ -335,9 +524,10 @@ function applyFilters() {
     const onlyFavorites = favToggle && favToggle.checked;
     const favorites = onlyFavorites ? getFavorites() : null;
 
-    APP_DATA.crafts.forEach((craft, i) => {
-        const card = cards[i];
-        if (!card) return;
+    cards.forEach(card => {
+        const craftId = card.getAttribute('data-craft-id');
+        const craft = APP_DATA.crafts.find(c => c.id === craftId);
+        if (!craft) return;
 
         let visible = true;
 
@@ -912,18 +1102,24 @@ let _searchDebounce = null;
 function handleSearch(query) {
     const normalizedQuery = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const catalogGrid = document.getElementById('catalog-grid');
+
     if (!catalogGrid) return;
 
     // Mapa de zones id → nom complet per cercar-hi
     const zoneNames = {};
     APP_DATA.filterZones.forEach(z => { zoneNames[z.id] = z.label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); });
 
-    let visibleCount = 0;
-    const cards = catalogGrid.children;
+    // Mapa de tècniques id → nom complet per cercar-hi (brodat -> brodat i costura, etc.)
+    const techniqueNames = {};
+    APP_DATA.filterTechniques.forEach(t => { techniqueNames[t.id] = t.label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); });
 
-    APP_DATA.crafts.forEach((craft, i) => {
-        const card = cards[i];
-        if (!card) return;
+    let visibleCount = 0;
+    const cards = Array.from(catalogGrid.children);
+
+    cards.forEach(card => {
+        const craftId = card.getAttribute('data-craft-id');
+        const craft = APP_DATA.crafts.find(c => c.id === craftId);
+        if (!craft) return;
 
         if (!normalizedQuery) {
             card.style.display = '';
@@ -937,6 +1133,7 @@ function handleSearch(query) {
             craft.descripcio,
             craft.descripcioLlarga,
             craft.tecnica,
+            techniqueNames[craft.tecnica] || '', // Permet cercar "costura" o "brodat" a la vegada
             zoneNames[craft.zona] || '',
             ...craft.tallers.map(t => t.nom),
             ...craft.artesans.map(a => a.nom)
@@ -983,10 +1180,13 @@ function handleSort(criteria) {
             sorted.sort((a, b) => b.numTallers - a.numTallers);
             break;
         case 'relevance':
-        default:
-            // Ordre original (per rating desc com a rellevància per defecte)
-            sorted.sort((a, b) => b.rating - a.rating);
+            sorted.sort((a, b) => {
+                const scoreB = b.rating * Math.log(b.numComentaris + 1);
+                const scoreA = a.rating * Math.log(a.numComentaris + 1);
+                return scoreB - scoreA;
+            });
             break;
+        default:
     }
 
     // Re-renderitzar les targetes amb el nou ordre
@@ -1100,6 +1300,7 @@ function attachGlobalListeners() {
                 const textSpan = Array.from(this.querySelectorAll('span')).find(s => !s.classList.contains('material-symbols-outlined'));
                 if (textSpan) { textSpan.classList.remove('font-medium'); textSpan.classList.add('font-bold'); }
             }
+            applyMapFilters();
         });
     });
 
@@ -1113,12 +1314,16 @@ function attachGlobalListeners() {
 
     // Cerca per text amb debounce
     const searchInput = document.getElementById('catalog-search');
+
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             clearTimeout(_searchDebounce);
             _searchDebounce = setTimeout(() => {
                 handleSearch(e.target.value.trim());
             }, 300);
+        });
+        searchInput.addEventListener('input', () => {
+            clearBtn.style.display = searchInput.value.length > 0 ? 'flex' : 'none';
         });
     }
 
@@ -1128,6 +1333,106 @@ function attachGlobalListeners() {
         sortSelect.addEventListener('change', (e) => {
             handleSort(e.target.value);
         });
+    }
+
+    // Botó netejar cerca
+    const clearBtn = document.getElementById('clear-search-btn');
+    clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        handleSearch('');
+        clearBtn.style.display = 'none';
+    });
+
+    // Cerca per veu (Web Speech API)
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const voiceBtn = document.getElementById('voice-search-btn');
+
+    if (voiceBtn && searchInput) {
+        if (!SpeechRecognition) {
+            voiceBtn.style.opacity = '0.5';
+            voiceBtn.title = 'Cerca per veu no suportada en aquest navegador';
+            voiceBtn.addEventListener('click', () => {
+                showToast('La cerca per veu no és compatible amb aquest navegador', 'error', 'mic_off');
+            });
+        } else {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'ca-ES'; // Suport plenament en català!
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            let isListening = false;
+
+            recognition.onstart = () => {
+                isListening = true;
+                voiceBtn.classList.add('text-primary', 'animate-pulse');
+                const icon = voiceBtn.querySelector('.material-symbols-outlined');
+                if (icon) icon.textContent = 'settings_voice';
+                showToast('Escoltant... Parla ara', 'info', 'mic');
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                voiceBtn.classList.remove('text-primary', 'animate-pulse');
+                const icon = voiceBtn.querySelector('.material-symbols-outlined');
+                if (icon) icon.textContent = 'mic';
+            };
+
+            recognition.onerror = (e) => {
+                console.error("Speech recognition error", e);
+                if (e.error === 'not-allowed') {
+                    showToast('Permís de micròfon denegat', 'error', 'mic_off');
+                } else {
+                    showToast('No s\'ha detectat cap veu o hi ha hagut un error', 'error', 'mic_off');
+                }
+            };
+
+            recognition.onresult = (event) => {
+                const rawTranscript = event.results[0][0].transcript;
+
+                // Processament i correcció de transcripcions comunes incorrectes en català
+                let transcript = rawTranscript.trim();
+
+                const corrections = {
+                    'clar': 'pla',
+                    'raigué': 'raiguer',
+                    'regué': 'raiguer',
+                    'raider': 'raiguer',
+                    'si horells': 'siurells',
+                    'si horeix': 'siurells',
+                    's\'hi horeix': 'siurells',
+                    's\'horeix': 'siurells',
+                    'floreix': 'siurells',
+                    'john': 'migjorn',
+                    'és part': 'espart',
+                    'es part': 'espart',
+                    'despart': "d'espart",
+                    'bufet': 'bufat',
+                    'buffet': 'bufat',
+                    'moradatge': 'modelatge',
+                    'drenat': 'trenat',
+                    'tronat': 'trenat',
+                    'entrenat': 'trenat'
+                };
+
+                Object.keys(corrections).forEach(wrong => {
+                    const right = corrections[wrong];
+                    const escapedWrong = wrong.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const regex = new RegExp(`\\b${escapedWrong}\\b`, 'gi');
+                    transcript = transcript.replace(regex, right);
+                });
+
+                searchInput.value = transcript;
+                handleSearch(transcript);
+            };
+
+            voiceBtn.addEventListener('click', () => {
+                if (isListening) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                }
+            });
+        }
     }
 }
 
@@ -1215,7 +1520,7 @@ async function handleChatSubmit(event) {
         // Afegir message del sistema
         messages.unshift({
             role: "system",
-            content: "Ets l'assistent virtual del catàleg d'artesania de Mallorca. Respon sempre en català de forma concisa i amable i MOLT IMPORTANT només a preguntes directament relacionades amb artesania mallorquina, sense excepció ni analogies amb altres coses. Evita l'ús de taules i emojis, sí pots separar info en paràgrafs ben formats i formatejats."
+            content: `Ets l'assistent virtual del catàleg d'artesania de Mallorca. Respon sempre en català de forma concisa i amable i MOLT IMPORTANT només a preguntes directament relacionades amb artesania mallorquina, sense excepció ni analogies amb altres coses. Evita l'ús de taules i emojis, sí pots separar info en paràgrafs ben formats i formatejats. Intenta accedir ${JSON.stringify(craftsRes)} i ${JSON.stringify(tallersRes)} per buscar informació. Si no trobes informació, no inventis, pots intentar buscar a Internet.`
         });
 
         const response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {

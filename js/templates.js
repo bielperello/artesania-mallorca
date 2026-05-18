@@ -176,7 +176,10 @@ function renderCatalogSection() {
                     <div class="relative flex-1 w-full">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                         <input id="catalog-search" class="w-full pl-10 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary dark:text-white placeholder-slate-400 transition-all" placeholder="Cerca artesans, materials, tècniques..." type="text"/>
-                        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors flex items-center justify-center p-1" title="Cerca per veu">
+                        <button id="clear-search-btn" class="absolute right-11 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors flex items-center justify-center p-1" title="Esborrar cerca" style="display: none;">
+                            <span class="material-symbols-outlined">clear</span>
+                        </button>
+                        <button id="voice-search-btn" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors flex items-center justify-center p-1" title="Cerca per veu">
                             <span class="material-symbols-outlined">mic</span>
                         </button>
                     </div>
@@ -508,18 +511,18 @@ function renderCatalogCards(crafts) {
 function renderMapComarques(comarques) {
     return comarques.map(c => {
         if (c.active) {
-            return `<button class="flex flex-col items-start gap-1 p-3 bg-primary/10 border border-primary rounded-xl text-sm text-primary transition-all text-left shadow-[0_0_15px_rgba(236,73,19,0.3)]"><span class="font-bold">${c.label}</span></button>`;
+            return `<button data-comarca="${c.id}" class="flex flex-col items-start gap-1 p-3 bg-primary/10 border border-primary rounded-xl text-sm text-primary transition-all text-left shadow-[0_0_15px_rgba(236,73,19,0.3)]"><span class="font-bold">${c.label}</span></button>`;
         }
-        return `<button class="flex flex-col items-start gap-1 p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all text-left"><span class="font-medium">${c.label}</span></button>`;
+        return `<button data-comarca="${c.id}" class="flex flex-col items-start gap-1 p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-700 dark:text-slate-300 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all text-left"><span class="font-medium">${c.label}</span></button>`;
     }).join('');
 }
 
 function renderMapMaterials(materials) {
     return materials.map(m => {
         if (m.active) {
-            return `<button class="flex items-center gap-2 p-2.5 bg-primary/10 border border-primary text-primary rounded-xl text-sm font-medium transition-colors text-left"><span class="material-symbols-outlined text-[20px] bg-white dark:bg-slate-900 rounded-md p-1">${m.icon}</span>${m.label}</button>`;
+            return `<button data-material="${m.id}" class="flex items-center gap-2 p-2.5 bg-primary/10 border border-primary text-primary rounded-xl text-sm font-medium transition-colors text-left"><span class="material-symbols-outlined text-[20px] bg-white dark:bg-slate-900 rounded-md p-1">${m.icon}</span>${m.label}</button>`;
         }
-        return `<button class="flex items-center gap-2 p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-700 dark:text-slate-300 hover:border-${m.color} hover:text-${m.color} transition-colors text-left"><span class="material-symbols-outlined text-[20px] bg-slate-50 dark:bg-slate-900 rounded-md p-1">${m.icon}</span>${m.label}</button>`;
+        return `<button data-material="${m.id}" class="flex items-center gap-2 p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-700 dark:text-slate-300 hover:border-${m.color} hover:text-${m.color} transition-colors text-left"><span class="material-symbols-outlined text-[20px] bg-slate-50 dark:bg-slate-900 rounded-md p-1">${m.icon}</span>${m.label}</button>`;
     }).join('');
 }
 
