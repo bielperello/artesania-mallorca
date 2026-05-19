@@ -186,6 +186,7 @@ function renderCatalogSection() {
                     <div class="flex gap-4 items-center w-full md:w-auto">
                         <div class="w-full md:w-48 relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10 pointer-events-none text-sm">sort</span>
+                            <label for="catalog-sort" class="sr-only">Ordena catàleg</label>
                             <select id="catalog-sort" class="w-full pl-9 pr-8 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary text-slate-700 dark:text-slate-200 appearance-none cursor-pointer">
                                 <option value="relevance">Més rellevants</option>
                                 <option value="az">Alfabètic (A-Z)</option>
@@ -806,7 +807,7 @@ function renderCraftDetail(craft) {
             </div>
             <p class="text-primary text-xl font-medium leading-normal">${craft.subtitol}</p>
             <div class="flex gap-4 mt-2">
-                <button class="flex items-center gap-2 bg-terracotta text-white px-4 py-2 rounded-lg font-medium hover:bg-terracotta/90 transition-colors">
+                <button onclick="toggleSpeakDescription(this)" class="flex items-center gap-2 bg-terracotta text-white px-4 py-2 rounded-lg font-medium hover:bg-terracotta/90 transition-colors">
                     <span class="material-symbols-outlined">volume_up</span> Escoltar descripció
                 </button>
             </div>

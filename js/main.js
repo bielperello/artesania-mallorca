@@ -2,6 +2,7 @@
 
 // ── Variables globals ────────────────────────────────────────
 let currentCraft = null;
+let currentDescriptionAudio = null;
 let toastTimeout = null;
 let _weatherTallerId = null;
 let craftsRes = null;
@@ -624,6 +625,15 @@ function openModal(craftId) {
 }
 
 function closeModal() {
+    if (currentDescriptionAudio) {
+        currentDescriptionAudio.pause();
+        currentDescriptionAudio = null;
+    }
+
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+    }
+
     const modal = document.getElementById('craft-modal');
     const modalContent = document.getElementById('craft-modal-content');
     if (!modal || !modalContent) return;
@@ -1703,4 +1713,65 @@ function checkReviewStatus(craftId) {
         currentReviewRating = 0;
         currentReviewPhotos = [];
     }
+}
+
+// ══════════════════════════════════════════════════════════════
+// MULTIMÈDIA — Àudio Descripció (Arxius Locals MP3)
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * Activa o atura la reproducció de l'àudio descriptiu des de la carpeta media/audio.
+ * @param {HTMLElement} btn - El botó que ha disparat l'esdeveniment
+ */
+function toggleSpeakDescription(btn) {
+    if (!currentCraft || !currentCraft.id) return;
+
+    // Si ja està reproduint, el pausem i restablim el botó
+    if (currentDescriptionAudio && !currentDescriptionAudio.paused) {
+        currentDescriptionAudio.pause();
+        currentDescriptionAudio = null;
+        resetSpeakButton(btn);
+        return;
+    }
+
+    const audioPath = `./media/audio/${currentCraft.id}_desc.mp3`;
+    currentDescriptionAudio = new Audio(audioPath);
+
+    // Actualització visual del botó en començar a reproduir
+    currentDescriptionAudio.onplay = () => {
+        btn.innerHTML = `<span class="material-symbols-outlined animate-pulse">volume_off</span> Aturar lectura`;
+        btn.classList.remove('bg-terracotta', 'hover:bg-terracotta/90');
+        btn.classList.add('bg-red-600', 'hover:bg-red-700');
+    };
+
+    const handleEnd = () => {
+        resetSpeakButton(btn);
+        currentDescriptionAudio = null;
+    };
+
+    currentDescriptionAudio.onended = handleEnd;
+
+    currentDescriptionAudio.onerror = () => {
+        showToast("No s'ha pogut carregar l'arxiu d'àudio descripció.", "warning", "volume_off");
+        resetSpeakButton(btn);
+        currentDescriptionAudio = null;
+    };
+
+    currentDescriptionAudio.play().catch(err => {
+        console.error("Error reproduint l'àudio:", err);
+        showToast("Error en iniciar la reproducció de l'àudio.", "warning", "volume_off");
+        resetSpeakButton(btn);
+        currentDescriptionAudio = null;
+    });
+}
+
+/**
+ * Restableix l'estat visual original del botó de reproducció.
+ * @param {HTMLElement} btn - El botó a restablir
+ */
+function resetSpeakButton(btn) {
+    if (!btn) return;
+    btn.innerHTML = `<span class="material-symbols-outlined">volume_up</span> Escoltar descripció`;
+    btn.classList.remove('bg-red-600', 'hover:bg-red-700');
+    btn.classList.add('bg-terracotta', 'hover:bg-terracotta/90');
 }
