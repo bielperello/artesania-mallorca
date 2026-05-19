@@ -5,7 +5,7 @@
 // SECCIONS DE PÀGINA (Estructura principal)
 // ══════════════════════════════════════════════════════════════
 function renderHeader() {
-    const navLinkClass = "text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal truncate";
+    const navLinkClass = "text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate";
 
     const navItems = [
         { href: '#inici', label: 'Inici', icon: 'home' },
@@ -31,7 +31,7 @@ function renderHeader() {
             <!-- Branding -->
             <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
                 <img src="./media/images/logo.png" alt="Logo Artesania Mallorquina" class="h-10 w-10 rounded-lg object-cover shadow-sm"/>
-                <span class="text-slate-900 dark:text-slate-100 text-xl font-serif font-bold leading-tight tracking-[-0.015em]">
+                <span class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
                     Artesania Mallorquina
                 </span>
             </a>
@@ -42,11 +42,10 @@ function renderHeader() {
                     ${desktopNavHtml}
                 </nav>
 
-                <a class="hidden sm:flex min-w-[84px] items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/80 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]" href="#cataleg">
+                <a class="hidden sm:flex min-w-[84px] items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/80 transition-colors text-white text-lg font-bold leading-normal tracking-[0.015em]" href="#cataleg">
                     <span class="truncate">Explora el catàleg</span>
                 </a>
 
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIBFSPvXm1blUZAmzogrEkNLJc1G2QH6VzlbGREboNvrtRiuDpcLyrq6B3OxezEAScJc-mpWw6Q3HJw80T-nOCdrvIXjMC9PRUYZTIxYD7FtNG3PQdUy-uxRmSNjyhiGDNeAY4Q7C3KNYHil5fIq4_4yZUQMJY6Gg1bLx6Bfb6UH4ITm5jIfUS-DNkkdn2wRFOU5P9n4gpMNeKUvJgX7alA8apkIHKoAoO98pzemjTwr4IY78Dx6wWCF_H9zfjYXw7VhZGUkA2UulF" alt="" aria-hidden="true" class="hidden sm:block h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"/>
                 <button onclick="toggleMobileMenu()" id="mobile-menu-btn" class="lg:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Obrir menú de navegació">
                     <span class="material-symbols-outlined" id="mobile-menu-icon">menu</span>
                 </button>
@@ -485,7 +484,7 @@ function renderCatalogCards(crafts) {
                     <h3 class="text-xl font-serif font-bold text-slate-900 dark:text-slate-100">${c.nom}</h3>
                     <div class="flex items-center text-amber-500 gap-1">
                         <span class="material-symbols-outlined text-sm" style='font-variation-settings: "FILL" 1;'>star</span>
-                        <span class="text-sm font-bold text-slate-700 dark:text-slate-300">${c.rating} <span class="text-slate-500 dark:text-slate-400 font-normal">(${c.numComentaris})</span></span>
+                        <span class="text-sm font-bold text-slate-700 dark:text-slate-300">${c.rating} <span class="text-slate-500 dark:text-slate-400 font-normal">(${c.numRatings})</span></span>
                     </div>
                 </div>
                 <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">${c.descripcio}</p>

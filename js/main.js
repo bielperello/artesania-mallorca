@@ -3,6 +3,7 @@
 // ── Variables globals ────────────────────────────────────────
 let currentCraft = null;
 let currentDescriptionAudio = null;
+let catalogVisibleRows = 2;
 let toastTimeout = null;
 let _weatherTallerId = null;
 let craftsRes = null;
@@ -179,7 +180,10 @@ async function init() {
     attachFavoritesToggle();
     attachGlobalListeners();
 
-    // 4. Inicialitzar el mapa principal amb Leaflet
+    // 4. Inicialitzar els filtres i l'estat inicial del catàleg
+    applyFilters();
+
+    // 5. Inicialitzar el mapa principal amb Leaflet
     initMainMap();
 }
 
@@ -461,6 +465,8 @@ function attachFilterListeners() {
             this.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border-slate-200', 'dark:border-slate-700');
             this.classList.add('bg-primary', 'text-white', 'filter-pill-active');
         }
+        // Reiniciar la paginació al canviar de filtre
+        catalogVisibleRows = 2;
         // Aplicar filtres cada vegada que es fa clic
         applyFilters();
     };
@@ -487,6 +493,8 @@ function resetFilterGroup(filterType) {
         pill.classList.remove('bg-primary', 'text-white', 'filter-pill-active');
         pill.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700');
     });
+    // Reiniciar la paginació al netejar grups de filtre
+    catalogVisibleRows = 2;
     applyFilters();
 }
 
@@ -515,6 +523,28 @@ function materialNameToId(materialName) {
     return map[materialName] || materialName.toLowerCase();
 }
 
+function getCurrentGridCols() {
+    const grid = document.getElementById('catalog-grid');
+    if (!grid) return 2;
+
+    // Si la pantalla és de mòbil (< 768px):
+    if (window.innerWidth < 768) {
+        return 1;
+    }
+    // Si és mida de tauleta (< 1024px):
+    if (window.innerWidth < 1024) {
+        return 2;
+    }
+    // A l'escriptori comprovem les classes de Tailwind:
+    if (grid.classList.contains('lg:grid-cols-3')) {
+        return 3;
+    }
+    if (grid.classList.contains('lg:grid-cols-4')) {
+        return 4;
+    }
+    return 2; // Per defecte
+}
+
 function applyFilters() {
     const { zones, techniques, materials } = getActiveFilters();
     const cards = Array.from(document.querySelectorAll('#catalog-grid > div'));
@@ -524,6 +554,20 @@ function applyFilters() {
     const favToggle = document.getElementById('favorites-toggle');
     const onlyFavorites = favToggle && favToggle.checked;
     const favorites = onlyFavorites ? getFavorites() : null;
+
+    // Comprovar si hi ha text de cerca actiu
+    const searchInput = document.getElementById('catalog-search');
+    const query = searchInput ? searchInput.value.trim() : "";
+    const normalizedQuery = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    // Mapes auxiliars per cercar millor
+    const zoneNames = {};
+    APP_DATA.filterZones.forEach(z => { zoneNames[z.id] = z.label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); });
+
+    const techniqueNames = {};
+    APP_DATA.filterTechniques.forEach(t => { techniqueNames[t.id] = t.label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); });
+
+    const matchingCards = [];
 
     cards.forEach(card => {
         const craftId = card.getAttribute('data-craft-id');
@@ -555,7 +599,38 @@ function applyFilters() {
             }
         }
 
+        // Text search filter
+        if (visible && normalizedQuery) {
+            const searchFields = [
+                craft.nom,
+                craft.material,
+                craft.descripcio,
+                craft.descripcioLlarga,
+                craft.tecnica,
+                techniqueNames[craft.tecnica] || '',
+                zoneNames[craft.zona] || '',
+                ...(craft.tallers || []).map(t => t.nom),
+                ...(craft.artesans || []).map(a => a.nom)
+            ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+            if (!searchFields.includes(normalizedQuery)) {
+                visible = false;
+            }
+        }
+
         if (visible) {
+            matchingCards.push(card);
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Paginació dinàmica en base a les columnes i files
+    const cols = getCurrentGridCols();
+    const limit = cols * catalogVisibleRows;
+
+    matchingCards.forEach((card, index) => {
+        if (index < limit) {
             card.style.display = '';
             visibleCount++;
         } else {
@@ -563,10 +638,28 @@ function applyFilters() {
         }
     });
 
-    // Show toast with filter result
-    const hasFilters = zones.length > 0 || techniques.length > 0 || materials.length > 0 || onlyFavorites;
-    if (hasFilters) {
-        showToast(`${visibleCount} artesani${visibleCount === 1 ? 'a' : 'es'} trobad${visibleCount === 1 ? 'a' : 'es'}`, 'info', 'filter_list');
+    // Control de visibilitat del botó "Carregar més"
+    const loadMoreContainer = document.querySelector('#cataleg .flex.justify-center');
+    const loadMoreBtn = loadMoreContainer ? loadMoreContainer.querySelector('button') : null;
+
+    if (loadMoreBtn && loadMoreContainer) {
+        if (matchingCards.length > limit) {
+            loadMoreContainer.style.display = 'flex';
+            loadMoreBtn.style.display = '';
+        } else {
+            loadMoreContainer.style.display = 'none';
+            loadMoreBtn.style.display = 'none';
+        }
+    }
+
+    // Mostrar notificacions toast si hi ha filtres o cerca activa
+    if (normalizedQuery) {
+        showToast(`${visibleCount} resultat${visibleCount !== 1 ? 's' : ''} per "${query}"`, 'info', 'search');
+    } else {
+        const hasFilters = zones.length > 0 || techniques.length > 0 || materials.length > 0 || onlyFavorites;
+        if (hasFilters) {
+            showToast(`${visibleCount} artesani${visibleCount === 1 ? 'a' : 'es'} trobad${visibleCount === 1 ? 'a' : 'es'}`, 'info', 'filter_list');
+        }
     }
 }
 
@@ -906,6 +999,7 @@ function attachFavoritesToggle() {
     const favToggle = document.getElementById('favorites-toggle');
     if (favToggle) {
         favToggle.addEventListener('change', () => {
+            catalogVisibleRows = 2;
             applyFilters();
         });
     }
@@ -937,6 +1031,7 @@ function setGridCols(cols, btnElement) {
         btnElement.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-slate-800', 'dark:text-slate-200');
     }
 
+    applyFilters();
     showToast(`Vista canviada a ${cols} columnes`, 'info', 'view_module');
 }
 
@@ -1110,56 +1205,8 @@ let _searchDebounce = null;
  * @param {string} query - Text de cerca
  */
 function handleSearch(query) {
-    const normalizedQuery = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    const catalogGrid = document.getElementById('catalog-grid');
-
-    if (!catalogGrid) return;
-
-    // Mapa de zones id → nom complet per cercar-hi
-    const zoneNames = {};
-    APP_DATA.filterZones.forEach(z => { zoneNames[z.id] = z.label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); });
-
-    // Mapa de tècniques id → nom complet per cercar-hi (brodat -> brodat i costura, etc.)
-    const techniqueNames = {};
-    APP_DATA.filterTechniques.forEach(t => { techniqueNames[t.id] = t.label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); });
-
-    let visibleCount = 0;
-    const cards = Array.from(catalogGrid.children);
-
-    cards.forEach(card => {
-        const craftId = card.getAttribute('data-craft-id');
-        const craft = APP_DATA.crafts.find(c => c.id === craftId);
-        if (!craft) return;
-
-        if (!normalizedQuery) {
-            card.style.display = '';
-            visibleCount++;
-            return;
-        }
-
-        const searchFields = [
-            craft.nom,
-            craft.material,
-            craft.descripcio,
-            craft.descripcioLlarga,
-            craft.tecnica,
-            techniqueNames[craft.tecnica] || '', // Permet cercar "costura" o "brodat" a la vegada
-            zoneNames[craft.zona] || '',
-            ...craft.tallers.map(t => t.nom),
-            ...craft.artesans.map(a => a.nom)
-        ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-        if (searchFields.includes(normalizedQuery)) {
-            card.style.display = '';
-            visibleCount++;
-        } else {
-            card.style.display = 'none';
-        }
-    });
-
-    if (normalizedQuery) {
-        showToast(`${visibleCount} resultat${visibleCount !== 1 ? 's' : ''} per "${query}"`, 'info', 'search');
-    }
+    catalogVisibleRows = 2; // Reseteja el nombre de files visibles en cercar
+    applyFilters();
 }
 
 /**
@@ -1202,10 +1249,12 @@ function handleSort(criteria) {
     // Re-renderitzar les targetes amb el nou ordre
     catalogGrid.innerHTML = renderCatalogCards(sorted);
 
-    // Re-aplicar la cerca si hi ha text
+    // Re-aplicar la cerca o els filtres i la paginació
     const searchInput = document.getElementById('catalog-search');
     if (searchInput && searchInput.value.trim()) {
         handleSearch(searchInput.value.trim());
+    } else {
+        applyFilters();
     }
 
     const labels = { az: 'A-Z', za: 'Z-A', rating: 'Valoració', comments: 'Comentaris', workshops: 'Tallers', relevance: 'Rellevància' };
@@ -1314,11 +1363,18 @@ function attachGlobalListeners() {
         });
     });
 
-    // "Carregar més artesanies" — placeholder toast
+    // "Carregar més artesanies" — Incrementa de 2 en 2 files
     const loadMoreBtn = document.querySelector('#cataleg .flex.justify-center button');
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', () => {
-            showToast('No hi ha més artesanies per carregar per ara', 'info', 'inventory_2');
+            if (catalogVisibleRows * getCurrentGridCols() >= APP_DATA.crafts.length) {
+                showToast("No hi ha més artesanies per carregar", 'warning', 'inventory_2');
+            } else {
+                catalogVisibleRows += 2;
+                applyFilters();
+                showToast("S'han carregat més artesanies", 'info', 'grid_view');
+            }
+
         });
     }
 
@@ -1530,7 +1586,7 @@ async function handleChatSubmit(event) {
         // Afegir message del sistema
         messages.unshift({
             role: "system",
-            content: `Ets l'assistent virtual del catàleg d'artesania de Mallorca. Respon sempre en català de forma concisa i amable i MOLT IMPORTANT només a preguntes directament relacionades amb artesania mallorquina, sense excepció ni analogies amb altres coses. Evita l'ús de taules i emojis, sí pots separar info en paràgrafs ben formats i formatejats. Intenta accedir ${JSON.stringify(craftsRes)} i ${JSON.stringify(tallersRes)} per buscar informació. Si no trobes informació, no inventis, pots intentar buscar a Internet.`
+            content: `Ets l'assistent virtual del catàleg d'artesania de Mallorca. Respon sempre en català de forma concisa i amable i MOLT IMPORTANT només a preguntes directament relacionades amb artesania mallorquina, sense excepció ni analogies amb altres coses. Evita l'ús de taules i emojis, sí pots separar info en paràgrafs ben formats i formatejats, pots incloure llistes simples i tipats com negreta. Intenta accedir ${JSON.stringify(craftsRes)} i ${JSON.stringify(tallersRes)} per buscar informació, si trobes aquí no cerquis a Internet. Si no trobes informació, no inventis, pots intentar buscar a Internet.`
         });
 
         const response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {

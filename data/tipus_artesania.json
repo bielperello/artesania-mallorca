@@ -11,9 +11,9 @@
         "descripcioLlarga": "El siurell és una peça d'artesania autèntica de Mallorca, els orígens de la qual es remunten a segles enrere, amb una forta influència mediterrània. Originalment usat per pastors per controlar els ramats, avui dia és un símbol de l'illa, present en festes tradicionals i celebracions. La seva creació implica modelar el fang, afegir el característic xiulet, enfornar i, finalment, el banyat en calç blanca abans de rebre els tocs finals de color.",
         "subtitol": "Figura tradicional mallorquina de fang amb un xiulet, pintada amb pinzellades verdes i vermelles sobre fons blanc.",
         "rating": 4.8,
-        "numRatings": 124,
-        "numComentaris": 128,
-        "numTallers": 4,
+        "numRatings": 128,
+        "numComentaris": 124,
+        "numTallers": 2,
         "favorit": true,
         "videoThumb": "https://lh3.googleusercontent.com/aida-public/AB6AXuDDYp72p9yb3VAKhAiX6PPO_S3glj1feGCKJA-WiPWZ7tSYLwvZJBktVBW2WKq9AUDSgtaNf9KuyW_QkJ14-3wtJnbkNKPhcUKoKeULc7wNYyG5X__0ej3nv2HtX8Ocx75PvvgS5uW0MTnYh9CKM4iwUEReuN8TrhSf1BL4yITS7HKrT0PtEdx_ZRoIB0GZVE-_wGnra_5iE4SNqp0xvCmgle-keXH4sxvOsPQR4EwHOiq_S_x4T8X6V_eM-qGshbSjTJjlQanbnVUY",
         "galeria": [
@@ -124,7 +124,7 @@
     },
     {
         "id": "roba-llengues",
-        "nom": "Tela de Llengües",
+        "nom": "Roba de Llengües",
         "material": "Llana",
         "zona": "tramuntana",
         "tecnica": "brodat",
@@ -183,8 +183,8 @@
     },
     {
         "id": "llatra",
-        "nom": "Llata d'Espart",
-        "material": "Espart",
+        "nom": "Llata de Margalló",
+        "material": "Margalló",
         "zona": "llevant",
         "tecnica": "trenat",
         "teVideo": false,
@@ -205,12 +205,12 @@
                 "subtitol": "Ús diari al mercat"
             },
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuALNMrHGXDsC-khMfjebpWKtVYTZnlpWAT7DzH9lfHG-GInEh0uH5Mk9t2j9MKHqQMX_FWeCUsN55wh42Lo2q6Y92OTn2wkdMo7bGo7PeQSxq4XovnZw6gitz0EEx6C-An8BZ3EyTu6HMv11Hb2YXKmyTN7w1Ap5FsT8HYATGshAcyGjmUriS2EI4buqxf2oUPDgMDVFys5naIVDmncM1nKL2OOWg_k-bHk9jBvwCcWSlg3YVqTF_sKBofEcz555u9Wzz2KUBy0pK6C",
+                "imatge": "../media/images/llata/margallo.webp",
                 "titol": "Margalló",
                 "subtitol": "Matèria primera silvestre"
             },
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBS3Kdurvz_F1o6sWyequ6xzYwR8XPss85ax7fQ29S0AarYH3CEX0aiZH8fBrS-vv4RBPHxbv144Z9xH1rffu7Xb_Sruaye2cvuy1LmkegG1gdpWipWL-B7tYRyWPlMlLoo5nlp3Q8gHuM2VaLXwKDX9Q2DfidQ_LTfaQdHHFTfUwW5dceANbvvnkutAWkT8X-l9s80sN0sA6ekWva7Ivr5Vg2eBfK5-ZkcmNMnXmUSRpKWQN_6EWFnJG2q3Lj20mOV6thZnCkXwLYM",
+                "imatge": "../media/images/llata/padrines.webp",
                 "titol": "Trenat Artesà",
                 "subtitol": "Tècnica de les padrines"
             }
@@ -238,6 +238,65 @@
         "artesans_ids": [
             "llatra_artesa_0",
             "llatra_artesa_1"
+        ]
+    },
+    {
+        "id": "brodat",
+        "nom": "Brodat Mallorquí",
+        "material": "Cotó",
+        "zona": "tramuntana",
+        "tecnica": "filat",
+        "teVideo": false,
+        "imatge": "./media/images/brodat-01.jpg",
+        "descripcio": "Art del brodat artesanal sobre tela per crear peces decoratives i tèxtils tradicionals mallorquins.",
+        "descripcioLlarga": "El brodat mallorquí és una tradició tèxtil artesanal basada en la decoració manual de teles amb fil i agulla. A Mallorca, aquest ofici ha format part durant segles de la vida domèstica i de l’elaboració d’aixovars, roba de casa i indumentària tradicional. Les brodadores treballaven principalment sobre cotó i lli, creant motius florals, geomètrics i ornamentals amb una gran precisió i sensibilitat artística, transmetent les tècniques de generació en generació.",
+        "subtitol": "L'art del brodat artesanal mallorquí sobre cotó i lli per crear peces tèxtils decoratives i tradicionals.",
+        "rating": 4.6,
+        "numRatings": 34,
+        "numComentaris": 19,
+        "numTallers": 2,
+        "favorit": false,
+        "videoThumb": "",
+        "galeria": [
+            {
+                "imatge": "https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=600&q=80",
+                "titol": "Brodat a Mà",
+                "subtitol": "Detall del punt mallorquí clàssic"
+            },
+            {
+                "imatge": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80",
+                "titol": "Fil de Cotó",
+                "subtitol": "Materials 100% naturals"
+            },
+            {
+                "imatge": "https://images.unsplash.com/photo-1605634562473-b3d11b3e9447?auto=format&fit=crop&w=600&q=80",
+                "titol": "Motius Tradicionals",
+                "subtitol": "Dibuixos històrics conservats"
+            }
+        ],
+        "ressenyes": [
+            {
+                "autor": "Xisco Coll",
+                "data": "1 de juny de 2024",
+                "rating": 5,
+                "text": "Les teles brodades que vaig comprar per a les meves estovalles són una meravella. L'atenció és immillorable i el treball és finíssim.",
+                "imatges": []
+            },
+            {
+                "autor": "Biel Cantallops",
+                "data": "28 d'abril de 2024",
+                "rating": 4,
+                "text": "Molt bona explicació del punt de cadeneta i el punt mallorquí durant la meva visita al taller. Molt recomanable.",
+                "imatges": []
+            }
+        ],
+        "tallers_ids": [
+            "brodats-valldemossa",
+            "taller-lluc"
+        ],
+        "artesans_ids": [
+            "brodat_artesa_0",
+            "brodat_artesa_1"
         ]
     }
 ]

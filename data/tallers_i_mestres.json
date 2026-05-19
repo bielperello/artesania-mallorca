@@ -135,6 +135,40 @@
                 "left": "70%"
             },
             "craftId": "llatra"
+        },
+        {
+            "id": "brodats-valldemossa",
+            "nom": "Bordados Valldemossa",
+            "adreca": "Carrer de Sant Miquel, 26, Palma",
+            "telefon": "+34 971 71 63 06",
+            "web": "https://emblematicsbalears.es/es/comercios/bordados-valldemossa/",
+            "contactType": "language",
+            "temp": "19°C",
+            "mapsQuery": "Brodats+S+Estacio+Valldemossa",
+            "lat": 39.57288,
+            "lng": 2.65227,
+            "mapPosition": {
+                "top": "22%",
+                "left": "30%"
+            },
+            "craftId": "brodat"
+        },
+        {
+            "id": "taller-lluc",
+            "nom": "Taller de Brodat Lluc",
+            "adreca": "Plaça de la Patrona, 4, Pollença",
+            "telefon": "+34 971 53 11 22",
+            "email": "info@brodatlluc.com",
+            "contactType": "mail",
+            "temp": "21°C",
+            "mapsQuery": "Placa+de+la+Patrona+Pollenca",
+            "lat": 39.879,
+            "lng": 3.018,
+            "mapPosition": {
+                "top": "28%",
+                "left": "48%"
+            },
+            "craftId": "brodat"
         }
     ],
     "mestres": [
@@ -227,6 +261,24 @@
             "foto": "https://lh3.googleusercontent.com/aida-public/AB6AXuAhvCrZUGVYHcWFWt49QGdC-BRfT6F6X9Kx6xl4C__KsYNpHCumleKx_vNeN4HsJZ2_nOqDhemugsb4Yp_hFStp9pl3pdJbNgt4Rhc75XHq9eKLPdBzfF013c7Gqrw1iwwQe5RUNvzq54Om8VYRt5OiSpRQx90wA5uAKmi-5XjOEa54Hb2Wjg9TmjuQDA3_8uRoHJrvQcs_X66vfml9QCN2JkvJWWkxFhRddFqBJVFFM8B5_KfWXMA0c7kfHvFQnDQwii8MgLnQSd6R",
             "bio": "Artesana actual que treballa per preservar la llatra combinant dissenys contemporanis amb la tècnica ancestral. Organitza tallers a escoles per transmetre l'ofici als més joves.",
             "craftId": "llatra"
+        },
+        {
+            "id": "brodat_artesa_0",
+            "nom": "Francisca Alcover Bennàssar",
+            "dates": "1912 - 1998",
+            "lloc": "Sóller",
+            "foto": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
+            "bio": "Mestra brodadora que va recopilar més de cent dibuixos antics de motius florals típics del brodat mallorquí del segle XVIII, evitant que es perdessin.",
+            "craftId": "brodat"
+        },
+        {
+            "id": "brodat_artesa_1",
+            "nom": "Maria Antònia Oliver",
+            "dates": "1972",
+            "lloc": "Valldemossa",
+            "foto": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80",
+            "bio": "Artesana contemporània que manté viva la tècnica del punt mallorquí i el punt de cadeneta realitzant brodats a mà per a dissenyadors de moda internacionals.",
+            "craftId": "brodat"
         }
     ]
 }
