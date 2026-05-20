@@ -157,13 +157,24 @@ async function init() {
 
         // Reconstruir l'estructura original per a les plantilles UI
         APP_DATA.crafts = craftsData.map(craft => {
-            const savedReviewStr = localStorage.getItem('reviewed_' + craft.id);
+            const savedReviewsStr = localStorage.getItem('artesania_reviews_' + craft.id);
             let savedReviews = [];
-            if (savedReviewStr) {
-                try { savedReviews.push(JSON.parse(savedReviewStr)); } catch (e) { }
+            if (savedReviewsStr) {
+                try { savedReviews = JSON.parse(savedReviewsStr); } catch (e) { }
+            }
+            // Suportar també les ressenyes de la versió anterior (retrocompatibilitat)
+            const legacyReviewStr = localStorage.getItem('reviewed_' + craft.id);
+            if (legacyReviewStr) {
+                try {
+                    const legacyReview = JSON.parse(legacyReviewStr);
+                    if (!savedReviews.some(r => r.autor === legacyReview.autor && r.text === legacyReview.text)) {
+                        savedReviews.push(legacyReview);
+                    }
+                } catch (e) { }
             }
             return {
                 ...craft,
+                _originalRessenyes: [...(craft.ressenyes || [])],
                 ressenyes: [...savedReviews, ...(craft.ressenyes || [])],
                 tallers: (craft.tallers_ids || []).map(id => tallers.find(t => t.id === id)).filter(Boolean),
                 artesans: (craft.artesans_ids || []).map(id => mestres.find(m => m.id === id)).filter(Boolean)
@@ -766,6 +777,8 @@ function closeModal() {
     modal.classList.add('opacity-0');
     modalContent.classList.remove('scale-100');
     modalContent.classList.add('scale-95');
+    // Tornar al principi del modal
+    modalContent.scrollTop = 0;
     setTimeout(() => {
         modal.classList.remove('flex');
         modal.classList.add('hidden');
@@ -903,11 +916,13 @@ function closeGalleryModal() {
 const FAVORITES_KEY = 'artesania_favorites';
 
 /**
- * Retorna un Set amb els IDs de les artesanies marcades com a favorites.
+ * Retorna un Set amb els IDs de les artesanies marcades com a favorites per a l'usuari actual.
  */
 function getFavorites() {
+    const user = getCurrentUser();
+    if (!user) return new Set();
     try {
-        const stored = localStorage.getItem(FAVORITES_KEY);
+        const stored = localStorage.getItem(FAVORITES_KEY + '_' + user.email.toLowerCase());
         return stored ? new Set(JSON.parse(stored)) : new Set();
     } catch (e) {
         return new Set();
@@ -915,10 +930,12 @@ function getFavorites() {
 }
 
 /**
- * Desa el Set de favorits a localStorage.
+ * Desa el Set de favorits a localStorage per a l'usuari actual.
  */
 function saveFavorites(favSet) {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favSet]));
+    const user = getCurrentUser();
+    if (!user) return;
+    localStorage.setItem(FAVORITES_KEY + '_' + user.email.toLowerCase(), JSON.stringify([...favSet]));
 }
 
 /**
@@ -965,6 +982,13 @@ function updateCardHeart(craftId, isFav) {
 function toggleFavoriteCard(craftId, btn, event) {
     if (event) event.stopPropagation();
 
+    // Bloquejar si no s'ha iniciat sessió
+    if (!getCurrentUser()) {
+        showToast("Has d'iniciar sessió per desar a favorits", 'warning', 'lock');
+        openAuthModal();
+        return;
+    }
+
     const isFav = toggleFavorite(craftId);
     const icon = btn.querySelector('.material-symbols-outlined');
     const card = btn.closest('[data-craft-id]');
@@ -997,6 +1021,13 @@ function toggleFavoriteCard(craftId, btn, event) {
 function toggleModalFavorite(btn) {
     const icon = btn.querySelector('.material-symbols-outlined');
     if (!icon || !currentCraft) return;
+
+    // Bloquejar si no s'ha iniciat sessió
+    if (!getCurrentUser()) {
+        showToast("Has d'iniciar sessió per desar a favorits", 'warning', 'lock');
+        openAuthModal();
+        return;
+    }
 
     const isFav = toggleFavorite(currentCraft.id);
     const craftName = currentCraft.nom;
@@ -1356,6 +1387,7 @@ function attachGlobalListeners() {
     const modal = document.getElementById('craft-modal');
     const weatherModal = document.getElementById('weather-modal');
     const galleryModal = document.getElementById('gallery-modal');
+    const authModal = document.getElementById('auth-modal');
 
     if (modal) {
         modal.addEventListener('click', (e) => {
@@ -1370,6 +1402,11 @@ function attachGlobalListeners() {
     if (galleryModal) {
         galleryModal.addEventListener('click', (e) => {
             if (e.target === galleryModal) closeGalleryModal();
+        });
+    }
+    if (authModal) {
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) closeAuthModal();
         });
     }
 
@@ -1663,7 +1700,7 @@ async function handleChatSubmit(event) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// RESSENYES
+// RESSENYES & AUTENTICACIÓ
 // ══════════════════════════════════════════════════════════════
 
 let currentReviewRating = 0;
@@ -1739,7 +1776,23 @@ function handlePhotoUpload(input) {
 function handleReviewSubmit(event, craftId) {
     event.preventDefault();
 
-    if (localStorage.getItem('reviewed_' + craftId)) {
+    const user = getCurrentUser();
+    if (!user) {
+        showToast("Has d'iniciar sessió per publicar una ressenya", 'warning', 'lock');
+        openAuthModal();
+        return;
+    }
+
+    const reviewKey = 'artesania_reviews_' + craftId;
+    let savedReviews = [];
+    const savedReviewsStr = localStorage.getItem(reviewKey);
+    if (savedReviewsStr) {
+        try { savedReviews = JSON.parse(savedReviewsStr); } catch (e) { }
+    }
+
+    // Check if this user already reviewed this craft
+    const alreadyReviewed = savedReviews.some(r => r.email && r.email.toLowerCase() === user.email.toLowerCase());
+    if (alreadyReviewed) {
         showToast("Ja has deixat una ressenya per aquesta artesania", 'warning', 'error');
         return;
     }
@@ -1753,6 +1806,7 @@ function handleReviewSubmit(event, craftId) {
     const commentInput = document.getElementById('review-comment').value;
 
     const newReview = {
+        email: user.email,
         autor: nameInput,
         data: new Date().toLocaleDateString('ca-ES', { day: 'numeric', month: 'long', year: 'numeric' }),
         rating: currentReviewRating,
@@ -1760,20 +1814,33 @@ function handleReviewSubmit(event, craftId) {
         imatges: currentReviewPhotos
     };
 
-    // Add to current APP_DATA
-    const craftIndex = APP_DATA.crafts.findIndex(c => c.id === craftId);
-    if (craftIndex !== -1) {
-        APP_DATA.crafts[craftIndex].ressenyes.unshift(newReview);
+    savedReviews.unshift(newReview);
+
+    // Save to local storage
+    try {
+        localStorage.setItem(reviewKey, JSON.stringify(savedReviews));
+    } catch (e) {
+        try {
+            newReview.imatges = [];
+            localStorage.setItem(reviewKey, JSON.stringify(savedReviews));
+            showToast("Memòria plena: s'ha guardat sense imatges", 'warning', 'sd_card_alert');
+        } catch (e2) {
+            showToast("Error: no s'ha pogut guardar la ressenya (memòria plena)", 'error', 'sd_card_alert');
+            return;
+        }
     }
 
-    // Save to local storage to persist state for this user
-    try {
-        localStorage.setItem('reviewed_' + craftId, JSON.stringify(newReview));
-    } catch (e) {
-        // En cas que les imatges encara siguin massa grans
-        newReview.imatges = [];
-        localStorage.setItem('reviewed_' + craftId, JSON.stringify(newReview));
-        showToast("Memòria plena: s'ha guardat sense imatges", 'warning', 'sd_card_alert');
+    // Update in-memory APP_DATA using the _originalRessenyes (JSON originals, never user-submitted)
+    const craftIndex = APP_DATA.crafts.findIndex(c => c.id === craftId);
+    if (craftIndex !== -1) {
+        // Always read back from localStorage so all users' reviews are present
+        let latestReviews = [];
+        try {
+            const latest = localStorage.getItem(reviewKey);
+            if (latest) latestReviews = JSON.parse(latest);
+        } catch (e) { latestReviews = savedReviews; }
+        const originalRessenyes = APP_DATA.crafts[craftIndex]._originalRessenyes || [];
+        APP_DATA.crafts[craftIndex].ressenyes = [...latestReviews, ...originalRessenyes];
     }
 
     // Refresh modal to show new review
@@ -1799,8 +1866,18 @@ function checkReviewStatus(craftId) {
     const formContainer = document.getElementById('review-form-container');
     if (!formContainer) return;
 
-    const savedReviewStr = localStorage.getItem('reviewed_' + craftId);
-    if (savedReviewStr) {
+    const user = getCurrentUser();
+    if (!user) return; // template renders invitation card
+
+    const reviewKey = 'artesania_reviews_' + craftId;
+    let savedReviews = [];
+    const savedReviewsStr = localStorage.getItem(reviewKey);
+    if (savedReviewsStr) {
+        try { savedReviews = JSON.parse(savedReviewsStr); } catch (e) { }
+    }
+
+    const userReview = savedReviews.find(r => r.email && r.email.toLowerCase() === user.email.toLowerCase());
+    if (userReview) {
         formContainer.innerHTML = `
             <div class="bg-terracotta-light/30 dark:bg-terracotta/10 border border-terracotta/20 rounded-lg p-6 text-center shadow-sm">
                 <span class="material-symbols-outlined text-terracotta text-5xl mb-3">verified</span>
@@ -1811,6 +1888,252 @@ function checkReviewStatus(craftId) {
     } else {
         currentReviewRating = 0;
         currentReviewPhotos = [];
+    }
+}
+
+// ── Gestió de Sessió i Comptes ────────────────────────────────
+function getCurrentUser() {
+    try {
+        const stored = localStorage.getItem('artesania_current_user');
+        return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function registerUser(email, nickname, password) {
+    let users = [];
+    try {
+        const stored = localStorage.getItem('artesania_registered_users');
+        users = stored ? JSON.parse(stored) : [];
+    } catch (e) { }
+
+    const exists = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (exists) {
+        return { success: false, message: "Aquest correu ja està registrat." };
+    }
+
+    const newUser = { email: email.toLowerCase(), nickname, password };
+    users.push(newUser);
+    localStorage.setItem('artesania_registered_users', JSON.stringify(users));
+    localStorage.setItem('artesania_current_user', JSON.stringify(newUser));
+    return { success: true };
+}
+
+function loginUser(email, password) {
+    let users = [];
+    try {
+        const stored = localStorage.getItem('artesania_registered_users');
+        users = stored ? JSON.parse(stored) : [];
+    } catch (e) { }
+
+    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+    if (!user) {
+        return { success: false, message: "Correu o contrasenya incorrectes." };
+    }
+
+    localStorage.setItem('artesania_current_user', JSON.stringify(user));
+    return { success: true };
+}
+
+/**
+ * Sincronitza les ressenyes de tots els crafts en memòria (APP_DATA.crafts)
+ * amb el localStorage. Això garanteix que en canviar de compte no es perdin
+ * ressenyes publicades per altres usuaris durant la mateixa sessió.
+ */
+function refreshCraftsReviews() {
+    if (!APP_DATA.crafts) return;
+    APP_DATA.crafts.forEach(craft => {
+        const reviewKey = 'artesania_reviews_' + craft.id;
+        let savedReviews = [];
+        try {
+            const str = localStorage.getItem(reviewKey);
+            if (str) savedReviews = JSON.parse(str);
+        } catch (e) { }
+        const originals = craft._originalRessenyes || [];
+        craft.ressenyes = [...savedReviews, ...originals];
+    });
+}
+
+function logoutUser() {
+    const activeCraftId = currentCraft ? currentCraft.id : null;
+
+    localStorage.removeItem('artesania_current_user');
+    showToast("Sessió tancada correctament", 'warning', 'logout');
+
+    // Sincronitzar les ressenyes en memòria amb el localStorage abans de re-renderitzar
+    refreshCraftsReviews();
+
+    // Re-renderitzar per netejar la interfície i favorits de la UI actual
+    renderApp();
+    populateDynamicContent();
+    attachFilterListeners();
+    attachFavoritesToggle();
+    attachGlobalListeners();
+    applyFilters();
+    initMainMap();
+    initImageObserver();
+
+    if (activeCraftId) {
+        openModal(activeCraftId);
+    }
+}
+
+// ── Modals d'Autenticació UI ──────────────────────────────────
+function openAuthModal() {
+    const modal = document.getElementById('auth-modal');
+    const content = document.getElementById('auth-modal-content');
+    if (!modal) return;
+
+    switchAuthTab('login');
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modal.classList.add('opacity-100');
+        if (content) {
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+    }, 10);
+}
+
+function closeAuthModal() {
+    const modal = document.getElementById('auth-modal');
+    const content = document.getElementById('auth-modal-content');
+    if (!modal) return;
+
+    modal.classList.remove('opacity-100');
+    modal.classList.add('opacity-0');
+    if (content) {
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+    }
+    setTimeout(() => {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+    }, 300);
+}
+
+function switchAuthTab(tab) {
+    const loginTab = document.getElementById('tab-btn-login');
+    const registerTab = document.getElementById('tab-btn-register');
+    const loginForm = document.getElementById('auth-form-login');
+    const registerForm = document.getElementById('auth-form-register');
+
+    if (!loginTab || !registerTab || !loginForm || !registerForm) return;
+
+    if (tab === 'login') {
+        loginTab.classList.add('border-b-2', 'border-primary', 'text-primary');
+        loginTab.classList.remove('border-transparent', 'text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-350');
+
+        registerTab.classList.remove('border-b-2', 'border-primary', 'text-primary');
+        registerTab.classList.add('border-transparent', 'text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-350');
+        registerTab.classList.remove('font-bold');
+        registerTab.classList.add('font-semibold');
+
+        loginTab.classList.add('font-bold');
+        loginTab.classList.remove('font-semibold');
+
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+    } else {
+        registerTab.classList.add('border-b-2', 'border-primary', 'text-primary');
+        registerTab.classList.remove('border-transparent', 'text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-350');
+
+        loginTab.classList.remove('border-b-2', 'border-primary', 'text-primary');
+        loginTab.classList.add('border-transparent', 'text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-350');
+        loginTab.classList.remove('font-bold');
+        loginTab.classList.add('font-semibold');
+
+        registerTab.classList.add('font-bold');
+        registerTab.classList.remove('font-semibold');
+
+        registerForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+    }
+
+    // Clear error messages
+    const loginError = document.getElementById('login-error-msg');
+    const registerError = document.getElementById('register-error-msg');
+    if (loginError) loginError.classList.add('hidden');
+    if (registerError) registerError.classList.add('hidden');
+}
+
+function handleAuthLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    const errorMsg = document.getElementById('login-error-msg');
+
+    const res = loginUser(email, password);
+    if (res.success) {
+        const nickname = getCurrentUser().nickname;
+        showToast(`Benvingut de nou, ${nickname}!`, 'success', 'sentiment_very_satisfied');
+        closeAuthModal();
+
+        const activeCraftId = currentCraft ? currentCraft.id : null;
+
+        // Sincronitzar les ressenyes en memòria amb el localStorage
+        refreshCraftsReviews();
+
+        // Re-renderitzar
+        renderApp();
+        populateDynamicContent();
+        attachFilterListeners();
+        attachFavoritesToggle();
+        attachGlobalListeners();
+        applyFilters();
+        initMainMap();
+        initImageObserver();
+
+        if (activeCraftId) {
+            openModal(activeCraftId);
+        }
+    } else {
+        if (errorMsg) {
+            errorMsg.textContent = res.message;
+            errorMsg.classList.remove('hidden');
+        }
+    }
+}
+
+function handleAuthRegister(event) {
+    event.preventDefault();
+    const nickname = document.getElementById('register-nick').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const errorMsg = document.getElementById('register-error-msg');
+
+    const res = registerUser(email, nickname, password);
+    if (res.success) {
+        showToast(`Compte creat! Benvingut, ${nickname}!`, 'success', 'how_to_reg');
+        closeAuthModal();
+
+        const activeCraftId = currentCraft ? currentCraft.id : null;
+
+        // Sincronitzar les ressenyes en memòria amb el localStorage
+        refreshCraftsReviews();
+
+        // Re-renderitzar
+        renderApp();
+        populateDynamicContent();
+        attachFilterListeners();
+        attachFavoritesToggle();
+        attachGlobalListeners();
+        applyFilters();
+        initMainMap();
+        initImageObserver();
+
+        if (activeCraftId) {
+            openModal(activeCraftId);
+        }
+    } else {
+        if (errorMsg) {
+            errorMsg.textContent = res.message;
+            errorMsg.classList.remove('hidden');
+        }
     }
 }
 

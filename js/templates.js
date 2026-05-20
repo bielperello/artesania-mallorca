@@ -25,12 +25,54 @@ function renderHeader() {
                 </a>`
     ).join('\n                ');
 
+    const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+    let authBtnHtml = '';
+    let mobileAuthHtml = '';
+
+    if (user) {
+        const initial = user.nickname ? user.nickname.charAt(0).toUpperCase() : 'U';
+        authBtnHtml = `
+                <div class="relative group">
+                    <button class="flex items-center justify-center rounded-full size-10 bg-primary text-white text-base font-bold shadow-md hover:scale-105 transition-transform cursor-pointer" id="header-user-btn" aria-label="Perfil d'usuari: ${user.nickname}" title="${user.nickname}">
+                        ${initial}
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div class="absolute right-0 mt-2 w-48 rounded-xl bg-white dark:bg-slate-900 shadow-xl border border-slate-100 dark:border-slate-800 py-2 hidden group-hover:block transition-all z-[60] origin-top-right before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-2">
+                        <div class="px-4 py-2 border-b border-slate-100 dark:border-slate-800">
+                            <p class="text-[10px] text-slate-400 dark:text-slate-500 font-medium">Sessió iniciada</p>
+                            <p class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">${user.nickname}</p>
+                        </div>
+                        <button onclick="logoutUser()" class="w-full text-left px-4 py-2 text-sm text-red-650 dark:text-red-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors flex items-center gap-2 font-semibold cursor-pointer">
+                            <span class="material-symbols-outlined text-[18px]">logout</span> Tancar sessió
+                        </button>
+                    </div>
+                </div>`;
+
+        mobileAuthHtml = `
+                <div class="flex flex-col gap-2 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/50">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 px-2">Sessió com a <strong class="text-slate-800 dark:text-slate-250 font-bold">${user.nickname}</strong></p>
+                    <button onclick="toggleMobileMenu(); logoutUser();" class="flex items-center gap-3 px-2 py-2 text-red-600 dark:text-red-400 font-bold hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors cursor-pointer w-full text-left">
+                        <span class="material-symbols-outlined text-[18px]">logout</span> Tancar sessió
+                    </button>
+                </div>`;
+    } else {
+        authBtnHtml = `
+                <button onclick="openAuthModal()" class="flex items-center justify-center rounded-lg size-10 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer" aria-label="Iniciar sessió" title="Iniciar sessió">
+                    <span class="material-symbols-outlined">person</span>
+                </button>`;
+
+        mobileAuthHtml = `
+                <button onclick="toggleMobileMenu(); openAuthModal();" class="flex items-center justify-center gap-2 rounded-lg h-12 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-colors cursor-pointer w-full">
+                    <span class="material-symbols-outlined">person</span> Iniciar sessió / Registrar-se
+                </button>`;
+    }
+
     return `
     <header class="sticky top-0 z-50 border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur">
         <div class="flex items-center justify-between px-4 md:px-10 py-4">
             <!-- Branding -->
             <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
-                ${createResponsiveImage({ src: './media/images/logo.png', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, className: 'h-10 w-10 rounded-lg object-cover shadow-sm' })}
+                ${createResponsiveImage({ src: './media/images/logo.jpeg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, className: 'h-10 w-10 rounded-lg object-cover shadow-sm' })}
                 <span class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
                     Artesania Mallorquina
                 </span>
@@ -46,6 +88,8 @@ function renderHeader() {
                     <span class="truncate">Explora el catàleg</span>
                 </a>
 
+                ${authBtnHtml}
+
                 <button onclick="toggleMobileMenu()" id="mobile-menu-btn" class="lg:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Obrir menú de navegació">
                     <span class="material-symbols-outlined" id="mobile-menu-icon">menu</span>
                 </button>
@@ -59,9 +103,11 @@ function renderHeader() {
                 
                 <div class="h-px w-full bg-slate-200 dark:bg-slate-800 my-2"></div>
                 
-                <a onclick="toggleMobileMenu()" class="flex items-center justify-center rounded-lg h-12 bg-primary hover:bg-primary/80 transition-colors text-white text-base font-bold sm:hidden" href="#cataleg">
+                <a onclick="toggleMobileMenu()" class="flex items-center justify-center rounded-lg h-12 bg-primary hover:bg-primary/80 transition-colors text-white text-base font-bold sm:hidden mb-2" href="#cataleg">
                     Explora el catàleg
                 </a>
+
+                ${mobileAuthHtml}
             </nav>
         </div>
     </header>`;
@@ -88,7 +134,7 @@ function renderAbout() {
         <div class="flex flex-col lg:flex-row gap-16 items-center">
             
             <div class="w-full lg:w-1/2 relative">
-                ${createResponsiveImage({ src: './media/images/logo.jpeg', alt: '', sizes: 'hero', lazy: true, className: 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none' })}
+                <img src="./media/images/logo.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none"/>
                 <div class="relative z-10">
                     <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
                     <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>
@@ -417,6 +463,67 @@ function renderModals() {
                     <span class="material-symbols-outlined text-[18px]" style="transform: rotate(-45deg); padding-left: 2px;">send</span>
                 </button>
             </form>
+        </div>
+    </div>
+    
+    <!-- Auth Modal (Login / Registre) -->
+    <div id="auth-modal" class="fixed inset-0 z-[400] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 p-4 font-sans">
+        <div id="auth-modal-content" class="bg-white dark:bg-slate-900 w-full max-w-md overflow-hidden rounded-2xl shadow-2xl flex flex-col relative transform scale-95 transition-transform duration-300 border border-slate-100 dark:border-slate-800">
+            <!-- Modal Header -->
+            <header class="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary text-2xl font-bold">lock</span>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 font-serif">Compte d'Usuari</h2>
+                </div>
+                <button onclick="closeAuthModal()" class="flex items-center justify-center rounded-full flex-shrink-0 w-10 h-10 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 transition-colors cursor-pointer border border-transparent">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </header>
+            
+            <!-- Tabs -->
+            <div class="flex border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                <button onclick="switchAuthTab('login')" id="tab-btn-login" class="flex-1 py-3 text-sm font-bold border-b-2 border-primary text-primary transition-colors cursor-pointer">Iniciar Sessió</button>
+                <button onclick="switchAuthTab('register')" id="tab-btn-register" class="flex-1 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-350 transition-colors cursor-pointer">Crear Compte</button>
+            </div>
+            
+            <!-- Body -->
+            <div class="p-6">
+                <!-- Login Form -->
+                <form id="auth-form-login" onsubmit="handleAuthLogin(event)" class="flex flex-col gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1" for="login-email">Correu Electrònic</label>
+                        <input type="email" id="login-email" required placeholder="elteucorreu@exemple.com" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:border-primary focus:ring-primary py-2.5 px-4 shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1" for="login-password">Contrasenya</label>
+                        <input type="password" id="login-password" required placeholder="••••••••" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:border-primary focus:ring-primary py-2.5 px-4 shadow-sm">
+                    </div>
+                    <div id="login-error-msg" class="text-red-500 text-base font-semibold hidden"></div>
+                    <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md mt-2 flex items-center justify-center gap-2 cursor-pointer border border-transparent">
+                        <span class="material-symbols-outlined text-[18px]">login</span> Entra
+                    </button>
+                </form>
+                
+                <!-- Register Form -->
+                <form id="auth-form-register" onsubmit="handleAuthRegister(event)" class="flex flex-col gap-4 hidden">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1" for="register-nick">Nick / Nom d'usuari</label>
+                        <input type="text" id="register-nick" required placeholder="Biel Perelló" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:border-primary focus:ring-primary py-2.5 px-4 shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1" for="register-email">Correu Electrònic</label>
+                        <input type="email" id="register-email" required placeholder="elteucorreu@exemple.com" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:border-primary focus:ring-primary py-2.5 px-4 shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1" for="register-password">Contrasenya</label>
+                        <input type="password" id="register-password" required placeholder="Min. 6 caràcters" minlength="6" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:border-primary focus:ring-primary py-2.5 px-4 shadow-sm">
+                    </div>
+                    <div id="register-error-msg" class="text-red-500 text-xs font-semibold hidden"></div>
+                    <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md mt-2 flex items-center justify-center gap-2 cursor-pointer border border-transparent">
+                        <span class="material-symbols-outlined text-[18px]">person_add</span> Registrar-se i Entrar
+                    </button>
+                </form>
+            </div>
         </div>
     </div>`;
 }// ── Utilitats ────────────────────────────────────────────────
@@ -898,28 +1005,49 @@ function renderCraftDetail(craft) {
                 <div class="lg:col-span-1">
                     <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
                         <div id="review-form-container">
-                            <h4 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-display">Escriu una valoració</h4>
-                            <form id="review-form" onsubmit="handleReviewSubmit(event, '${craft.id}')" class="flex flex-col gap-4">
-                                <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="review-name">Nom i Llinatges</label><input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="review-name" placeholder="Escriu el teu nom" type="text" required/></div>
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label>
-                                    <div id="review-stars" class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer">
-                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(1)">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(2)">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(3)">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(4)">star</span>
-                                        <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(5)">star</span>
-                                    </div>
-                                    <input type="hidden" id="review-rating" value="0" required>
-                                </div>
-                                <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="review-comment">Comentari (opcional)</label><textarea class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="review-comment" placeholder="Comparteix la teva experiència..." rows="4"></textarea></div>
-                                <label class="cursor-pointer flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-400 hover:border-terracotta hover:text-terracotta transition-colors bg-slate-50 dark:bg-slate-700/50">
-                                    <span class="material-symbols-outlined">add_photo_alternate</span> Adjuntar imatges
-                                    <input type="file" id="review-photos-input" multiple accept="image/*" class="hidden" onchange="handlePhotoUpload(this)">
-                                </label>
-                                <div id="review-photos-preview" class="flex gap-2 flex-wrap empty:hidden"></div>
-                                <button class="mt-2 bg-terracotta text-white py-2 px-4 rounded-lg font-medium hover:bg-terracotta/90 transition-colors" type="submit">Publicar ressenya</button>
-                            </form>
+                            ${(() => {
+            const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+            if (user) {
+                return `
+                                        <h4 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-display">Escriu una valoració</h4>
+                                        <form id="review-form" onsubmit="handleReviewSubmit(event, '${craft.id}')" class="flex flex-col gap-4">
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="review-name">Nom i Llinatges</label>
+                                                <input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 shadow-sm cursor-not-allowed" id="review-name" value="${user.nickname}" type="text" readonly required/>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label>
+                                                <div id="review-stars" class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer">
+                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(1)">star</span>
+                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(2)">star</span>
+                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(3)">star</span>
+                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(4)">star</span>
+                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(5)">star</span>
+                                                </div>
+                                                <input type="hidden" id="review-rating" value="0" required>
+                                            </div>
+                                            <div><label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="review-comment">Comentari (opcional)</label><textarea class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm focus:border-terracotta focus:ring-terracotta" id="review-comment" placeholder="Comparteix la teva experiència..." rows="4"></textarea></div>
+                                            <label class="cursor-pointer flex items-center justify-center gap-2 w-full py-2 px-4 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-400 hover:border-terracotta hover:text-terracotta transition-colors bg-slate-50 dark:bg-slate-700/50">
+                                                <span class="material-symbols-outlined">add_photo_alternate</span> Adjuntar imatges
+                                                <input type="file" id="review-photos-input" multiple accept="image/*" class="hidden" onchange="handlePhotoUpload(this)">
+                                            </label>
+                                            <div id="review-photos-preview" class="flex gap-2 flex-wrap empty:hidden"></div>
+                                            <button class="mt-2 bg-terracotta text-white py-2 px-4 rounded-lg font-medium hover:bg-terracotta/90 transition-colors cursor-pointer" type="submit">Publicar ressenya</button>
+                                        </form>
+                                    `;
+            } else {
+                return `
+                                        <div class="bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-6 text-center">
+                                            <span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-4xl mb-3">rate_review</span>
+                                            <h5 class="font-display font-bold text-lg text-slate-800 dark:text-slate-200 mb-2">Vols valorar aquesta artesania?</h5>
+                                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-5">Inicia sessió o crea un compte per poder valorar la teva experiència amb els tallers i mestres artesans.</p>
+                                            <button onclick="openAuthModal()" class="mx-auto bg-terracotta hover:bg-terracotta/90 text-white font-bold py-2 px-6 rounded-lg text-sm transition-all cursor-pointer shadow-md hover:scale-[1.02] flex items-center justify-center gap-2">
+                                                <span class="material-symbols-outlined text-[18px]">login</span> Inicia Sessió
+                                            </button>
+                                        </div>
+                                    `;
+            }
+        })()}
                         </div>
                     </div>
                 </div>
@@ -1180,9 +1308,9 @@ function renderArtGalleries(galleries) {
         <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col" id="artgal-card-${gid}">
             <div class="relative h-36 bg-slate-100 dark:bg-slate-700 overflow-hidden">
                 ${imageUrl
-                    ? createResponsiveImage({ src: imageUrl, alt: name, sizes: 'card', lazy: true, className: 'w-full h-full object-cover hover:scale-105 transition-transform duration-500' })
-                    : `<div class="w-full h-full flex items-center justify-center"><span class="material-symbols-outlined text-slate-400 text-4xl">image_not_supported</span></div>`
-                }
+                ? createResponsiveImage({ src: imageUrl, alt: name, sizes: 'card', lazy: true, className: 'w-full h-full object-cover hover:scale-105 transition-transform duration-500' })
+                : `<div class="w-full h-full flex items-center justify-center"><span class="material-symbols-outlined text-slate-400 text-4xl">image_not_supported</span></div>`
+            }
                 ${g.publicAccess ? '<span class="absolute top-2 right-2 bg-green-500/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Accés públic</span>' : ''}
             </div>
             <div class="p-4 flex flex-col flex-1">
