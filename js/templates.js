@@ -477,7 +477,7 @@ function renderCatalogCards(crafts) {
             </button>
             <div class="overflow-hidden aspect-[4/3] relative">
                 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
-                <img alt="${c.nom}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${c.imatge}"/>
+                <img alt="${c.nom}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 img-optimized" src="${c.imatge}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
                 <span class="absolute bottom-4 left-4 z-20 bg-primary text-white text-xs font-bold px-2 py-1 rounded">${c.material}</span>
             </div>
             <div class="p-5">
@@ -620,7 +620,7 @@ function renderMultimediaGrid(items) {
             html += `
             <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20" onclick="showToast('Reproduint vídeo: ${item.titol}', 'info', 'play_circle')">
                 <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 z-10"></div>
-                <img alt="${item.titol}" class="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700" src="${item.img}"/>
+                <img alt="${item.titol}" class="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700 img-optimized" src="${item.img}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
                 <div class="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div class="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transform scale-90 group-hover:scale-100 transition-all duration-300 border border-white/30">
                         <span class="material-symbols-outlined text-white text-6xl drop-shadow-lg">play_arrow</span>
@@ -635,7 +635,7 @@ function renderMultimediaGrid(items) {
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="showToast('Obrint galeria: ${item.titol}', 'info', 'photo_library')">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
-                <img alt="${item.titol}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" src="${item.img}"/>
+                <img alt="${item.titol}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 img-optimized" src="${item.img}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
                 <div class="absolute inset-0 z-20 p-6 flex flex-col justify-end opacity-90 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-300">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-white text-xl">photo_library</span>
@@ -648,7 +648,7 @@ function renderMultimediaGrid(items) {
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" onclick="showToast('Sèrie: ${item.titol} — pròximament', 'info', 'subscriptions')">
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/90 z-10"></div>
-                <img alt="${item.titol}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="${item.img}"/>
+                <img alt="${item.titol}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 img-optimized" src="${item.img}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
                 <div class="absolute top-4 right-4 z-20 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1 border border-white/10">
                     <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                     <span class="text-white text-xs font-bold uppercase">Sèrie</span>
@@ -667,7 +667,7 @@ function renderMultimediaGrid(items) {
         } else if (item.tipus === 'audio') {
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group shadow-lg z-20 bg-slate-800">
-                <img alt="${item.titol}" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700" src="${item.img}"/>
+                <img alt="${item.titol}" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700 img-optimized" src="${item.img}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
                 <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 to-slate-800/80 z-10"></div>
                 <div class="relative z-20 h-full p-6 flex flex-col items-center justify-center text-center">
                     <span class="text-primary text-xs font-bold uppercase tracking-widest mb-4">Sons de l'ofici</span>
@@ -970,7 +970,7 @@ function renderGalleryImages(craft) {
 
     html += craft.galeria.map(g => `
         <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer">
-            <img src="${g.imatge}" class="w-full h-64 object-cover group-hover/gal:scale-110 transition-transform duration-700" alt="${g.titol}">
+            <img src="${g.imatge}" class="w-full h-64 object-cover group-hover/gal:scale-110 transition-transform duration-700 img-optimized" alt="${g.titol}" loading="lazy" decoding="async" onerror="handleImageError(this)">
             <div class="absolute inset-0 bg-black/0 group-hover/gal:bg-black/30 transition-colors duration-300 flex items-end">
                 <div class="p-3 w-full translate-y-full group-hover/gal:translate-y-0 transition-transform duration-300">
                     <p class="text-white text-sm font-bold drop-shadow-lg">${g.titol}</p>
@@ -983,7 +983,7 @@ function renderGalleryImages(craft) {
     // Imatge principal
     html += `
         <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer sm:col-span-2 md:col-span-3 aspect-[21/9]">
-            <img src="${craft.imatge}" class="w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-700" alt="${craft.nom}">
+            <img src="${craft.imatge}" class="w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-700 img-optimized" alt="${craft.nom}" loading="lazy" decoding="async" onerror="handleImageError(this)">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                 <div class="p-6"><p class="text-white text-lg font-serif font-bold">${craft.nom}</p></div>
             </div>
@@ -995,7 +995,7 @@ function renderGalleryImages(craft) {
             <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">videocam</span> Vídeo</h4>
         </div>
         <div class="sm:col-span-2 md:col-span-3 relative rounded-xl overflow-hidden bg-slate-800 border border-white/10 aspect-video cursor-pointer group/vid" onclick="showToast('Reproducció de vídeo pròximament disponible', 'info', 'videocam')">
-            <img src="${craft.videoThumb || craft.imatge}" class="w-full h-full object-cover opacity-60 group-hover/vid:opacity-80 group-hover/vid:scale-105 transition-all duration-500" alt="Vídeo">
+            <img src="${craft.videoThumb || craft.imatge}" class="w-full h-full object-cover opacity-60 group-hover/vid:opacity-80 group-hover/vid:scale-105 transition-all duration-500 img-optimized" alt="Vídeo" loading="lazy" decoding="async" onerror="handleImageError(this)">
             <div class="absolute inset-0 flex items-center justify-center">
                 <div class="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 group-hover/vid:scale-110 group-hover/vid:bg-primary/40 transition-all duration-300">
                     <span class="material-symbols-outlined text-white text-4xl ml-1">play_arrow</span>

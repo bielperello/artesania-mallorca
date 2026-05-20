@@ -42,7 +42,7 @@
                     "genre": "Artesania tradicional",
                     "locationCreated": {
                         "@type": "Place",
-                        "name": "Pla de Mallorca",
+                        "name": "Es Raiguer",
                         "containedInPlace": {
                             "@type": "AdministrativeArea",
                             "name": "Mallorca, Illes Balears, Espanya"

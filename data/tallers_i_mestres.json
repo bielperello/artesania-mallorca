@@ -3,6 +3,7 @@
         {
             "id": "bernadi",
             "nom": "Can Bernadí Nou",
+            "comarca": "raiguer",
             "adreca": "Carrer de la Creu, 14, Marratxí",
             "telefon": "+34 971 60 12 34",
             "web": "canbernadi.com",
@@ -11,6 +12,7 @@
             "mapsQuery": "Can+Bernadi+Nou+Marratxi",
             "lat": 39.634,
             "lng": 2.7438,
+            "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuB6NmHhunRITfm7YWg4R1nX0Ugh24DKVNywhVuxm1LZuv8Q8XlXVEGxQv0gwB7p_diTE8WamxfgE-tINR1htKpPm3hiFR18tkFRO0iIf8nRJgsZMpaHVbKWoLGwzPPk7AdjpIqtlP5XJnCHbihlTWbd0XFPxBMleIlBWF2fdRHjYfSfd8JVlf4xr2at9FhqoJ1-U1EUPmovyUF54Z4FWFFZIvKXMmfNAd5JBe1a1okeuaheXVQ5Ab-s_2to6jR_bUV7O0ltScK3VjXg",
             "mapPosition": {
                 "top": "40%",
                 "left": "45%"
@@ -20,6 +22,7 @@
         {
             "id": "camado",
             "nom": "Siurells Ca Madò Bet",
+            "comarca": "raiguer",
             "adreca": "Plaça de l'Església, Sa Cabaneta",
             "telefon": "+34 971 79 45 67",
             "email": "info@camadobet.cat",
@@ -28,6 +31,7 @@
             "mapsQuery": "Ca+Mado+Bet+Sa+Cabaneta",
             "lat": 39.6402,
             "lng": 2.7312,
+            "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuAAf0TENofon4YiwksUw-XB-rA7YIuRz_9MiYoKRU5W-1o_ggMhaBwXJGCqCeDZzb02T2dhLtR4iZBmRm3JTexspWxKUDQ99aTLSLxkJeVwJqub2dGpcGKIMCtQb_N-Z8P3lXs9t3z348VwBqgJxkSUwZ8WIzOoYtvlhgwVivvTpOzchsvw7Bkpe9xN8NB83iaUNkPN3VytLq-_MD0uCIkNHb_Ym2pbHWyfTcWKo9WKiimVwe-R3aL4PLyLacB1pi7EVN30BVYBiA7X",
             "mapPosition": {
                 "top": "35%",
                 "left": "55%"
@@ -37,6 +41,7 @@
         {
             "id": "gordiola",
             "nom": "Vidrieries Gordiola",
+            "comarca": "pla",
             "adreca": "Ctra. Palma-Manacor, km 19, Algaida",
             "telefon": "+34 971 66 50 46",
             "web": "gordiola.com",
@@ -45,6 +50,7 @@
             "mapsQuery": "Vidrieries+Gordiola+Algaida",
             "lat": 39.56,
             "lng": 2.892,
+            "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBrf51cyWMYkm1-iXrDnBTsNKCHmukIssX9kg-6tH6No8tDIgDezjCACL8RP22k9hqkNi-RipDbvuWRUIqK4fYO34WX7Iz3XgCEF1afjGl2cv1Cd4U_IKCXMkgJ9do5hMXbg8KpVsEn-b-_x05y3TP97AazCGqUYVvsnMeJyRvCUDO3mjwsarD8R95VjVZCJeWtU_v7JUgCBu-N7VEXCNdmPKcy1oo80-Dz_dVcGV1tWhS3lD6umLv4Jyq5JTHMjMxrc6w_ERefzNao",
             "mapPosition": {
                 "top": "45%",
                 "left": "40%"
@@ -54,6 +60,7 @@
         {
             "id": "menestralia",
             "nom": "La Menestralia",
+            "comarca": "raiguer",
             "adreca": "Carrer del Vidre, 8, Campanet",
             "telefon": "+34 971 51 60 78",
             "email": "info@menestralia.es",
@@ -62,6 +69,7 @@
             "mapsQuery": "La+Menestralia+Campanet",
             "lat": 39.78,
             "lng": 2.97,
+            "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W",
             "mapPosition": {
                 "top": "30%",
                 "left": "55%"
@@ -71,6 +79,7 @@
         {
             "id": "vicens",
             "nom": "Teixits Vicens",
+            "comarca": "tramuntana",
             "adreca": "Carrer de Sant Agustí, 1, Pollença",
             "telefon": "+34 971 53 04 50",
             "web": "teixitsvicens.com",
@@ -79,6 +88,7 @@
             "mapsQuery": "Teixits+Vicens+Pollenca",
             "lat": 39.8767,
             "lng": 3.0152,
+            "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuC_A0SUw9RqSKQLcR9plH8oQk7szdi5Jwz5Y2cIw7oFiTuC8QhhWD0GDPn9JDazVeRhNXLXDe3hyi_cAaMn-mttS4qbCn7B_hqztWhgY-gL85PLO-vpajx6t2L8r1oO0C-zpeZ_zbHvdasp2_VU_XIFcXAOUkCFiWHSlx8yV8nFjw7fxYypGVOQQsas9cUckIUjxuBiojI64zl4KsP01ytFkiW-M04BTdrJ3AHhKQNWfzXAduvg7dzvMiZYN25GE2HEQNRq8wPxubk1",
             "mapPosition": {
                 "top": "25%",
                 "left": "50%"
@@ -88,6 +98,7 @@
         {
             "id": "bujosa",
             "nom": "Teixits Bujosa",
+            "comarca": "raiguer",
             "adreca": "Carrer de Sa Rosa, 50, Santa Maria del Camí",
             "telefon": "+34 971 62 00 54",
             "web": "bujosa.com",
@@ -96,6 +107,7 @@
             "mapsQuery": "Teixits+Bujosa+Santa+Maria",
             "lat": 39.651,
             "lng": 2.767,
+            "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuALNMrHGXDsC-khMfjebpWKtVYTZnlpWAT7DzH9lfHG-GInEh0uH5Mk9t2j9MKHqQMX_FWeCUsN55wh42Lo2q6Y92OTn2wkdMo7bGo7PeQSxq4XovnZw6gitz0EEx6C-An8BZ3EyTu6HMv11Hb2YXKmyTN7w1Ap5FsT8HYATGshAcyGjmUriS2EI4buqxf2oUPDgMDVFys5naIVDmncM1nKL2OOWg_k-bHk9jBvwCcWSlg3YVqTF_sKBofEcz555u9Wzz2KUBy0pK6C",
             "mapPosition": {
                 "top": "45%",
                 "left": "35%"
@@ -105,6 +117,7 @@
         {
             "id": "artespart",
             "nom": "Artespart Artà",
+            "comarca": "llevant",
             "adreca": "Carrer de Ses Roques, 3, Artà",
             "telefon": "+34 971 83 56 12",
             "web": "artespart.com",
@@ -113,6 +126,7 @@
             "mapsQuery": "Artespart+Arta",
             "lat": 39.696,
             "lng": 3.349,
+            "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBS3Kdurvz_F1o6sWyequ6xzYwR8XPss85ax7fQ29S0AarYH3CEX0aiZH8fBrS-vv4RBPHxbv144Z9xH1rffu7Xb_Sruaye2cvuy1LmkegG1gdpWipWL-B7tYRyWPlMlLoo5nlp3Q8gHuM2VaLXwKDX9Q2DfidQ_LTfaQdHHFTfUwW5dceANbvvnkutAWkT8X-l9s80sN0sA6ekWva7Ivr5Vg2eBfK5-ZkcmNMnXmUSRpKWQN_6EWFnJG2q3Lj20mOV6thZnCkXwLYM",
             "mapPosition": {
                 "top": "30%",
                 "left": "65%"
@@ -122,6 +136,7 @@
         {
             "id": "ses-dones",
             "nom": "Associació Ses Dones de la Llatra",
+            "comarca": "llevant",
             "adreca": "Capdepera, Centre Cultural",
             "telefon": "+34 971 56 30 33",
             "email": "sesdones@llatra.cat",
@@ -130,6 +145,7 @@
             "mapsQuery": "Capdepera+Centre+Cultural",
             "lat": 39.702,
             "lng": 3.432,
+            "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBioo8H7adJrdmnnuMTTCqkII4BOLq4-prHUbBCi9Y1QNm10W8cIvmgKxaxDNmktz6nVCP9UFQy_3HAdqEhbmemEMDJOKwclwsRKqmAQw2TqYp5uvLBF1_WmkRilacKPv04V3GYldQFzTeWRcLXX9PmGKtEIHyCfTlv9lp_8CnImvf_otfmhy1dc42fFR9nbB8CAfOlonhDMJhRQaFMdTcmz8uVpKFslkcfK9OoJE_AjzETj48DZ98kG_GBMf3fStEK6MBPAS6ZuphE",
             "mapPosition": {
                 "top": "25%",
                 "left": "70%"

@@ -335,3 +335,30 @@ html {
 a.popup-directions {
     color: white;
 }
+
+/* ── Optimització d'Imatges ────────────────────────── */
+.img-optimized {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.img-optimized.img-loaded,
+.img-optimized[data-error-handled] {
+    opacity: 1;
+}
+
+/* Fallback immediat per imatges ja carregades (cached) */
+.img-optimized[complete] {
+    opacity: 1;
+}
+
+.img-error {
+    background: #f1f5f9;
+    border: 1px dashed #cbd5e1;
+    padding: 1rem;
+}
+
+/* Assegurar que les imatges dins picture mantenen la mida */
+picture {
+    display: contents;
+}

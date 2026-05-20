@@ -181,6 +181,9 @@ async function init() {
 
     // 4. Inicialitzar el mapa principal amb Leaflet
     initMainMap();
+
+    // 5. Activar observador d'imatges per animacions fade-in
+    initImageObserver();
 }
 
 function populateDynamicContent() {
@@ -328,10 +331,10 @@ function applyMapFilters() {
 
         let visible = true;
 
-        // Filtrar per comarca/zona (artesania.zona)
+        // Filtrar per comarca (ubicació geogràfica del taller)
         if (activeComarques.length > 0) {
-            const craftZona = craft ? craft.zona : '';
-            if (!activeComarques.includes(craftZona)) {
+            const tallerComarca = taller.comarca || '';
+            if (!activeComarques.includes(tallerComarca)) {
                 visible = false;
             }
         }
