@@ -99,9 +99,10 @@ function renderApp() {
 async function init() {
     // 0. Carregar dades dinàmiques des dels JSON
     try {
-        const [craftsResObj, tallersResObj] = await Promise.all([
+        const [craftsResObj, tallersResObj, artGalleryResObj] = await Promise.all([
             fetch('./data/tipus_artesania.json'),
-            fetch('./data/tallers_i_mestres.json')
+            fetch('./data/tallers_i_mestres.json'),
+            fetch('./data/ArtGallery.json')       // JSON extern (grup aliè) — integrat de forma eficient
         ]);
 
         if (!craftsResObj.ok || !tallersResObj.ok) {
@@ -111,6 +112,18 @@ async function init() {
         const craftsData = await craftsResObj.json();
         const tallersDataObj = await tallersResObj.json();
         const { tallers, mestres } = tallersDataObj;
+
+        // Carregar i mapar ArtGallery.json (schema.org @graph)
+        if (artGalleryResObj.ok) {
+            try {
+                const artGalleryData = await artGalleryResObj.json();
+                // El JSON extern segueix l'estructura schema.org amb un @graph
+                APP_DATA.artGalleries = artGalleryData['@graph'] || artGalleryData || [];
+            } catch (e) {
+                console.warn('[ArtGallery] Error parsejant ArtGallery.json:', e);
+                APP_DATA.artGalleries = [];
+            }
+        }
 
         // Guardar només els camps sol·licitats a les variables globals per al xat de l'assistent IA
         craftsRes = craftsData.map(c => ({
@@ -681,11 +694,26 @@ function openModal(craftId) {
     if (body) {
         body.innerHTML = renderCraftDetail(craft);
         checkReviewStatus(craft.id);
+
+        // Injectar les galeries d'art del JSON extern just sota del bloc Tallers+Mapa
+        if (APP_DATA.artGalleries && APP_DATA.artGalleries.length > 0) {
+            body.querySelector('.p-8')?.insertAdjacentHTML(
+                'beforeend',
+                renderArtGalleries(APP_DATA.artGalleries)
+            );
+        }
+
+        // Activar l'observer de imatges per al fade-in del contingut del modal
+        initImageObserver();
     }
 
     // Poblar galeria modal
     const galleryGrid = document.getElementById('gallery-grid');
-    if (galleryGrid) galleryGrid.innerHTML = renderGalleryImages(craft);
+    if (galleryGrid) {
+        galleryGrid.innerHTML = renderGalleryImages(craft);
+        // Activar observer per a les imatges de la galeria
+        initImageObserver();
+    }
 
     // Sincronitzar estat del botó de favorit del modal
     const isFav = getFavorites().has(craftId);
@@ -1252,6 +1280,9 @@ function handleSort(criteria) {
     // Re-renderitzar les targetes amb el nou ordre
     catalogGrid.innerHTML = renderCatalogCards(sorted);
 
+    // Activar observer de imatges per al fade-in de les targetes reordenades
+    initImageObserver();
+
     // Re-aplicar la cerca o els filtres i la paginació
     const searchInput = document.getElementById('catalog-search');
     if (searchInput && searchInput.value.trim()) {
@@ -1750,6 +1781,15 @@ function handleReviewSubmit(event, craftId) {
     if (modalBody && APP_DATA.crafts[craftIndex]) {
         modalBody.innerHTML = renderCraftDetail(APP_DATA.crafts[craftIndex]);
         checkReviewStatus(craftId);
+
+        // Reinjectar galeries d'art i activar observer
+        if (APP_DATA.artGalleries && APP_DATA.artGalleries.length > 0) {
+            modalBody.querySelector('.p-8')?.insertAdjacentHTML(
+                'beforeend',
+                renderArtGalleries(APP_DATA.artGalleries)
+            );
+        }
+        initImageObserver();
     }
 
     showToast("Ressenya publicada amb èxit!", 'success', 'check_circle');

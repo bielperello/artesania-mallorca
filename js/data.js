@@ -62,4 +62,5 @@ const APP_DATA = {
     crafts: [],
     tallers: [],
     mestres: [],
+    artGalleries: [],   // Carregat des de data/ArtGallery.json (JSON extern grup aliè)
 };

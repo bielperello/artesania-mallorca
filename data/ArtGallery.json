@@ -1,0 +1,217 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ArtGallery",
+      "@id": "galeria_001",
+      "name": "Galería Pelaires",
+      "description": "Centro de arte contemporáneo con exposiciones de artistas internacionales y locales.",
+      "image": "https://vuestra-web.org/media/pelaires-main.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Palma",
+        "addressRegion": "Islas Baleares",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.5712,
+        "longitude": 2.6458
+      },
+      "publicAccess": true,
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Acceso minusválidos",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Tienda de arte",
+          "value": true
+        }
+      ],
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Estilo artístico",
+          "value": "Contemporáneo"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Entrada",
+          "value": "Gratuita"
+        }
+      ],
+      "subjectOf": [
+        {
+          "@type": "AudioObject",
+          "@id": "audio_guia_001",
+          "name": "Audioguía Exposición Actual",
+          "contentUrl": "https://vuestra-web.org/media/audio/guia-001.mp3",
+          "encodingFormat": "audio/mpeg",
+          "duration": "PT5M20S"
+        }
+      ]
+    },
+    {
+      "@type": "ArtGallery",
+      "@id": "galeria_002",
+      "name": "Es Baluard Museu d'Art Contemporani",
+      "description": "Gran museo y galería situado en el baluarte de Sant Pere, centrado en el arte moderno y contemporáneo de las Islas Baleares.",
+      "image": "https://vuestra-web.org/media/es-baluard.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Palma",
+        "addressRegion": "Islas Baleares",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.5702,
+        "longitude": 2.6412
+      },
+      "publicAccess": true,
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Cafetería",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Wifi",
+          "value": true
+        }
+      ],
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Especialidad",
+          "value": "Arte Contemporáneo Balear"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Año de inauguración",
+          "value": "2004"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": 4.7,
+        "reviewCount": 1540
+      },
+      "subjectOf": [
+        {
+          "@type": "VideoObject",
+          "name": "Presentación de la Colección Permanente",
+          "contentUrl": "https://vuestra-web.org/media/video/presentacion-baluard.mp4",
+          "encodingFormat": "video/mp4",
+          "duration": "PT2M45S",
+          "thumbnailUrl": "https://vuestra-web.org/media/video/thumb-baluard.jpg",
+          "uploadDate": "2025-01-10"
+        }
+      ]
+    },
+    {
+      "@type": "ArtGallery",
+      "@id": "galeria_003",
+      "name": "ABA ART LAB",
+      "description": "Galería y laboratorio de arte dedicada a la producción y exposición de proyectos artísticos contemporáneos.",
+      "image": "https://vuestra-web.org/media/aba-art.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Palma",
+        "addressRegion": "Islas Baleares",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.5721,
+        "longitude": 2.6435
+      },
+      "publicAccess": true,
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Visitas guiadas",
+          "value": true
+        }
+      ],
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Formato",
+          "value": "Galería-Laboratorio"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Entrada",
+          "value": "Cita previa recomendada"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": 4.5,
+        "reviewCount": 42
+      },
+      "subjectOf": [
+        {
+          "@type": "AudioObject",
+          "name": "Podcast con el artista del mes",
+          "contentUrl": "https://vuestra-web.org/media/audio/podcast-aba.mp3",
+          "encodingFormat": "audio/mpeg",
+          "duration": "PT12M30S"
+        }
+      ]
+    },
+    {
+      "@type": "ArtGallery",
+      "@id": "galeria_004",
+      "name": "Galería Red",
+      "description": "Concept store y galería que fusiona arte contemporáneo, diseño icónico y moda vintage de alta gama.",
+      "image": "https://vuestra-web.org/media/galeria-red.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Palma",
+        "addressRegion": "Islas Baleares",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.5705,
+        "longitude": 2.6478
+      },
+      "publicAccess": true,
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Tienda",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Consultoría de arte",
+          "value": true
+        }
+      ],
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Estilo",
+          "value": "Pop Art y Diseño"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Nivel de precios",
+          "value": "Coleccionismo"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": 4.8,
+        "reviewCount": 85
+      }
+    }
+  ]
+}

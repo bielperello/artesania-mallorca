@@ -38,7 +38,7 @@ const IMAGE_PLACEHOLDER_SVG = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
  * @param {string} [config.sizes='card'] - Clau de IMAGE_SIZES o valor personalitzat
  * @param {string} [config.className=''] - Classes CSS addicionals
  * @param {string} [config.aspectRatio=''] - Aspect ratio CSS (ex: 'aspect-[4/3]')
- * @param {boolean} [config.lazy=true] - Activar lazy loading
+ * @param {boolean} [config.lazy=true] - Activar lazy loading (false = fetchpriority high per LCP)
  * @param {Object} [config.srcset] - Objecte amb variants per srcset
  * @param {string} [config.srcset.webp] - URL de la variant WebP
  * @param {string} [config.srcset.avif] - URL de la variant AVIF
@@ -61,9 +61,14 @@ function createResponsiveImage(config) {
     // Obtenir el valor de sizes des de la constant o usar-lo directament
     const sizesValue = IMAGE_SIZES[sizes] || sizes;
 
+    // fetchpriority: 'high' per a imatges LCP (hero, non-lazy), 'auto' per a la resta
+    // Ajuda al navegador a prioritzar el recurs crític per al LCP
+    const fetchPriority = lazy ? 'auto' : 'high';
+
     // Atributs comuns de l'<img>
     const loadingAttr = lazy ? 'loading="lazy"' : '';
-    const decodingAttr = 'decoding="async"';
+    const decodingAttr = lazy ? 'decoding="async"' : 'decoding="sync"';
+    const fetchPriorityAttr = `fetchpriority="${fetchPriority}"`;
     const errorHandler = 'onerror="handleImageError(this)"';
     const baseClass = `${className} img-optimized`.trim();
     const styleAttr = style ? `style="${style}"` : '';
@@ -90,12 +95,12 @@ function createResponsiveImage(config) {
 
         return `<picture class="${aspectRatio}">
             ${sourcesHTML}
-            <img src="${src}" alt="${alt}" ${imgSrcset} ${loadingAttr} ${decodingAttr} ${errorHandler} class="${baseClass}" ${styleAttr}>
+            <img src="${src}" alt="${alt}" ${imgSrcset} ${loadingAttr} ${decodingAttr} ${fetchPriorityAttr} ${errorHandler} class="${baseClass}" ${styleAttr}>
         </picture>`;
     }
 
     // Sense variants, retornar <img> simple optimitzat
-    return `<img src="${src}" alt="${alt}" ${loadingAttr} ${decodingAttr} ${errorHandler} class="${baseClass}" ${styleAttr}>`;
+    return `<img src="${src}" alt="${alt}" ${loadingAttr} ${decodingAttr} ${fetchPriorityAttr} ${errorHandler} class="${baseClass}" ${styleAttr}>`;
 }
 
 

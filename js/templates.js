@@ -30,7 +30,7 @@ function renderHeader() {
         <div class="flex items-center justify-between px-4 md:px-10 py-4">
             <!-- Branding -->
             <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
-                <img src="./media/images/logo.png" alt="Logo Artesania Mallorquina" class="h-10 w-10 rounded-lg object-cover shadow-sm"/>
+                ${createResponsiveImage({ src: './media/images/logo.png', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, className: 'h-10 w-10 rounded-lg object-cover shadow-sm' })}
                 <span class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
                     Artesania Mallorquina
                 </span>
@@ -70,8 +70,9 @@ function renderHeader() {
 function renderHero() {
     return `
     <section class="@container mb-16 px-10 py-8 lg:px-20 max-w-[1400px] mx-auto">
-        <div class="flex min-h-[400px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-start justify-center px-8 pb-12 shadow-lg relative overflow-hidden" style='background-image: url("./media/images/hero-01.jpg");'>
-            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
+        <div class="flex min-h-[400px] flex-col gap-6 rounded-xl items-start justify-center px-8 pb-12 shadow-lg relative overflow-hidden">
+            ${createResponsiveImage({ src: './media/images/hero-01.jpg', alt: '', sizes: 'hero', lazy: false, className: 'absolute inset-0 w-full h-full object-cover z-0' })}
+            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-[1]"></div>
             <div class="relative z-10 flex flex-col gap-4 text-left max-w-2xl mt-12">
                 <span class="text-primary font-bold uppercase tracking-wider text-sm">Patrimoni Mediterrani</span>
                 <h1 class="text-white text-5xl font-serif font-black leading-tight tracking-[-0.033em]">Catàleg Interactiu d'Artesania Mallorquina</h1>
@@ -87,7 +88,7 @@ function renderAbout() {
         <div class="flex flex-col lg:flex-row gap-16 items-center">
             
             <div class="w-full lg:w-1/2 relative">
-                <img src="./media/images/logo.jpeg" alt="" aria-hidden="true" role="presentation" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none"/>
+                ${createResponsiveImage({ src: './media/images/logo.jpeg', alt: '', sizes: 'hero', lazy: true, className: 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none' })}
                 <div class="relative z-10">
                     <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
                     <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>
@@ -102,7 +103,7 @@ function renderAbout() {
             <div class="w-full lg:w-1/2 relative">
                 <figure class="relative z-10">
                     <div class="aspect-[4/5] overflow-hidden rounded-lg shadow-xl mb-3">
-                        <img alt="Artesana de Siurells de Ca Mado Bet." class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="./media/images/about-01.webp"/>
+                        ${createResponsiveImage({ src: './media/images/about-01.webp', alt: 'Artesana de Siurells de Ca Mado Bet al seu taller', sizes: 'card', lazy: true, className: 'w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700' })}
                     </div>
                     <figcaption class="text-sm text-slate-500 dark:text-slate-400 italic text-right px-2">
                         Artesana de Siurells de Ca Mado Bet al seu taller
@@ -316,7 +317,7 @@ function renderFooter() {
     <footer class="bg-slate-900 text-slate-400 py-12 px-10 border-t border-slate-800 mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3 text-white">
-                <img src="./media/images/logo.jpeg" alt="Logo" class="h-9 w-9 rounded-lg object-cover opacity-90"/>
+                ${createResponsiveImage({ src: './media/images/logo.jpeg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, className: 'h-9 w-9 rounded-lg object-cover opacity-90' })}
                 <span class="font-serif font-bold text-lg">Artesania Mallorquina</span>
             </div>
             <div class="flex gap-6">
@@ -476,7 +477,7 @@ function renderCatalogCards(crafts) {
             </button>
             <div class="overflow-hidden aspect-[4/3] relative">
                 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
-                <img alt="${c.nom}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 img-optimized" src="${c.imatge}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
+                ${createResponsiveImage({ src: c.imatge, alt: c.nom, sizes: 'card', lazy: true, className: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' })}
                 <span class="absolute bottom-4 left-4 z-20 bg-primary text-white text-xs font-bold px-2 py-1 rounded">${c.material}</span>
             </div>
             <div class="p-5">
@@ -614,18 +615,34 @@ function renderGeoNearby(tallers) {
 function renderMultimediaGrid(items) {
     let html = '<div class="grain-overlay z-10"></div>';
 
-    items.forEach((item, i) => {
+    items.forEach((item, idx) => {
+        const itemId = `mm-${idx}`;
         if (item.tipus === 'video-hero') {
+            // ── Vídeo Hero: <video> HTML5 natiu amb preload="metadata" i <track> VTT ──
+            // Src pendent d'inserir l'URL definitiu del fitxer MP4
             html += `
-            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20" onclick="showToast('Reproduint vídeo: ${item.titol}', 'info', 'play_circle')">
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 z-10"></div>
-                <img alt="${item.titol}" class="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700 img-optimized" src="${item.img}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
-                <div class="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div class="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transform scale-90 group-hover:scale-100 transition-all duration-300 border border-white/30">
+            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group shadow-2xl z-20">
+                <video
+                    id="video-${itemId}"
+                    class="absolute inset-0 w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700"
+                    poster="${item.img}"
+                    preload="metadata"
+                    playsinline
+                    aria-label="${item.titol}"
+                    onclick="this.paused ? this.play() : this.pause()"
+                >
+                    <source src="<!-- PENDENT: ./media/video/${itemId}.mp4 -->" type="video/mp4">
+                    <source src="<!-- PENDENT: ./media/video/${itemId}.webm -->" type="video/webm">
+                    <track kind="captions" src="<!-- PENDENT: ./media/video/${itemId}-ca.vtt -->" srclang="ca" label="Català">
+                    <track kind="captions" src="<!-- PENDENT: ./media/video/${itemId}-es.vtt -->" srclang="es" label="Castellà">
+                </video>
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 z-10 pointer-events-none"></div>
+                <div class="absolute inset-0 flex items-center justify-center z-20 opacity-100 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
+                    <div class="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
                         <span class="material-symbols-outlined text-white text-6xl drop-shadow-lg">play_arrow</span>
                     </div>
                 </div>
-                <div class="absolute bottom-8 left-8 right-8 z-20">
+                <div class="absolute bottom-8 left-8 right-8 z-20 pointer-events-none">
                     <span class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4 inline-block shadow-lg">${item.tag}</span>
                     <h3 class="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md leading-tight group-hover:-translate-y-2 transition-transform duration-500">${item.titol}</h3>
                 </div>
@@ -634,7 +651,7 @@ function renderMultimediaGrid(items) {
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="showToast('Obrint galeria: ${item.titol}', 'info', 'photo_library')">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
-                <img alt="${item.titol}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 img-optimized" src="${item.img}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
+                ${createResponsiveImage({ src: item.img, alt: item.titol, sizes: 'gallery', lazy: true, className: 'absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700' })}
                 <div class="absolute inset-0 z-20 p-6 flex flex-col justify-end opacity-90 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-300">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-white text-xl">photo_library</span>
@@ -647,7 +664,7 @@ function renderMultimediaGrid(items) {
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" onclick="showToast('Sèrie: ${item.titol} — pròximament', 'info', 'subscriptions')">
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/90 z-10"></div>
-                <img alt="${item.titol}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 img-optimized" src="${item.img}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
+                ${createResponsiveImage({ src: item.img, alt: item.titol, sizes: 'gallery', lazy: true, className: 'absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700' })}
                 <div class="absolute top-4 right-4 z-20 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1 border border-white/10">
                     <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                     <span class="text-white text-xs font-bold uppercase">Sèrie</span>
@@ -664,13 +681,28 @@ function renderMultimediaGrid(items) {
                 </div>
             </div>`;
         } else if (item.tipus === 'audio') {
+            // ── Àudio natiu: <audio> amb preload="none" i controls personalitzats ──
+            // Src pendent d'inserir l'URL definitiu del fitxer MP3/OGG
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group shadow-lg z-20 bg-slate-800">
-                <img alt="${item.titol}" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700 img-optimized" src="${item.img}" loading="lazy" decoding="async" onerror="handleImageError(this)"/>
+                ${createResponsiveImage({ src: item.img, alt: '', sizes: 'thumbnail', lazy: true, className: 'absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700' })}
                 <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 to-slate-800/80 z-10"></div>
                 <div class="relative z-20 h-full p-6 flex flex-col items-center justify-center text-center">
                     <span class="text-primary text-xs font-bold uppercase tracking-widest mb-4">Sons de l'ofici</span>
-                    <button onclick="showToast('Reproduint àudio: ${item.titol}', 'info', 'headphones')" class="w-20 h-20 rounded-full bg-white flex items-center justify-center text-slate-900 hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.1)] mb-4 relative">
+                    <audio
+                        id="audio-${itemId}"
+                        preload="none"
+                        aria-label="${item.titol}"
+                        class="hidden"
+                    >
+                        <source src="<!-- PENDENT: ./media/audio/${itemId}.mp3 -->" type="audio/mpeg">
+                        <source src="<!-- PENDENT: ./media/audio/${itemId}.ogg -->" type="audio/ogg">
+                    </audio>
+                    <button
+                        onclick="(function(btn){ const aud = document.getElementById('audio-${itemId}'); if(!aud) return; if(aud.paused){ aud.play(); btn.querySelector('span').textContent='pause'; } else { aud.pause(); btn.querySelector('span').textContent='play_arrow'; } })(this)"
+                        aria-label="Reproduir ${item.titol}"
+                        class="w-20 h-20 rounded-full bg-white flex items-center justify-center text-slate-900 hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.1)] mb-4 relative"
+                    >
                         <span class="absolute inset-0 rounded-full border border-white animate-ping opacity-20"></span>
                         <span class="material-symbols-outlined text-4xl ml-1">play_arrow</span>
                     </button>
@@ -754,10 +786,12 @@ function renderCraftDetail(craft) {
         </div>`;
     }).join('');
 
-    // Galeria
+    // Galeria (background-image → img absoluta via helper)
     const galeriaHTML = craft.galeria.map(g => `
         <div class="flex flex-col gap-2 rounded-xl bg-slate-100 dark:bg-slate-800 p-2 shadow-sm">
-            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg" style='background-image: url("${g.imatge}");'></div>
+            <div class="w-full aspect-square rounded-lg overflow-hidden relative">
+                ${createResponsiveImage({ src: g.imatge, alt: g.titol, sizes: 'thumbnail', lazy: true, className: 'absolute inset-0 w-full h-full object-cover' })}
+            </div>
             <div class="px-2 pb-1">
                 <p class="text-slate-900 dark:text-slate-100 text-sm font-bold">${g.titol}</p>
                 <p class="text-slate-500 dark:text-slate-400 text-xs">${g.subtitol}</p>
@@ -765,10 +799,12 @@ function renderCraftDetail(craft) {
         </div>
     `).join('');
 
-    // Artesans
+    // Artesans (background-image → img absoluta via helper)
     const artesansHTML = craft.artesans.map(a => `
         <div class="flex flex-col min-w-[300px] w-[300px] bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 snap-center cursor-pointer group/artisan hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 transition-all duration-500">
-            <div class="w-24 h-24 rounded-full bg-cover bg-center mb-4 border-4 border-slate-100 dark:border-slate-700 self-center group-hover/artisan:border-primary/40 group-hover/artisan:scale-110 group-hover/artisan:shadow-lg transition-all duration-500" style='background-image: url("${a.foto}");'></div>
+            <div class="w-24 h-24 rounded-full mb-4 border-4 border-slate-100 dark:border-slate-700 self-center group-hover/artisan:border-primary/40 group-hover/artisan:scale-110 group-hover/artisan:shadow-lg transition-all duration-500 overflow-hidden relative">
+                ${createResponsiveImage({ src: a.foto, alt: a.nom, sizes: 'avatar', lazy: true, className: 'absolute inset-0 w-full h-full object-cover' })}
+            </div>
             <h4 class="font-display font-bold text-xl text-slate-900 dark:text-slate-100 text-center mb-1 group-hover/artisan:text-primary transition-colors duration-300">${a.nom}</h4>
             <div class="flex justify-center items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 mb-4">
                 <span>${a.dates}</span><span>•</span><span>${a.lloc}</span>
@@ -777,9 +813,9 @@ function renderCraftDetail(craft) {
         </div>
     `).join('');
 
-    // Ressenyes
+    // Ressenyes (background-image fotos → img helper)
     const ressenyesHTML = craft.ressenyes.map(r => {
-        const imatgesHTML = r.imatges.length ? `<div class="flex gap-2">${r.imatges.map(img => `<div class="w-20 h-20 rounded-lg bg-cover bg-center border border-slate-200 dark:border-slate-700" style='background-image: url("${img}");'></div>`).join('')}</div>` : '';
+        const imatgesHTML = r.imatges.length ? `<div class="flex gap-2">${r.imatges.map(img => `<div class="w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden relative">${createResponsiveImage({ src: img, alt: 'Foto de la ressenya', sizes: 'thumbnail', lazy: true, className: 'absolute inset-0 w-full h-full object-cover' })}</div>`).join('')}</div>` : '';
         return `
         <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
             <div class="flex items-start justify-between mb-2">
@@ -814,17 +850,22 @@ function renderCraftDetail(craft) {
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="relative flex items-center justify-center bg-slate-800 bg-cover bg-center aspect-video rounded-xl overflow-hidden shadow-lg group" style='background-image: url("${craft.videoThumb}");'>
-                <button class="flex shrink-0 items-center justify-center rounded-full size-16 bg-black/50 text-white backdrop-blur-sm group-hover:bg-primary/80 transition-all z-10">
-                    <span class="material-symbols-outlined text-3xl">play_arrow</span>
-                </button>
-                <div class="absolute inset-x-0 bottom-0 px-4 py-3 bg-gradient-to-t from-black/80 to-transparent">
-                    <div class="flex h-4 items-center justify-center w-full mb-1">
-                        <div class="h-1 flex-1 rounded-full bg-white relative"><div class="absolute -left-1 -top-1.5 size-4 rounded-full bg-white shadow-sm"></div></div>
-                        <div class="h-1 flex-1 rounded-full bg-white/30"></div>
-                    </div>
-                    <div class="flex items-center justify-between text-white text-xs font-medium"><span>0:37</span><span>2:23</span></div>
-                </div>
+            <!-- Vídeo HTML5 natiu: preload="metadata" per no descarregar fins play. Poster = thumbnail de la fitxa -->
+            <div class="relative aspect-video rounded-xl overflow-hidden shadow-lg group bg-slate-900">
+                <video
+                    id="craft-video-${craft.id}"
+                    class="w-full h-full object-cover"
+                    poster="${craft.videoThumb || craft.imatge}"
+                    preload="metadata"
+                    playsinline
+                    controls
+                    aria-label="Vídeo del procés artesanal: ${craft.nom}"
+                >
+                    <source src="<!-- PENDENT: ./media/video/${craft.id}.mp4 -->" type="video/mp4">
+                    <source src="<!-- PENDENT: ./media/video/${craft.id}.webm -->" type="video/webm">
+                    <track kind="captions" src="<!-- PENDENT: ./media/video/${craft.id}-ca.vtt -->" srclang="ca" label="Català" default>
+                    <track kind="captions" src="<!-- PENDENT: ./media/video/${craft.id}-es.vtt -->" srclang="es" label="Castellà">
+                </video>
             </div>
             <div class="grid grid-cols-2 gap-4">
                 ${galeriaHTML}
@@ -927,7 +968,8 @@ function renderWeatherModal(weather) {
 
     return `
     <div class="p-6 flex flex-col gap-8">
-        <div class="relative w-full h-48 rounded-2xl overflow-hidden flex items-end p-6 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1543884879-66c878b2d187?auto=format&fit=crop&w=1000&q=80');">
+        <div class="relative w-full h-48 rounded-2xl overflow-hidden flex items-end p-6">
+            ${createResponsiveImage({ src: 'https://images.unsplash.com/photo-1543884879-66c878b2d187?auto=format&fit=crop&w=1000&q=80', alt: '', sizes: 'hero', lazy: true, className: 'absolute inset-0 w-full h-full object-cover' })}
             <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/40 to-transparent"></div>
             <div class="relative z-10 text-white w-full flex justify-between items-end">
                 <div>
@@ -969,7 +1011,7 @@ function renderGalleryImages(craft) {
 
     html += craft.galeria.map(g => `
         <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer">
-            <img src="${g.imatge}" class="w-full h-64 object-cover group-hover/gal:scale-110 transition-transform duration-700 img-optimized" alt="${g.titol}" loading="lazy" decoding="async" onerror="handleImageError(this)">
+            ${createResponsiveImage({ src: g.imatge, alt: g.titol, sizes: 'gallery', lazy: true, className: 'w-full h-64 object-cover group-hover/gal:scale-110 transition-transform duration-700' })}
             <div class="absolute inset-0 bg-black/0 group-hover/gal:bg-black/30 transition-colors duration-300 flex items-end">
                 <div class="p-3 w-full translate-y-full group-hover/gal:translate-y-0 transition-transform duration-300">
                     <p class="text-white text-sm font-bold drop-shadow-lg">${g.titol}</p>
@@ -982,50 +1024,198 @@ function renderGalleryImages(craft) {
     // Imatge principal
     html += `
         <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer sm:col-span-2 md:col-span-3 aspect-[21/9]">
-            <img src="${craft.imatge}" class="w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-700 img-optimized" alt="${craft.nom}" loading="lazy" decoding="async" onerror="handleImageError(this)">
+            ${createResponsiveImage({ src: craft.imatge, alt: craft.nom, sizes: 'hero', lazy: true, className: 'w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-700' })}
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                 <div class="p-6"><p class="text-white text-lg font-serif font-bold">${craft.nom}</p></div>
             </div>
         </div>`;
 
-    // Secció Vídeo placeholder
+    // Secció Vídeo — <video> HTML5 natiu amb preload="metadata" i <track> per subtítols VTT
     html += `
         <div class="sm:col-span-2 md:col-span-3 mt-4 mb-2">
             <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">videocam</span> Vídeo</h4>
         </div>
-        <div class="sm:col-span-2 md:col-span-3 relative rounded-xl overflow-hidden bg-slate-800 border border-white/10 aspect-video cursor-pointer group/vid" onclick="showToast('Reproducció de vídeo pròximament disponible', 'info', 'videocam')">
-            <img src="${craft.videoThumb || craft.imatge}" class="w-full h-full object-cover opacity-60 group-hover/vid:opacity-80 group-hover/vid:scale-105 transition-all duration-500 img-optimized" alt="Vídeo" loading="lazy" decoding="async" onerror="handleImageError(this)">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 group-hover/vid:scale-110 group-hover/vid:bg-primary/40 transition-all duration-300">
-                    <span class="material-symbols-outlined text-white text-4xl ml-1">play_arrow</span>
-                </div>
-            </div>
-            <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                <p class="text-white font-bold text-sm">Procés artesanal: ${craft.nom}</p>
-                <p class="text-white/60 text-xs">Durada: 2:23</p>
-            </div>
+        <div class="sm:col-span-2 md:col-span-3 relative rounded-xl overflow-hidden bg-slate-900 border border-white/10 aspect-video">
+            <video
+                id="gallery-video-${craft.id}"
+                class="w-full h-full object-cover"
+                poster="${craft.videoThumb || craft.imatge}"
+                preload="metadata"
+                playsinline
+                controls
+                aria-label="Procés artesanal: ${craft.nom}"
+            >
+                <source src="<!-- PENDENT: ./media/video/${craft.id}.mp4 -->" type="video/mp4">
+                <source src="<!-- PENDENT: ./media/video/${craft.id}.webm -->" type="video/webm">
+                <track kind="captions" src="<!-- PENDENT: ./media/video/${craft.id}-ca.vtt -->" srclang="ca" label="Català" default>
+                <track kind="captions" src="<!-- PENDENT: ./media/video/${craft.id}-es.vtt -->" srclang="es" label="Castellà">
+            </video>
         </div>`;
 
-    // Secció Àudio placeholder
+    // Secció Àudio — <audio> HTML5 natiu amb preload="none" i controls personalitzats accessibles
     html += `
         <div class="sm:col-span-2 md:col-span-3 mt-4 mb-2">
             <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">headphones</span> Àudio</h4>
         </div>
-        <div class="sm:col-span-2 md:col-span-3 bg-slate-800/80 border border-white/10 rounded-xl p-5 flex items-center gap-4 cursor-pointer group/aud hover:bg-slate-700/80 transition-colors" onclick="showToast('Reproducció d\'àudio pròximament disponible', 'info', 'headphones')">
-            <button class="w-14 h-14 rounded-full bg-white/10 backdrop-blur flex items-center justify-center shrink-0 group-hover/aud:bg-primary/30 transition-colors border border-white/20">
-                <span class="material-symbols-outlined text-white text-2xl">play_arrow</span>
+        <div class="sm:col-span-2 md:col-span-3 bg-slate-800/80 border border-white/10 rounded-xl p-5 flex items-center gap-4 group/aud hover:bg-slate-700/80 transition-colors">
+            <audio
+                id="gallery-audio-${craft.id}"
+                preload="none"
+                aria-label="Sons de l'ofici: ${craft.nom}"
+                class="hidden"
+            >
+                <source src="./media/audio/${craft.id}_desc.mp3" type="audio/mpeg">
+                <source src="<!-- PENDENT: ./media/audio/${craft.id}_desc.ogg -->" type="audio/ogg">
+            </audio>
+            <button
+                id="gallery-audio-btn-${craft.id}"
+                onclick="(function(btn){ const aud = document.getElementById('gallery-audio-${craft.id}'); if(!aud) return; if(aud.paused){ aud.play(); btn.querySelector('.play-icon').textContent='pause'; btn.classList.add('bg-primary/30'); } else { aud.pause(); btn.querySelector('.play-icon').textContent='play_arrow'; btn.classList.remove('bg-primary/30'); } })(this)"
+                aria-label="Reproduir sons de l'ofici: ${craft.nom}"
+                class="w-14 h-14 rounded-full bg-white/10 backdrop-blur flex items-center justify-center shrink-0 group-hover/aud:bg-primary/30 transition-colors border border-white/20"
+            >
+                <span class="material-symbols-outlined text-white text-2xl play-icon">play_arrow</span>
             </button>
             <div class="flex-1">
                 <p class="text-white font-bold text-sm">Sons de l'ofici: ${craft.nom}</p>
-                <p class="text-white/50 text-xs mb-2">Durada: 4:15</p>
+                <p class="text-white/50 text-xs mb-2">Fitxer MP3 · preload="none"</p>
                 <div class="w-full bg-white/10 rounded-full h-1.5">
                     <div class="bg-primary h-1.5 rounded-full w-0 group-hover/aud:w-1/4 transition-all duration-1000"></div>
                 </div>
             </div>
-            <span class="text-white/40 text-xs font-mono">0:00 / 4:15</span>
         </div>`;
 
     return html;
+}
+
+// ── Galeries d'Art Adjacents (JSON extern ArtGallery.json) ──────────────────
+
+/**
+ * Renderitza la secció de galeries d'art properes a partir del JSON extern ArtGallery.
+ * S'injecta a renderCraftDetail, just sota el bloc Tallers+Mapa.
+ * Les galeries amb subjectOf AudioObject mostren un <audio> natiu (preload="none").
+ * Les galeries amb subjectOf VideoObject mostren un <video> natiu (preload="metadata").
+ *
+ * @param {Array} galleries - Array del @graph del fitxer ArtGallery.json
+ * @returns {string} HTML de la secció de galeries
+ */
+function renderArtGalleries(galleries) {
+    if (!galleries || galleries.length === 0) return '';
+
+    const cardsHTML = galleries.map((g, idx) => {
+        // Mapeig de dades schema.org → camps UI
+        const name = g.name || 'Galeria d\'art';
+        const description = g.description || '';
+        const imageUrl = g.image || '';
+        const gid = g['@id'] || `gallery-${idx}`;
+        const lat = g.geo ? g.geo.latitude : null;
+        const lng = g.geo ? g.geo.longitude : null;
+        const mapsUrl = lat && lng ? `https://maps.google.com/?q=${lat},${lng}` : `https://maps.google.com/?q=${encodeURIComponent(name + ' Palma')}`;
+
+        // Rating (si n'hi ha)
+        const ratingHTML = g.aggregateRating ? `
+            <div class="flex items-center gap-1 mt-1">
+                <span class="material-symbols-outlined text-amber-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="text-sm font-bold text-slate-700 dark:text-slate-300">${g.aggregateRating.ratingValue}</span>
+                <span class="text-xs text-slate-400">(${g.aggregateRating.reviewCount})</span>
+            </div>` : '';
+
+        // Característiques (amenityFeature)
+        const featuresHTML = g.amenityFeature && g.amenityFeature.length > 0
+            ? g.amenityFeature.filter(f => f.value).map(f =>
+                `<span class="text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-full">${f.name}</span>`
+            ).join('')
+            : '';
+
+        // Propietats addicionals (entrada, estil...)
+        const propsHTML = g.additionalProperty && g.additionalProperty.length > 0
+            ? g.additionalProperty.slice(0, 2).map(p =>
+                `<span class="text-xs text-slate-500 dark:text-slate-400"><strong class="text-slate-700 dark:text-slate-300">${p.name}:</strong> ${p.value}</span>`
+            ).join('<span class="text-slate-300 dark:text-slate-600 mx-1">·</span>')
+            : '';
+
+        // Media associada (subjectOf): AudioObject o VideoObject
+        let mediaHTML = '';
+        if (g.subjectOf && g.subjectOf.length > 0) {
+            g.subjectOf.forEach((media, mIdx) => {
+                const mediaId = `artgal-${gid}-media-${mIdx}`;
+                if (media['@type'] === 'AudioObject' || media.encodingFormat === 'audio/mpeg') {
+                    mediaHTML += `
+                    <div class="mt-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg p-3 flex items-center gap-3">
+                        <audio id="${mediaId}" preload="none" aria-label="${media.name || name}" class="hidden">
+                            <source src="${media.contentUrl || ''}" type="audio/mpeg">
+                        </audio>
+                        <button
+                            onclick="(function(btn){ const a = document.getElementById('${mediaId}'); if(!a) return; if(a.paused){ a.play(); btn.querySelector('span').textContent='pause'; } else { a.pause(); btn.querySelector('span').textContent='headphones'; } })(this)"
+                            aria-label="Reproduir ${media.name || 'àudio'}"
+                            class="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center shrink-0 transition-colors"
+                        >
+                            <span class="material-symbols-outlined text-primary text-lg">headphones</span>
+                        </button>
+                        <div>
+                            <p class="text-xs font-bold text-slate-700 dark:text-slate-200">${media.name || 'Àudio'}</p>
+                            <p class="text-[10px] text-slate-400">${media.duration ? media.duration.replace('PT', '').replace('M', 'min ').replace('S', 's') : ''} · MP3 · preload="none"</p>
+                        </div>
+                    </div>`;
+                } else if (media['@type'] === 'VideoObject' || media.encodingFormat === 'video/mp4') {
+                    mediaHTML += `
+                    <div class="mt-3 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 aspect-video bg-slate-900">
+                        <video
+                            id="${mediaId}"
+                            class="w-full h-full object-cover"
+                            ${media.thumbnailUrl ? `poster="${media.thumbnailUrl}"` : ''}
+                            preload="metadata"
+                            playsinline
+                            controls
+                            aria-label="${media.name || name}"
+                        >
+                            <source src="${media.contentUrl || ''}" type="video/mp4">
+                            <track kind="captions" src="<!-- PENDENT: fitxer .vtt -->" srclang="ca" label="Català">
+                        </video>
+                    </div>`;
+                }
+            });
+        }
+
+        return `
+        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col" id="artgal-card-${gid}">
+            <div class="relative h-36 bg-slate-100 dark:bg-slate-700 overflow-hidden">
+                ${imageUrl
+                    ? createResponsiveImage({ src: imageUrl, alt: name, sizes: 'card', lazy: true, className: 'w-full h-full object-cover hover:scale-105 transition-transform duration-500' })
+                    : `<div class="w-full h-full flex items-center justify-center"><span class="material-symbols-outlined text-slate-400 text-4xl">image_not_supported</span></div>`
+                }
+                ${g.publicAccess ? '<span class="absolute top-2 right-2 bg-green-500/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Accés públic</span>' : ''}
+            </div>
+            <div class="p-4 flex flex-col flex-1">
+                <h4 class="font-bold text-slate-900 dark:text-slate-100 mb-1 leading-tight">${name}</h4>
+                ${ratingHTML}
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 line-clamp-2 flex-1">${description}</p>
+                ${propsHTML ? `<p class="mt-2 flex flex-wrap gap-x-1">${propsHTML}</p>` : ''}
+                ${featuresHTML ? `<div class="flex flex-wrap gap-1 mt-3">${featuresHTML}</div>` : ''}
+                ${mediaHTML}
+                <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer"
+                   class="mt-4 flex items-center justify-center gap-1.5 w-full py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">directions</span> Com arribar-hi
+                </a>
+            </div>
+        </div>`;
+    }).join('');
+
+    return `
+    <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800" id="art-galleries-section">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-primary">museum</span>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-slate-100 font-display">Galeries d'Art Properes</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Espais d'art contemporani a Palma relacionats amb l'artesania local</p>
+            </div>
+            <span class="ml-auto text-[10px] font-bold text-slate-400 uppercase tracking-wider">Font: ArtGallery.json · Grup extern</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            ${cardsHTML}
+        </div>
+    </div>`;
 }
 
 // ── Xat IA ───────────────────────────────────────────────────
