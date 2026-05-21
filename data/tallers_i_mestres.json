@@ -13,10 +13,7 @@
             "lat": 39.634,
             "lng": 2.7438,
             "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuB6NmHhunRITfm7YWg4R1nX0Ugh24DKVNywhVuxm1LZuv8Q8XlXVEGxQv0gwB7p_diTE8WamxfgE-tINR1htKpPm3hiFR18tkFRO0iIf8nRJgsZMpaHVbKWoLGwzPPk7AdjpIqtlP5XJnCHbihlTWbd0XFPxBMleIlBWF2fdRHjYfSfd8JVlf4xr2at9FhqoJ1-U1EUPmovyUF54Z4FWFFZIvKXMmfNAd5JBe1a1okeuaheXVQ5Ab-s_2to6jR_bUV7O0ltScK3VjXg",
-            "mapPosition": {
-                "top": "40%",
-                "left": "45%"
-            },
+            "mapPosition": { "top": "40%", "left": "45%" },
             "craftId": "siurells"
         },
         {
@@ -32,10 +29,7 @@
             "lat": 39.6402,
             "lng": 2.7312,
             "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuAAf0TENofon4YiwksUw-XB-rA7YIuRz_9MiYoKRU5W-1o_ggMhaBwXJGCqCeDZzb02T2dhLtR4iZBmRm3JTexspWxKUDQ99aTLSLxkJeVwJqub2dGpcGKIMCtQb_N-Z8P3lXs9t3z348VwBqgJxkSUwZ8WIzOoYtvlhgwVivvTpOzchsvw7Bkpe9xN8NB83iaUNkPN3VytLq-_MD0uCIkNHb_Ym2pbHWyfTcWKo9WKiimVwe-R3aL4PLyLacB1pi7EVN30BVYBiA7X",
-            "mapPosition": {
-                "top": "35%",
-                "left": "55%"
-            },
+            "mapPosition": { "top": "35%", "left": "55%" },
             "craftId": "siurells"
         },
         {
@@ -51,10 +45,7 @@
             "lat": 39.56,
             "lng": 2.892,
             "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBrf51cyWMYkm1-iXrDnBTsNKCHmukIssX9kg-6tH6No8tDIgDezjCACL8RP22k9hqkNi-RipDbvuWRUIqK4fYO34WX7Iz3XgCEF1afjGl2cv1Cd4U_IKCXMkgJ9do5hMXbg8KpVsEn-b-_x05y3TP97AazCGqUYVvsnMeJyRvCUDO3mjwsarD8R95VjVZCJeWtU_v7JUgCBu-N7VEXCNdmPKcy1oo80-Dz_dVcGV1tWhS3lD6umLv4Jyq5JTHMjMxrc6w_ERefzNao",
-            "mapPosition": {
-                "top": "45%",
-                "left": "40%"
-            },
+            "mapPosition": { "top": "45%", "left": "40%" },
             "craftId": "vidre-bufat"
         },
         {
@@ -70,10 +61,7 @@
             "lat": 39.78,
             "lng": 2.97,
             "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W",
-            "mapPosition": {
-                "top": "30%",
-                "left": "55%"
-            },
+            "mapPosition": { "top": "30%", "left": "55%" },
             "craftId": "vidre-bufat"
         },
         {
@@ -89,10 +77,7 @@
             "lat": 39.8767,
             "lng": 3.0152,
             "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuC_A0SUw9RqSKQLcR9plH8oQk7szdi5Jwz5Y2cIw7oFiTuC8QhhWD0GDPn9JDazVeRhNXLXDe3hyi_cAaMn-mttS4qbCn7B_hqztWhgY-gL85PLO-vpajx6t2L8r1oO0C-zpeZ_zbHvdasp2_VU_XIFcXAOUkCFiWHSlx8yV8nFjw7fxYypGVOQQsas9cUckIUjxuBiojI64zl4KsP01ytFkiW-M04BTdrJ3AHhKQNWfzXAduvg7dzvMiZYN25GE2HEQNRq8wPxubk1",
-            "mapPosition": {
-                "top": "25%",
-                "left": "50%"
-            },
+            "mapPosition": { "top": "25%", "left": "50%" },
             "craftId": "roba-llengues"
         },
         {
@@ -108,10 +93,7 @@
             "lat": 39.651,
             "lng": 2.767,
             "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuALNMrHGXDsC-khMfjebpWKtVYTZnlpWAT7DzH9lfHG-GInEh0uH5Mk9t2j9MKHqQMX_FWeCUsN55wh42Lo2q6Y92OTn2wkdMo7bGo7PeQSxq4XovnZw6gitz0EEx6C-An8BZ3EyTu6HMv11Hb2YXKmyTN7w1Ap5FsT8HYATGshAcyGjmUriS2EI4buqxf2oUPDgMDVFys5naIVDmncM1nKL2OOWg_k-bHk9jBvwCcWSlg3YVqTF_sKBofEcz555u9Wzz2KUBy0pK6C",
-            "mapPosition": {
-                "top": "45%",
-                "left": "35%"
-            },
+            "mapPosition": { "top": "45%", "left": "35%" },
             "craftId": "roba-llengues"
         },
         {
@@ -127,10 +109,7 @@
             "lat": 39.696,
             "lng": 3.349,
             "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBS3Kdurvz_F1o6sWyequ6xzYwR8XPss85ax7fQ29S0AarYH3CEX0aiZH8fBrS-vv4RBPHxbv144Z9xH1rffu7Xb_Sruaye2cvuy1LmkegG1gdpWipWL-B7tYRyWPlMlLoo5nlp3Q8gHuM2VaLXwKDX9Q2DfidQ_LTfaQdHHFTfUwW5dceANbvvnkutAWkT8X-l9s80sN0sA6ekWva7Ivr5Vg2eBfK5-ZkcmNMnXmUSRpKWQN_6EWFnJG2q3Lj20mOV6thZnCkXwLYM",
-            "mapPosition": {
-                "top": "30%",
-                "left": "65%"
-            },
+            "mapPosition": { "top": "30%", "left": "65%" },
             "craftId": "llatra"
         },
         {
@@ -146,11 +125,39 @@
             "lat": 39.702,
             "lng": 3.432,
             "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBioo8H7adJrdmnnuMTTCqkII4BOLq4-prHUbBCi9Y1QNm10W8cIvmgKxaxDNmktz6nVCP9UFQy_3HAdqEhbmemEMDJOKwclwsRKqmAQw2TqYp5uvLBF1_WmkRilacKPv04V3GYldQFzTeWRcLXX9PmGKtEIHyCfTlv9lp_8CnImvf_otfmhy1dc42fFR9nbB8CAfOlonhDMJhRQaFMdTcmz8uVpKFslkcfK9OoJE_AjzETj48DZ98kG_GBMf3fStEK6MBPAS6ZuphE",
-            "mapPosition": {
-                "top": "25%",
-                "left": "70%"
-            },
+            "mapPosition": { "top": "25%", "left": "70%" },
             "craftId": "llatra"
+        },
+        {
+            "id": "casa-bonet",
+            "nom": "Casa Bonet",
+            "comarca": "palma",
+            "adreca": "Plaça Frederic Chopin, 2, 07002 Palma",
+            "telefon": "+34 971 722 117",
+            "web": "casabonet.com",
+            "contactType": "language",
+            "temp": "20°C",
+            "mapsQuery": "Casa+Bonet+Palma+Mallorca",
+            "lat": 39.5693,
+            "lng": 2.6509,
+            "imatge": "https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "60%", "left": "28%" },
+            "craftId": "brodat"
+        },
+        {
+            "id": "flor-de-fil",
+            "nom": "Flor de Fil",
+            "comarca": "palma",
+            "adreca": "Plaça de la Reina, 2, 07012 Palma",
+            "telefon": "+34 971 71 20 00",
+            "contactType": "language",
+            "temp": "20°C",
+            "mapsQuery": "Flor+de+Fil+Placa+Reina+Palma",
+            "lat": 39.5695,
+            "lng": 2.6501,
+            "imatge": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "62%", "left": "27%" },
+            "craftId": "brodat"
         },
         {
             "id": "brodats-valldemossa",
@@ -163,28 +170,159 @@
             "mapsQuery": "Brodats+S+Estacio+Valldemossa",
             "lat": 39.57288,
             "lng": 2.65227,
-            "mapPosition": {
-                "top": "22%",
-                "left": "30%"
-            },
+            "mapPosition": { "top": "22%", "left": "30%" },
             "craftId": "brodat"
         },
         {
-            "id": "taller-lluc",
-            "nom": "Taller de Brodat Lluc",
-            "adreca": "Plaça de la Patrona, 4, Pollença",
-            "telefon": "+34 971 53 11 22",
-            "email": "info@brodatlluc.com",
+            "id": "cas-canonge",
+            "nom": "Olleria Cas Canonge",
+            "comarca": "raiguer",
+            "adreca": "Carrer Cas Canonge, Pòrtol, Marratxí",
+            "telefon": "+34 971 60 20 10",
+            "contactType": "language",
+            "temp": "23°C",
+            "mapsQuery": "Olleria+Cas+Canonge+Portol+Marratxi",
+            "lat": 39.638,
+            "lng": 2.726,
+            "imatge": "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "42%", "left": "38%" },
+            "craftId": "olleria"
+        },
+        {
+            "id": "museu-fang",
+            "nom": "Museu del Fang de Marratxí",
+            "comarca": "raiguer",
+            "adreca": "Sa Cabaneta, Marratxí",
+            "telefon": "+34 971 60 15 00",
+            "web": "marratxi.cat",
+            "contactType": "language",
+            "temp": "22°C",
+            "mapsQuery": "Museu+del+Fang+Marratxi",
+            "lat": 39.641,
+            "lng": 2.731,
+            "imatge": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "38%", "left": "40%" },
+            "craftId": "olleria"
+        },
+        {
+            "id": "escola-ceramica",
+            "nom": "Escola de Ceràmica Pilar Sastre",
+            "comarca": "raiguer",
+            "adreca": "Palma / Marratxí",
+            "telefon": "+34 971 60 30 00",
+            "email": "info@escolaceramica.es",
             "contactType": "mail",
             "temp": "21°C",
-            "mapsQuery": "Placa+de+la+Patrona+Pollenca",
-            "lat": 39.879,
-            "lng": 3.018,
-            "mapPosition": {
-                "top": "28%",
-                "left": "48%"
-            },
-            "craftId": "brodat"
+            "mapsQuery": "Escola+Ceramica+Marratxi",
+            "lat": 39.639,
+            "lng": 2.728,
+            "imatge": "https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "40%", "left": "42%" },
+            "craftId": "olleria"
+        },
+        {
+            "id": "lottusse",
+            "nom": "Lottusse",
+            "comarca": "raiguer",
+            "adreca": "Ctra. de Palma, Inca",
+            "web": "https://www.lottusse.com",
+            "contactType": "language",
+            "temp": "22°C",
+            "mapsQuery": "Lottusse+Inca+Mallorca",
+            "lat": 39.718,
+            "lng": 2.912,
+            "imatge": "https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "28%", "left": "48%" },
+            "craftId": "calcado"
+        },
+        {
+            "id": "avarcas-torres",
+            "nom": "Avarcas Torres",
+            "comarca": "raiguer",
+            "adreca": "Múltiples punts de venda — Mallorca",
+            "web": "https://www.avarcas.com",
+            "contactType": "language",
+            "temp": "22°C",
+            "mapsQuery": "Avarcas+Torres+Mallorca",
+            "lat": 39.718,
+            "lng": 2.913,
+            "imatge": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "30%", "left": "46%" },
+            "craftId": "calcado"
+        },
+        {
+            "id": "camper-inca",
+            "nom": "Camper (origen Inca)",
+            "comarca": "raiguer",
+            "adreca": "Carrer del Forn, 1, 07300 Inca",
+            "web": "https://www.camper.com",
+            "contactType": "language",
+            "temp": "21°C",
+            "mapsQuery": "Camper+Inca+Mallorca",
+            "lat": 39.72,
+            "lng": 2.91,
+            "imatge": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "26%", "left": "50%" },
+            "craftId": "calcado"
+        },
+        {
+            "id": "forn-ses-antigues",
+            "nom": "Forn de Ses Antigues",
+            "comarca": "palma",
+            "adreca": "Palma — Casc Antic",
+            "telefon": "+34 971 72 10 00",
+            "contactType": "language",
+            "temp": "19°C",
+            "mapsQuery": "Forn+Ses+Antigues+Palma",
+            "lat": 39.5706,
+            "lng": 2.6497,
+            "imatge": "https://images.unsplash.com/photo-1481931098730-318b6f776db0?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "61%", "left": "26%" },
+            "craftId": "neules"
+        },
+        {
+            "id": "forn-molinas",
+            "nom": "Forn de Can Molinas",
+            "comarca": "palma",
+            "adreca": "Palma",
+            "telefon": "+34 971 72 20 00",
+            "contactType": "language",
+            "temp": "19°C",
+            "mapsQuery": "Forn+Can+Molinas+Palma",
+            "lat": 39.5698,
+            "lng": 2.6488,
+            "imatge": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "63%", "left": "25%" },
+            "craftId": "neules"
+        },
+        {
+            "id": "can-nofret",
+            "nom": "Coltelleria Can Nofret",
+            "comarca": "palma",
+            "adreca": "Palma",
+            "telefon": "+34 971 71 50 00",
+            "contactType": "language",
+            "temp": "20°C",
+            "mapsQuery": "Coltelleria+Can+Nofret+Palma",
+            "lat": 39.5689,
+            "lng": 2.6502,
+            "imatge": "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "59%", "left": "29%" },
+            "craftId": "ganivets"
+        },
+        {
+            "id": "ferrers-fires",
+            "nom": "Ferrers Artesans a Fires",
+            "comarca": "palma",
+            "adreca": "Fires de Llucmajor i Santa Catalina, Palma",
+            "contactType": "language",
+            "temp": "21°C",
+            "mapsQuery": "Fira+Artesana+Llucmajor",
+            "lat": 39.484,
+            "lng": 2.887,
+            "imatge": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80",
+            "mapPosition": { "top": "72%", "left": "40%" },
+            "craftId": "ganivets"
         }
     ],
     "mestres": [
@@ -284,17 +422,53 @@
             "dates": "1912 - 1998",
             "lloc": "Sóller",
             "foto": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
-            "bio": "Mestra brodadora que va recopilar més de cent dibuixos antics de motius florals típics del brodat mallorquí del segle XVIII, evitant que es perdessin.",
+            "bio": "Mestra brodadora que va recopilar més de cent dibuixos antics de motius florals típics del brodat mallorquí del segle XVIII, evitant que es perdessin. La seva col·lecció és avui referència per a les brodadores de Casa Bonet.",
             "craftId": "brodat"
         },
         {
             "id": "brodat_artesa_1",
-            "nom": "Maria Antònia Oliver",
-            "dates": "1972",
-            "lloc": "Valldemossa",
+            "nom": "Mestresses de Casa Bonet",
+            "dates": "Finals s. XIX — actualitat",
+            "lloc": "Palma",
             "foto": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80",
-            "bio": "Artesana contemporània que manté viva la tècnica del punt mallorquí i el punt de cadeneta realitzant brodats a mà per a dissenyadors de moda internacionals.",
+            "bio": "Casa Bonet és l'establiment de brodats mallorquins de referència de l'illa. La tradició de les brodadores que hi han treballat representa l'evolució del punt mallorquí des de la manufactura domèstica fins a la comercialització professional. El coneixement s'ha transmès de generació en generació entre les dones de les famílies artesanes de Palma.",
             "craftId": "brodat"
+        },
+        {
+            "id": "olleria_artesa_0",
+            "nom": "Bernat Amengual Reynés",
+            "dates": "c. 1960 — viu",
+            "lloc": "Pòrtol, Marratxí",
+            "foto": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+            "bio": "Terrissaire de l'Olleria Cas Canonge, un dels pocs ollaires artesans actius a Pòrtol. Juntament amb el seu germà Tomeu, manté viva una de les dues darreres olleries artesanes del municipi, hereva d'una tradició que a Pòrtol i Sa Cabaneta es remunta com a mínim al segle XVIII.",
+            "craftId": "olleria"
+        },
+        {
+            "id": "calcado_artesa_0",
+            "nom": "Família Fluxà (fundadors Camper)",
+            "dates": "Finals s. XIX — actualitat",
+            "lloc": "Inca",
+            "foto": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
+            "bio": "Antonio Fluxà introduí la maquinària moderna per fabricar sabates a Inca a finals del s. XIX. El seu nét Lorenzo Fluxà fundà Camper el 1975 a partir d'aquest llegat. La saga representa la transformació de l'artesania sabatera d'Inca en una indústria de projecció mundial, sense perdre l'arrel artesanal de l'illa.",
+            "craftId": "calcado"
+        },
+        {
+            "id": "neules_artesa_0",
+            "nom": "Onofre Martorell (Mestre Neuler)",
+            "dates": "c. 1940 — viu",
+            "lloc": "Palma",
+            "foto": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+            "bio": "Reconegut com a referent dels neulers mallorquins pel Consell de Mallorca. Els seus orígens en la producció de neules artesanes de Ses Antigues el situen com a dipositari d'una recepta i tècnica que es remunta a l'edat medieval. Ha estat documentat en reportatges sobre patrimoni gastronòmic artesanal de Mallorca.",
+            "craftId": "neules"
+        },
+        {
+            "id": "ganivets_artesa_0",
+            "nom": "Ferrers Artesans Mallorquins",
+            "dates": "s. XVII — XXI",
+            "lloc": "Tota l'illa",
+            "foto": "https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&w=400&q=80",
+            "bio": "El ganivet mallorquí és un element de la vida quotidiana rural profundament arrelat a l'illa. La tradició ferrera s'ha mantingut en tallers de poble, molts dels quals han desaparegut, però alguns resisteixen i exposen als mercats artesans. Coltelleria Can Nofret a Palma és avui un dels referents actius d'aquest ofici centenari.",
+            "craftId": "ganivets"
         }
     ]
 }

@@ -19,18 +19,18 @@
         "galeria": [
             {
                 "imatge": "./media/images/siurells/siurells-02.jpg",
-                "titol": "Siurell Clàssic",
-                "subtitol": "Figura de cavall típica"
+                "titol": "Disfressa de siurells",
+                "subtitol": "Dues persones vestits de siurells."
             },
             {
                 "imatge": "./media/images/siurells/siurells-03.jpg",
-                "titol": "Procés de Pintura",
-                "subtitol": "Pinzellades característiques"
+                "titol": "Diferents objectes",
+                "subtitol": "Siurells de diferents formes i dimensions"
             },
             {
                 "imatge": "./media/images/siurells/siurells-04.jpg",
-                "titol": "El Forn",
-                "subtitol": "Cocció del fang"
+                "titol": "Parella de siurells",
+                "subtitol": "Dona i home pagesos representats com a siurells."
             }
         ],
         "ressenyes": [
@@ -83,18 +83,18 @@
         "galeria": [
             {
                 "imatge": "./media/images/vidre-bufat/vidre-bufat-02.jpg",
-                "titol": "Forn de Vidre",
-                "subtitol": "Temperatura de 1100°C"
+                "titol": "Procés de modelatge",
+                "subtitol": "Modelatge en calent per donar forma al vidre."
             },
             {
                 "imatge": "./media/images/vidre-bufat/vidre-bufat-03.jpg",
-                "titol": "Canya de Bufar",
-                "subtitol": "Eina principal"
+                "titol": "Bufant el vidre",
+                "subtitol": "L'artesana amb ajuda de l'artesà bufa el vidre per donar-li forma a través de la canya."
             },
             {
                 "imatge": "./media/images/vidre-bufat/vidre-bufat-04.jpg",
-                "titol": "Peces Acabades",
-                "subtitol": "Vidre verd mallorquí"
+                "titol": "Foc al vidre",
+                "subtitol": "L'artesana treballa el vidre usant el foc com a principal eina."
             }
         ],
         "ressenyes": [
@@ -148,12 +148,12 @@
             {
                 "imatge": "./media/images/llengues/llengues-03.jpg",
                 "titol": "Patró Ikat",
-                "subtitol": "Patrons de flama"
+                "subtitol": "Patrons de flama en tons blaus característics del teixit de llengües"
             },
             {
                 "imatge": "./media/images/llengues/llengues-04.jpg",
-                "titol": "Fils Tenyits",
-                "subtitol": "Tintats naturals"
+                "titol": "Múltiples dissenys",
+                "subtitol": "El teixit de llengües permet crear diferents dissenys i textures"
             }
         ],
         "ressenyes": [
@@ -201,7 +201,7 @@
         "galeria": [
             {
                 "imatge": "./media/images/llata/llata-02.jpg",
-                "titol": "Senalla Tradicional",
+                "titol": "Senalles Tradicionals",
                 "subtitol": "Ús diari al mercat"
             },
             {
@@ -243,35 +243,35 @@
     {
         "id": "brodat",
         "nom": "Brodat Mallorquí",
-        "material": "Cotó",
+        "material": "Cotó, llana i seda",
         "zona": "tramuntana",
         "tecnica": "filat",
         "teVideo": false,
-        "imatge": "./media/images/brodat-01.jpg",
-        "descripcio": "Art del brodat artesanal sobre tela per crear peces decoratives i tèxtils tradicionals mallorquins.",
-        "descripcioLlarga": "El brodat mallorquí és una tradició tèxtil artesanal basada en la decoració manual de teles amb fil i agulla. A Mallorca, aquest ofici ha format part durant segles de la vida domèstica i de l'elaboració d'aixovars, roba de casa i indumentària tradicional. Les brodadores treballaven principalment sobre cotó i lli, creant motius florals, geomètrics i ornamentals amb una gran precisió i sensibilitat artística, transmetent les tècniques de generació en generació.",
-        "subtitol": "L'art del brodat artesanal mallorquí sobre cotó i lli per crear peces tèxtils decoratives i tradicionals.",
+        "imatge": "./media/images/brodat/brodat-01.jpg",
+        "descripcio": "Art del brodat artesanal sobre tela per crear peces decoratives i tèxtils tradicionals mallorquins amb el característic punt mallorquí.",
+        "descripcioLlarga": "El brodat mallorquí és una tradició tèxtil artesanal basada en la decoració manual de teles amb fils de cotó, llana i seda sobre lli, cotó o tul. Les tècniques principals són el punt mallorquí (caracteritzat per la lluentor i les formes geomètriques), la cadeneta, el punt enllaçat i el punt de creu. Els motius florals i geomètrics s'executen seguint patrons transmesos des de la tradició mallorquina, notablement diferent a la resta peninsular. S'apliquen a vestimenta tradicional, roba de llar i complements. L'establiment de referència és Casa Bonet, a Palma, actiu des de finals del s. XIX.",
+        "subtitol": "Brodats artesanals sobre cotó i lli amb el distintiu punt mallorquí, transmès de generació en generació des del s. XIX.",
         "rating": 4.6,
         "numRatings": 34,
         "numComentaris": 19,
-        "numTallers": 2,
+        "numTallers": 3,
         "favorit": false,
         "videoThumb": "",
         "galeria": [
             {
-                "imatge": "https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=600&q=80",
+                "imatge": "./media/images/brodat/brodat-02.jpg",
                 "titol": "Brodat a Mà",
                 "subtitol": "Detall del punt mallorquí clàssic"
             },
             {
-                "imatge": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80",
+                "imatge": "./media/images/brodat/brodat-03.jpg",
                 "titol": "Fil de Cotó",
                 "subtitol": "Materials 100% naturals"
             },
             {
-                "imatge": "https://images.unsplash.com/photo-1605634562473-b3d11b3e9447?auto=format&fit=crop&w=600&q=80",
+                "imatge": "./media/images/brodat/brodat-04.jpg",
                 "titol": "Motius Tradicionals",
-                "subtitol": "Dibuixos històrics conservats"
+                "subtitol": "Dibuixos florals i geomètrics transmesos per tradició"
             }
         ],
         "ressenyes": [
@@ -279,7 +279,7 @@
                 "autor": "Xisco Coll",
                 "data": "1 de juny de 2024",
                 "rating": 5,
-                "text": "Les teles brodades que vaig comprar per a les meves estovalles són una meravella. L'atenció és immillorable i el treball és finíssim.",
+                "text": "Les teles brodades que vaig comprar per a les meves estovalles són una meravella. L'atenció a Casa Bonet és immillorable i el treball és finíssim.",
                 "imatges": []
             },
             {
@@ -291,12 +291,247 @@
             }
         ],
         "tallers_ids": [
-            "brodats-valldemossa",
-            "taller-lluc"
+            "casa-bonet",
+            "flor-de-fil",
+            "brodats-valldemossa"
         ],
         "artesans_ids": [
             "brodat_artesa_0",
             "brodat_artesa_1"
+        ]
+    },
+    {
+        "id": "olleria",
+        "nom": "Ceràmica i Fang",
+        "material": "Argila",
+        "zona": "raiguer",
+        "tecnica": "modelatge",
+        "teVideo": false,
+        "imatge": "./media/images/ceramica/ceramica-01.jpg",
+        "descripcio": "Tradició terrissera mallorquina de Marratxí: olles, greixoneres i cossiols modelats en torn de fang de l'argila roja del Raiguer.",
+        "descripcioLlarga": "L'olleria mallorquina té el seu cor a Marratxí, concretament a Pòrtol i Sa Cabaneta, on la tradició terrissera es remunta com a mínim al segle XVIII. Els terrissaires usen argila roja local modelada en torn de terrissaire o a mà, cocció en forn de llenya (que dona una tonalitat característica), i vernissos de minerals naturals. Els productes principals són olles, greixoneres, cossiols, pitxers, teules i plats. Cada any se celebra la Fira del Fang a Marratxí, que aplega terrissaires de tota l'illa. A Felanitx hi ha també una tradició olera notable. La producció artesana conviu avui amb el Museu del Fang i la Ruta del Fang pels tallers del municipi.",
+        "subtitol": "Tradició terrissera centenària de Marratxí: fang cuit en forn de llenya per crear greixoneres, olles i cossiols autèntics.",
+        "rating": 4.7,
+        "numRatings": 58,
+        "numComentaris": 42,
+        "numTallers": 3,
+        "favorit": false,
+        "videoThumb": "",
+        "galeria": [
+            {
+                "imatge": "./media/images/ceramica/ceramica-02.jpg",
+                "titol": "Torn de Terrissaire",
+                "subtitol": "Modelat a mà sobre torn de fusta"
+            },
+            {
+                "imatge": "./media/images/ceramica/ceramica-03.jpg",
+                "titol": "Peces de Fang",
+                "subtitol": "Greixoneres i cossiols mallorquins"
+            },
+            {
+                "imatge": "./media/images/ceramica/ceramica-04.jpg",
+                "titol": "Forn de Llenya",
+                "subtitol": "Cocció tradicional que dona color característic"
+            }
+        ],
+        "ressenyes": [
+            {
+                "autor": "Catalina Riera",
+                "data": "14 de febrer de 2024",
+                "rating": 5,
+                "text": "Visitar l'Olleria Cas Canonge a Pòrtol és una experiència única. En Bernat ens va explicar tot el procés del torn i la cocció al forn de llenya. Les greixoneres que vaig comprar fan una olor inconfusible.",
+                "imatges": []
+            },
+            {
+                "autor": "Pere Antoni Mas",
+                "data": "5 de novembre de 2023",
+                "rating": 4,
+                "text": "La Fira del Fang de Marratxí és imprescindible. Hi ha tallers en directe i es pot veure el procés complet. Molt recomanable per als qui vulguin conèixer aquesta tradició.",
+                "imatges": []
+            }
+        ],
+        "tallers_ids": [
+            "cas-canonge",
+            "museu-fang",
+            "escola-ceramica"
+        ],
+        "artesans_ids": [
+            "olleria_artesa_0"
+        ]
+    },
+    {
+        "id": "calcado",
+        "nom": "Calçat i Pell d'Inca",
+        "material": "Cuir i pell",
+        "zona": "raiguer",
+        "tecnica": "adobat",
+        "teVideo": false,
+        "imatge": "./media/images/calcat/calcat-01.jpg",
+        "descripcio": "Tradició sabatera centenària d'Inca: calçat de cuir artesà i l'avarca mallorquina amb sola de pneumàtic reciclat.",
+        "descripcioLlarga": "Inca va tenir al segle XIX una de les indústries del calçat més importants de la Mediterrània. La fabricació tradicional inclou: tall de la pell a patrons, adobat (procés de curtició), cosit a mà o a màquina de filferro, i acabat a mà. L'avarca mallorquina és l'emblema d'aquesta tradició: sola tallada de pneumàtic reciclat i corretges de pell vaqueta teixides a mà. L'artesania sabatera d'Inca donà origen a marques mundials com Camper, fundada el 1975 per Lorenzo Fluxà sobre el llegat familiar que Antonio Fluxà havia iniciat a finals del s. XIX. Lottusse manté la producció artesana amb més de 100 anys de tradició.",
+        "subtitol": "Calçat artesà d'Inca i l'avarca mallorquina, amb sola de pneumàtic reciclat i cuir vaqueta trenat a mà.",
+        "rating": 4.4,
+        "numRatings": 47,
+        "numComentaris": 33,
+        "numTallers": 3,
+        "favorit": false,
+        "videoThumb": "",
+        "galeria": [
+            {
+                "imatge": "./media/images/calcat/calcat-02.jpg",
+                "titol": "Avarca Mallorquina",
+                "subtitol": "Sola de pneumàtic reciclat i corretges de cuir"
+            },
+            {
+                "imatge": "./media/images/calcat/calcat-03.jpg",
+                "titol": "Taller de Sabater",
+                "subtitol": "Cosit a mà, tècnica centenària"
+            },
+            {
+                "imatge": "./media/images/calcat/calcat-04.jpg",
+                "titol": "Cuir Adobat",
+                "subtitol": "Curtició artesana de pell vacuna"
+            }
+        ],
+        "ressenyes": [
+            {
+                "autor": "Neus Ferragut",
+                "data": "22 de juliol de 2024",
+                "rating": 5,
+                "text": "Les avarcas d'Avarcas Torres que vaig comprar són increïbles. Molt còmodes i resistents. La qualitat de la pell és molt superior al que es trova a les botigues de souvenirs.",
+                "imatges": []
+            },
+            {
+                "autor": "Marc Llull",
+                "data": "10 de març de 2024",
+                "rating": 4,
+                "text": "Visitar la fàbrica de Lottusse és fascinant. Fa més de cent anys que fan sabates de la mateixa manera. Una lliçó d'artesania i de passió per l'ofici.",
+                "imatges": []
+            }
+        ],
+        "tallers_ids": [
+            "lottusse",
+            "avarcas-torres",
+            "camper-inca"
+        ],
+        "artesans_ids": [
+            "calcado_artesa_0"
+        ]
+    },
+    {
+        "id": "neules",
+        "nom": "Neules Mallorquines",
+        "material": "Farina i sucre",
+        "zona": "palma",
+        "tecnica": "filat",
+        "teVideo": false,
+        "imatge": "./media/images/neules/neules-01.jpg",
+        "descripcio": "Rebosteria artesanal nadalenca: coca prima i crocant de massa enrotllada a mà, cuits entre dos ferros calents, feta una a una.",
+        "descripcioLlarga": "Les neules mallorquines són un producte de rebosteria artesanal elaborat amb farina de blat, sucre, ou i oli d'oliva. La massa s'estén molt prima i es cou entre dos ferros calents (la neulera). La coca prima i crocant resultant s'enrotlla sobre si mateixa mentre encara és calenta per formar el canó característic. Cada neula és feta a mà, una a una, amb una tècnica que no s'ha industrialitzat a Mallorca. La producció és típicament nadalenca i es concentra al Casc Antic de Palma, en establiments com el Forn de Ses Antigues que mantenen una tradició centenària. El Consell de Mallorca ha reconegut mestres neulers com Onofre Martorell com a dipositaris d'una recepta que es remunta a l'edat medieval.",
+        "subtitol": "Neules artesanes de Palma: la coca prima i crocant cuits a la neulera i enrotllats a mà, llegat medieval viu.",
+        "rating": 4.8,
+        "numRatings": 41,
+        "numComentaris": 29,
+        "numTallers": 2,
+        "favorit": false,
+        "videoThumb": "",
+        "galeria": [
+            {
+                "imatge": "./media/images/neules/neules-02.jpg",
+                "titol": "Neules Enrotllades",
+                "subtitol": "Cada neula, feta a mà una a una"
+            },
+            {
+                "imatge": "https://images.unsplash.com/photo-1481931098730-318b6f776db0?auto=format&fit=crop&w=600&q=80",
+                "titol": "La Neulera",
+                "subtitol": "Ferros calents tradicionals per a la cocció"
+            },
+            {
+                "imatge": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80",
+                "titol": "Tradició Nadalenca",
+                "subtitol": "Sabor de Nadal al Casc Antic de Palma"
+            }
+        ],
+        "ressenyes": [
+            {
+                "autor": "Francisca Gomila",
+                "data": "28 de desembre de 2023",
+                "rating": 5,
+                "text": "Les neules del Forn de Ses Antigues són incomparables. Les compro cada any per Nadal. L'Onofre és un mestre incomparable, les fa davant teu i explica tota la tradició.",
+                "imatges": []
+            },
+            {
+                "autor": "Sebastià Terrasa",
+                "data": "24 de desembre de 2023",
+                "rating": 5,
+                "text": "Una tradició que s'ha de preservar. Les neules artesanes no s'assemblen en res a les industrials. Un altre món completament.",
+                "imatges": []
+            }
+        ],
+        "tallers_ids": [
+            "forn-ses-antigues",
+            "forn-molinas"
+        ],
+        "artesans_ids": [
+            "neules_artesa_0"
+        ]
+    },
+    {
+        "id": "ganivets",
+        "nom": "Ganivets i Navalles",
+        "material": "Acer forjat",
+        "zona": "palma",
+        "tecnica": "forja",
+        "teVideo": false,
+        "imatge": "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=800&q=80",
+        "descripcio": "Ferreria artesana mallorquina: ganivets i navalles forjats a mà amb acer temprat i mànec d'olivera o banya de bou.",
+        "descripcioLlarga": "El ganivet mallorquí és un element de la vida quotidiana rural profundament arrelat a l'illa. La tècnica implica la forja de l'acer amb martell i enclusa, escalfat al forn fins al color adequat. La fulla es tempra (escalfament i refredament ràpid en oli o aigua) per endurir-la, i s'afila en mola d'aigua. El mànec es treballa a torn o a mà i es fixa a la fulla amb rebló. El ganivet mallorquí té una forma característica amb fulla ampla i mànec robust, típicament d'olivera, banya de bou, os o materials sintètics. La tradició ferrera s'ha mantingut en tallers de poble, molts dels quals exposen als mercats artesans de Llucmajor i Santa Catalina. Coltelleria Can Nofret a Palma és un dels referents actuals.",
+        "subtitol": "Ganivets mallorquins forjats a mà: acer temprat, fulla ampla i mànec d'olivera o banya, arrelats en la vida rural de l'illa.",
+        "rating": 4.5,
+        "numRatings": 28,
+        "numComentaris": 18,
+        "numTallers": 2,
+        "favorit": false,
+        "videoThumb": "",
+        "galeria": [
+            {
+                "imatge": "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=600&q=80",
+                "titol": "Ganivet Mallorquí",
+                "subtitol": "Fulla d'acer i mànec d'olivera"
+            },
+            {
+                "imatge": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80",
+                "titol": "Forja Artesana",
+                "subtitol": "Escalfament de l'acer al forn"
+            },
+            {
+                "imatge": "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?auto=format&fit=crop&w=600&q=80",
+                "titol": "Afilat en Mola",
+                "subtitol": "Mola d'aigua tradicional per a l'esmolament"
+            }
+        ],
+        "ressenyes": [
+            {
+                "autor": "Antoni Crespí",
+                "data": "3 de maig de 2024",
+                "rating": 5,
+                "text": "Vaig comprar un ganivet artesà a Can Nofret i és una meravella d'equilibri i de tall. L'artesà em va ensenyar com es tempra l'acer. Una experiència que no trobaràs en cap botiga de souvenirs.",
+                "imatges": []
+            },
+            {
+                "autor": "Joana Roca",
+                "data": "15 d'octubre de 2023",
+                "rating": 4,
+                "text": "A la Fira de Llucmajor vaig descobrir els ganivets mallorquins artesans. L'equilibri i la qualitat de l'acer és impressionant. L'ofici del ferrer artesà s'ha de preservar.",
+                "imatges": []
+            }
+        ],
+        "tallers_ids": [
+            "can-nofret",
+            "ferrers-fires"
+        ],
+        "artesans_ids": [
+            "ganivets_artesa_0"
         ]
     }
 ]
