@@ -15,7 +15,7 @@ const IMAGE_SIZES = {
     hero: '100vw',
     /** Element de galeria */
     gallery: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
-    /** Avatar d'artesà (cercle petit) */
+    /** Avatar d'artesà (cercle petit) o logo */
     avatar: '96px',
 };
 
@@ -101,6 +101,29 @@ function createResponsiveImage(config) {
 
     // Sense variants, retornar <img> simple optimitzat
     return `<img src="${src}" alt="${alt}" ${loadingAttr} ${decodingAttr} ${fetchPriorityAttr} ${errorHandler} class="${baseClass}" ${styleAttr}>`;
+}
+
+/**
+ * Deriva automàticament les variants WebP i AVIF a partir d'un path local.
+ * Segueix la convenció de carpetes: cada artesania té la seva subcarpeta,
+ * amb fitxers del mateix nom però diferent extensió (.webp, .avif, .jpg/.png).
+ *
+ * Exemple: './media/images/siurells/siurells-01.png'
+ *   → avif: './media/images/siurells/siurells-01.avif'
+ *   → webp: './media/images/siurells/siurells-01.webp'
+ *
+ * Per a URLs externes (http/https), retorna null (sense srcset).
+ *
+ * @param {string} src - URL o path de la imatge original
+ * @returns {{avif: string, webp: string}|null} - Objecte srcset o null
+ */
+function localSrcset(src) {
+    if (!src || src.startsWith('http://') || src.startsWith('https://')) return null;
+    const base = src.replace(/\.[^.]+$/, '');
+    return {
+        avif: `${base}.avif`,
+        webp: `${base}.webp`,
+    };
 }
 
 

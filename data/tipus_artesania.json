@@ -6,7 +6,7 @@
         "zona": "pla",
         "tecnica": "modelatge",
         "teVideo": true,
-        "imatge": "./media/images/siurells-01.png",
+        "imatge": "./media/images/siurells/siurells-01.png",
         "descripcio": "Figures de fang cuit amb un xiulet, pintades tradicionalment de blanc amb traços verds i vermells.",
         "descripcioLlarga": "El siurell és una peça d'artesania autèntica de Mallorca, els orígens de la qual es remunten a segles enrere, amb una forta influència mediterrània. Originalment usat per pastors per controlar els ramats, avui dia és un símbol de l'illa, present en festes tradicionals i celebracions. La seva creació implica modelar el fang, afegir el característic xiulet, enfornar i, finalment, el banyat en calç blanca abans de rebre els tocs finals de color.",
         "subtitol": "Figura tradicional mallorquina de fang amb un xiulet, pintada amb pinzellades verdes i vermelles sobre fons blanc.",
@@ -18,17 +18,17 @@
         "videoThumb": "https://lh3.googleusercontent.com/aida-public/AB6AXuDDYp72p9yb3VAKhAiX6PPO_S3glj1feGCKJA-WiPWZ7tSYLwvZJBktVBW2WKq9AUDSgtaNf9KuyW_QkJ14-3wtJnbkNKPhcUKoKeULc7wNYyG5X__0ej3nv2HtX8Ocx75PvvgS5uW0MTnYh9CKM4iwUEReuN8TrhSf1BL4yITS7HKrT0PtEdx_ZRoIB0GZVE-_wGnra_5iE4SNqp0xvCmgle-keXH4sxvOsPQR4EwHOiq_S_x4T8X6V_eM-qGshbSjTJjlQanbnVUY",
         "galeria": [
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuB6NmHhunRITfm7YWg4R1nX0Ugh24DKVNywhVuxm1LZuv8Q8XlXVEGxQv0gwB7p_diTE8WamxfgE-tINR1htKpPm3hiFR18tkFRO0iIf8nRJgsZMpaHVbKWoLGwzPPk7AdjpIqtlP5XJnCHbihlTWbd0XFPxBMleIlBWF2fdRHjYfSfd8JVlf4xr2at9FhqoJ1-U1EUPmovyUF54Z4FWFFZIvKXMmfNAd5JBe1a1okeuaheXVQ5Ab-s_2to6jR_bUV7O0ltScK3VjXg",
+                "imatge": "./media/images/siurells/siurells-02.jpg",
                 "titol": "Siurell Clàssic",
                 "subtitol": "Figura de cavall típica"
             },
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuAAf0TENofon4YiwksUw-XB-rA7YIuRz_9MiYoKRU5W-1o_ggMhaBwXJGCqCeDZzb02T2dhLtR4iZBmRm3JTexspWxKUDQ99aTLSLxkJeVwJqub2dGpcGKIMCtQb_N-Z8P3lXs9t3z348VwBqgJxkSUwZ8WIzOoYtvlhgwVivvTpOzchsvw7Bkpe9xN8NB83iaUNkPN3VytLq-_MD0uCIkNHb_Ym2pbHWyfTcWKo9WKiimVwe-R3aL4PLyLacB1pi7EVN30BVYBiA7X",
+                "imatge": "./media/images/siurells/siurells-03.jpg",
                 "titol": "Procés de Pintura",
                 "subtitol": "Pinzellades característiques"
             },
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBS3Kdurvz_F1o6sWyequ6xzYwR8XPss85ax7fQ29S0AarYH3CEX0aiZH8fBrS-vv4RBPHxbv144Z9xH1rffu7Xb_Sruaye2cvuy1LmkegG1gdpWipWL-B7tYRyWPlMlLoo5nlp3Q8gHuM2VaLXwKDX9Q2DfidQ_LTfaQdHHFTfUwW5dceANbvvnkutAWkT8X-l9s80sN0sA6ekWva7Ivr5Vg2eBfK5-ZkcmNMnXmUSRpKWQN_6EWFnJG2q3Lj20mOV6thZnCkXwLYM",
+                "imatge": "./media/images/siurells/siurells-04.jpg",
                 "titol": "El Forn",
                 "subtitol": "Cocció del fang"
             }
@@ -70,7 +70,7 @@
         "zona": "pla",
         "tecnica": "bufat",
         "teVideo": true,
-        "imatge": "./media/images/vidre-bufat-01.jpg",
+        "imatge": "./media/images/vidre-bufat/vidre-bufat-01.jpg",
         "descripcio": "Art ancestral de donar forma al vidre fos mitjançant el buf, creant peces transparents i colorides.",
         "descripcioLlarga": "El vidre bufat a Mallorca té una tradició que es remunta al segle XIV. La tècnica consisteix a recollir vidre fos amb una canya de bufar i donar-li forma amb eines i el propi alè de l'artesà. Les vidrieries mallorquines són conegudes per la qualitat del seu vidre, que combina la transparència amb tonalitats verdes, blaves i ambre, resultants dels minerals locals.",
         "subtitol": "Art ancestral del vidre fos modelat amb el buf de l'artesà, creant peces úniques de colors mediterranis.",
@@ -82,17 +82,17 @@
         "videoThumb": "https://lh3.googleusercontent.com/aida-public/AB6AXuBrf51cyWMYkm1-iXrDnBTsNKCHmukIssX9kg-6tH6No8tDIgDezjCACL8RP22k9hqkNi-RipDbvuWRUIqK4fYO34WX7Iz3XgCEF1afjGl2cv1Cd4U_IKCXMkgJ9do5hMXbg8KpVsEn-b-_x05y3TP97AazCGqUYVvsnMeJyRvCUDO3mjwsarD8R95VjVZCJeWtU_v7JUgCBu-N7VEXCNdmPKcy1oo80-Dz_dVcGV1tWhS3lD6umLv4Jyq5JTHMjMxrc6w_ERefzNao",
         "galeria": [
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBrf51cyWMYkm1-iXrDnBTsNKCHmukIssX9kg-6tH6No8tDIgDezjCACL8RP22k9hqkNi-RipDbvuWRUIqK4fYO34WX7Iz3XgCEF1afjGl2cv1Cd4U_IKCXMkgJ9do5hMXbg8KpVsEn-b-_x05y3TP97AazCGqUYVvsnMeJyRvCUDO3mjwsarD8R95VjVZCJeWtU_v7JUgCBu-N7VEXCNdmPKcy1oo80-Dz_dVcGV1tWhS3lD6umLv4Jyq5JTHMjMxrc6w_ERefzNao",
+                "imatge": "./media/images/vidre-bufat/vidre-bufat-02.jpg",
                 "titol": "Forn de Vidre",
                 "subtitol": "Temperatura de 1100°C"
             },
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W",
+                "imatge": "./media/images/vidre-bufat/vidre-bufat-03.jpg",
                 "titol": "Canya de Bufar",
                 "subtitol": "Eina principal"
             },
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuC_A0SUw9RqSKQLcR9plH8oQk7szdi5Jwz5Y2cIw7oFiTuC8QhhWD0GDPn9JDazVeRhNXLXDe3hyi_cAaMn-mttS4qbCn7B_hqztWhgY-gL85PLO-vpajx6t2L8r1oO0C-zpeZ_zbHvdasp2_VU_XIFcXAOUkCFiWHSlx8yV8nFjw7fxYypGVOQQsas9cUckIUjxuBiojI64zl4KsP01ytFkiW-M04BTdrJ3AHhKQNWfzXAduvg7dzvMiZYN25GE2HEQNRq8wPxubk1",
+                "imatge": "./media/images/vidre-bufat/vidre-bufat-04.jpg",
                 "titol": "Peces Acabades",
                 "subtitol": "Vidre verd mallorquí"
             }
@@ -129,7 +129,7 @@
         "zona": "tramuntana",
         "tecnica": "brodat",
         "teVideo": true,
-        "imatge": "./media/images/llengues-01.jpg",
+        "imatge": "./media/images/llengues/llengues-01.jpg",
         "descripcio": "Teixit tradicional mallorquí amb patrons geomètrics en forma de flames, teixit en telers manuals.",
         "descripcioLlarga": "La roba de llengües (o tela de llengos) és un teixit únic de Mallorca, caracteritzat pels seus patrons en forma de flama o \"ikat\". La tècnica consisteix a tenyir els fils abans de teixir-los, creant dibuixos difuminats típics. Originàriament usada per a cortines, coixins i tapisseria, avui és un símbol de la identitat artesanal mallorquina reconegut internacionalment.",
         "subtitol": "Teixit artesanal mallorquí amb patrons geomètrics de flama, teixit en telers de fusta centenaris.",
@@ -141,17 +141,17 @@
         "videoThumb": "https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W",
         "galeria": [
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuC_A0SUw9RqSKQLcR9plH8oQk7szdi5Jwz5Y2cIw7oFiTuC8QhhWD0GDPn9JDazVeRhNXLXDe3hyi_cAaMn-mttS4qbCn7B_hqztWhgY-gL85PLO-vpajx6t2L8r1oO0C-zpeZ_zbHvdasp2_VU_XIFcXAOUkCFiWHSlx8yV8nFjw7fxYypGVOQQsas9cUckIUjxuBiojI64zl4KsP01ytFkiW-M04BTdrJ3AHhKQNWfzXAduvg7dzvMiZYN25GE2HEQNRq8wPxubk1",
+                "imatge": "./media/images/llengues/llengues-02.jpg",
                 "titol": "Teler Manual",
                 "subtitol": "Fusta de noguera centenària"
             },
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuALNMrHGXDsC-khMfjebpWKtVYTZnlpWAT7DzH9lfHG-GInEh0uH5Mk9t2j9MKHqQMX_FWeCUsN55wh42Lo2q6Y92OTn2wkdMo7bGo7PeQSxq4XovnZw6gitz0EEx6C-An8BZ3EyTu6HMv11Hb2YXKmyTN7w1Ap5FsT8HYATGshAcyGjmUriS2EI4buqxf2oUPDgMDVFys5naIVDmncM1nKL2OOWg_k-bHk9jBvwCcWSlg3YVqTF_sKBofEcz555u9Wzz2KUBy0pK6C",
+                "imatge": "./media/images/llengues/llengues-03.jpg",
                 "titol": "Patró Ikat",
                 "subtitol": "Patrons de flama"
             },
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuBS3Kdurvz_F1o6sWyequ6xzYwR8XPss85ax7fQ29S0AarYH3CEX0aiZH8fBrS-vv4RBPHxbv144Z9xH1rffu7Xb_Sruaye2cvuy1LmkegG1gdpWipWL-B7tYRyWPlMlLoo5nlp3Q8gHuM2VaLXwKDX9Q2DfidQ_LTfaQdHHFTfUwW5dceANbvvnkutAWkT8X-l9s80sN0sA6ekWva7Ivr5Vg2eBfK5-ZkcmNMnXmUSRpKWQN_6EWFnJG2q3Lj20mOV6thZnCkXwLYM",
+                "imatge": "./media/images/llengues/llengues-04.jpg",
                 "titol": "Fils Tenyits",
                 "subtitol": "Tintats naturals"
             }
@@ -188,7 +188,7 @@
         "zona": "llevant",
         "tecnica": "trenat",
         "teVideo": false,
-        "imatge": "./media/images/llata-01.jpg",
+        "imatge": "./media/images/llata/llata-01.jpg",
         "descripcio": "Art del trenat de fulles de margalló per crear senalles, cistelles i objectes quotidians de la vida rural.",
         "descripcioLlarga": "La llatra és l'art de trenar les fulles del margalló (Chamaerops humilis), l'única palmera autòctona d'Europa. A Mallorca, especialment a la comarca del Llevant, aquesta activitat ha estat fonamental per a l'economia rural durant segles. Les artesanes —ja que històricament era un ofici majoritàriament femení— creaven senalles, cistelles, estores i barrets amb una destresa extraordinària trasmessa de generació en generació.",
         "subtitol": "L'art del trenat de fulles de margalló, l'única palmera autòctona d'Europa, per crear cistelles i senalles.",
@@ -200,17 +200,17 @@
         "videoThumb": "",
         "galeria": [
             {
-                "imatge": "https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W",
+                "imatge": "./media/images/llata/llata-02.jpg",
                 "titol": "Senalla Tradicional",
                 "subtitol": "Ús diari al mercat"
             },
             {
-                "imatge": "../media/images/llata/margallo.webp",
+                "imatge": "./media/images/llata/llata-03.jpg",
                 "titol": "Margalló",
                 "subtitol": "Matèria primera silvestre"
             },
             {
-                "imatge": "../media/images/llata/padrines.webp",
+                "imatge": "./media/images/llata/llata-04.jpg",
                 "titol": "Trenat Artesà",
                 "subtitol": "Tècnica de les padrines"
             }
@@ -249,7 +249,7 @@
         "teVideo": false,
         "imatge": "./media/images/brodat-01.jpg",
         "descripcio": "Art del brodat artesanal sobre tela per crear peces decoratives i tèxtils tradicionals mallorquins.",
-        "descripcioLlarga": "El brodat mallorquí és una tradició tèxtil artesanal basada en la decoració manual de teles amb fil i agulla. A Mallorca, aquest ofici ha format part durant segles de la vida domèstica i de l’elaboració d’aixovars, roba de casa i indumentària tradicional. Les brodadores treballaven principalment sobre cotó i lli, creant motius florals, geomètrics i ornamentals amb una gran precisió i sensibilitat artística, transmetent les tècniques de generació en generació.",
+        "descripcioLlarga": "El brodat mallorquí és una tradició tèxtil artesanal basada en la decoració manual de teles amb fil i agulla. A Mallorca, aquest ofici ha format part durant segles de la vida domèstica i de l'elaboració d'aixovars, roba de casa i indumentària tradicional. Les brodadores treballaven principalment sobre cotó i lli, creant motius florals, geomètrics i ornamentals amb una gran precisió i sensibilitat artística, transmetent les tècniques de generació en generació.",
         "subtitol": "L'art del brodat artesanal mallorquí sobre cotó i lli per crear peces tèxtils decoratives i tradicionals.",
         "rating": 4.6,
         "numRatings": 34,

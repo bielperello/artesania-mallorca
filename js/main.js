@@ -102,7 +102,7 @@ async function init() {
         const [craftsResObj, tallersResObj, artGalleryResObj] = await Promise.all([
             fetch('./data/tipus_artesania.json'),
             fetch('./data/tallers_i_mestres.json'),
-            fetch('./data/ArtGallery.json')       // JSON extern (grup aliè) — integrat de forma eficient
+            fetch('./data/ArtGallery.json')       // JSON extern (Galeries d'Art)
         ]);
 
         if (!craftsResObj.ok || !tallersResObj.ok) {

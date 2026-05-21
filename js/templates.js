@@ -72,7 +72,7 @@ function renderHeader() {
         <div class="flex items-center justify-between px-4 md:px-10 py-4">
             <!-- Branding -->
             <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
-                ${createResponsiveImage({ src: './media/images/logo.jpeg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, className: 'h-10 w-10 rounded-lg object-cover shadow-sm' })}
+                ${createResponsiveImage({ src: './media/images/logo/logo.jpg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, srcset: { avif: './media/images/logo/logo.avif', webp: './media/images/logo/logo.webp' }, className: 'h-10 w-10 rounded-lg object-cover shadow-sm' })}
                 <span class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
                     Artesania Mallorquina
                 </span>
@@ -117,7 +117,7 @@ function renderHero() {
     return `
     <section class="@container mb-16 px-10 py-8 lg:px-20 max-w-[1400px] mx-auto">
         <div class="flex min-h-[400px] flex-col gap-6 rounded-xl items-start justify-center px-8 pb-12 shadow-lg relative overflow-hidden">
-            ${createResponsiveImage({ src: './media/images/hero-01.jpg', alt: '', sizes: 'hero', lazy: false, className: 'absolute inset-0 w-full h-full object-cover z-0' })}
+            ${createResponsiveImage({ src: './media/images/hero/hero-01.jpg', alt: '', sizes: 'hero', lazy: false, srcset: { avif: './media/images/hero/hero-01.avif', webp: './media/images/hero/hero-01.webp' }, className: 'absolute inset-0 w-full h-full object-cover z-0' })}
             <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-[1]"></div>
             <div class="relative z-10 flex flex-col gap-4 text-left max-w-2xl mt-12">
                 <span class="text-primary font-bold uppercase tracking-wider text-sm">Patrimoni Mediterrani</span>
@@ -149,7 +149,7 @@ function renderAbout() {
             <div class="w-full lg:w-1/2 relative">
                 <figure class="relative z-10">
                     <div class="aspect-[4/5] overflow-hidden rounded-lg shadow-xl mb-3">
-                        ${createResponsiveImage({ src: './media/images/about-01.webp', alt: 'Artesana de Siurells de Ca Mado Bet al seu taller', sizes: 'card', lazy: true, className: 'w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700' })}
+                        ${createResponsiveImage({ src: './media/images/about/about-01.jpg', alt: 'Artesana de Siurells de Ca Mado Bet al seu taller', sizes: 'card', lazy: true, srcset: { avif: './media/images/about/about-01.avif', webp: './media/images/about/about-01.webp' }, className: 'w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700' })}
                     </div>
                     <figcaption class="text-sm text-slate-500 dark:text-slate-400 italic text-right px-2">
                         Artesana de Siurells de Ca Mado Bet al seu taller
@@ -363,7 +363,7 @@ function renderFooter() {
     <footer class="bg-slate-900 text-slate-400 py-12 px-10 border-t border-slate-800 mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-3 text-white">
-                ${createResponsiveImage({ src: './media/images/logo.jpeg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, className: 'h-9 w-9 rounded-lg object-cover opacity-90' })}
+                ${createResponsiveImage({ src: './media/images/logo/logo.jpg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, srcset: { avif: './media/images/logo/logo.avif', webp: './media/images/logo/logo.webp' }, className: 'h-9 w-9 rounded-lg object-cover opacity-90' })}
                 <span class="font-serif font-bold text-lg">Artesania Mallorquina</span>
             </div>
             <div class="flex gap-6">
@@ -584,7 +584,7 @@ function renderCatalogCards(crafts) {
             </button>
             <div class="overflow-hidden aspect-[4/3] relative">
                 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
-                ${createResponsiveImage({ src: c.imatge, alt: c.nom, sizes: 'card', lazy: true, className: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' })}
+                ${createResponsiveImage({ src: c.imatge, alt: c.nom, sizes: 'card', lazy: true, srcset: localSrcset(c.imatge), className: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' })}
                 <span class="absolute bottom-4 left-4 z-20 bg-primary text-white text-xs font-bold px-2 py-1 rounded">${c.material}</span>
             </div>
             <div class="p-5">
@@ -758,7 +758,7 @@ function renderMultimediaGrid(items) {
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="showToast('Obrint galeria: ${item.titol}', 'info', 'photo_library')">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
-                ${createResponsiveImage({ src: item.img, alt: item.titol, sizes: 'gallery', lazy: true, className: 'absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700' })}
+                ${createResponsiveImage({ src: item.img, alt: item.titol, sizes: 'gallery', lazy: true, srcset: localSrcset(item.img), className: 'absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700' })}
                 <div class="absolute inset-0 z-20 p-6 flex flex-col justify-end opacity-90 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-300">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-white text-xl">photo_library</span>
@@ -771,7 +771,7 @@ function renderMultimediaGrid(items) {
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" onclick="showToast('Sèrie: ${item.titol} — pròximament', 'info', 'subscriptions')">
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/90 z-10"></div>
-                ${createResponsiveImage({ src: item.img, alt: item.titol, sizes: 'gallery', lazy: true, className: 'absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700' })}
+                ${createResponsiveImage({ src: item.img, alt: item.titol, sizes: 'gallery', lazy: true, srcset: localSrcset(item.img), className: 'absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700' })}
                 <div class="absolute top-4 right-4 z-20 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1 border border-white/10">
                     <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                     <span class="text-white text-xs font-bold uppercase">Sèrie</span>
@@ -792,7 +792,7 @@ function renderMultimediaGrid(items) {
             // Src pendent d'inserir l'URL definitiu del fitxer MP3/OGG
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group shadow-lg z-20 bg-slate-800">
-                ${createResponsiveImage({ src: item.img, alt: '', sizes: 'thumbnail', lazy: true, className: 'absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700' })}
+                ${createResponsiveImage({ src: item.img, alt: '', sizes: 'thumbnail', lazy: true, srcset: localSrcset(item.img), className: 'absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700' })}
                 <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 to-slate-800/80 z-10"></div>
                 <div class="relative z-20 h-full p-6 flex flex-col items-center justify-center text-center">
                     <span class="text-primary text-xs font-bold uppercase tracking-widest mb-4">Sons de l'ofici</span>
@@ -897,7 +897,7 @@ function renderCraftDetail(craft) {
     const galeriaHTML = craft.galeria.map(g => `
         <div class="flex flex-col gap-2 rounded-xl bg-slate-100 dark:bg-slate-800 p-2 shadow-sm">
             <div class="w-full aspect-square rounded-lg overflow-hidden relative">
-                ${createResponsiveImage({ src: g.imatge, alt: g.titol, sizes: 'thumbnail', lazy: true, className: 'absolute inset-0 w-full h-full object-cover' })}
+                ${createResponsiveImage({ src: g.imatge, alt: g.titol, sizes: 'thumbnail', lazy: true, srcset: localSrcset(g.imatge), className: 'absolute inset-0 w-full h-full object-cover' })}
             </div>
             <div class="px-2 pb-1">
                 <p class="text-slate-900 dark:text-slate-100 text-sm font-bold">${g.titol}</p>
@@ -910,7 +910,7 @@ function renderCraftDetail(craft) {
     const artesansHTML = craft.artesans.map(a => `
         <div class="flex flex-col min-w-[300px] w-[300px] bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 snap-center cursor-pointer group/artisan hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 transition-all duration-500">
             <div class="w-24 h-24 rounded-full mb-4 border-4 border-slate-100 dark:border-slate-700 self-center group-hover/artisan:border-primary/40 group-hover/artisan:scale-110 group-hover/artisan:shadow-lg transition-all duration-500 overflow-hidden relative">
-                ${createResponsiveImage({ src: a.foto, alt: a.nom, sizes: 'avatar', lazy: true, className: 'absolute inset-0 w-full h-full object-cover' })}
+                ${createResponsiveImage({ src: a.foto, alt: a.nom, sizes: 'avatar', lazy: true, srcset: localSrcset(a.foto), className: 'absolute inset-0 w-full h-full object-cover' })}
             </div>
             <h4 class="font-display font-bold text-xl text-slate-900 dark:text-slate-100 text-center mb-1 group-hover/artisan:text-primary transition-colors duration-300">${a.nom}</h4>
             <div class="flex justify-center items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 mb-4">
@@ -1139,7 +1139,7 @@ function renderGalleryImages(craft) {
 
     html += craft.galeria.map(g => `
         <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer">
-            ${createResponsiveImage({ src: g.imatge, alt: g.titol, sizes: 'gallery', lazy: true, className: 'w-full h-64 object-cover group-hover/gal:scale-110 transition-transform duration-700' })}
+            ${createResponsiveImage({ src: g.imatge, alt: g.titol, sizes: 'gallery', lazy: true, srcset: localSrcset(g.imatge), className: 'w-full h-64 object-cover group-hover/gal:scale-110 transition-transform duration-700' })}
             <div class="absolute inset-0 bg-black/0 group-hover/gal:bg-black/30 transition-colors duration-300 flex items-end">
                 <div class="p-3 w-full translate-y-full group-hover/gal:translate-y-0 transition-transform duration-300">
                     <p class="text-white text-sm font-bold drop-shadow-lg">${g.titol}</p>
@@ -1152,7 +1152,7 @@ function renderGalleryImages(craft) {
     // Imatge principal
     html += `
         <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer sm:col-span-2 md:col-span-3 aspect-[21/9]">
-            ${createResponsiveImage({ src: craft.imatge, alt: craft.nom, sizes: 'hero', lazy: true, className: 'w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-700' })}
+            ${createResponsiveImage({ src: craft.imatge, alt: craft.nom, sizes: 'hero', lazy: true, srcset: localSrcset(craft.imatge), className: 'w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-700' })}
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                 <div class="p-6"><p class="text-white text-lg font-serif font-bold">${craft.nom}</p></div>
             </div>
