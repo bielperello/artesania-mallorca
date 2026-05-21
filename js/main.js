@@ -695,10 +695,18 @@ function applyFilters() {
 // ══════════════════════════════════════════════════════════════
 
 function openModal(craftId) {
+    // Sincronitzar primer les ressenyes del localStorage (incloses les legacy)
+    refreshCraftsReviews();
+
     const craft = APP_DATA.crafts.find(c => c.id === craftId);
     if (!craft) return;
 
     currentCraft = craft;
+
+    // Inicialitzar els límits i ordenació de ressenyes
+    currentReviewsLimit = 3;
+    currentReviewSort = 'recents';
+    sortReviews(craft, 'recents');
 
     // Poblar el cos del modal
     const body = document.getElementById('craft-modal-body');
@@ -1705,6 +1713,97 @@ async function handleChatSubmit(event) {
 
 let currentReviewRating = 0;
 let currentReviewPhotos = [];
+let currentReviewsLimit = 3;
+let currentReviewSort = 'recents';
+
+// Auxiliar per parsejar dates en català (ex: "12 d'octubre de 2023", "1 de juny de 2024")
+function parseCatalanDate(dateStr) {
+    if (!dateStr) return new Date(0);
+    const str = dateStr.toLowerCase();
+
+    // Exemple: "12 d'octubre de 2023", "21 de maig del 2026", "21 de maig 2026", etc.
+    const parts = str.match(/(\d+)\s+(?:d'|de\s+)?([a-zç]+)(?:\s+(?:de|del)?\s+(\d+))?/);
+    if (!parts) {
+        const parsed = Date.parse(dateStr);
+        return isNaN(parsed) ? new Date(0) : new Date(parsed);
+    }
+
+    const day = parseInt(parts[1], 10);
+    const monthName = parts[2];
+    const year = parts[3] ? parseInt(parts[3], 10) : new Date().getFullYear();
+
+    const months = {
+        'gener': 0, 'febrer': 1, 'març': 2, 'abril': 3, 'maig': 4, 'juny': 5,
+        'juliol': 6, 'agost': 7, 'setembre': 8, 'octubre': 9, 'novembre': 10, 'desembre': 11
+    };
+
+    const month = months[monthName] !== undefined ? months[monthName] : 0;
+    return new Date(year, month, day);
+}
+
+// Ordenar les ressenyes en memòria segons el tipus de filtre / ordenació triat
+function sortReviews(craft, sortType) {
+    if (!craft || !craft.ressenyes) return;
+
+    craft.ressenyes.sort((a, b) => {
+        if (sortType === 'recents') {
+            return parseCatalanDate(b.data) - parseCatalanDate(a.data);
+        } else if (sortType === 'antigues') {
+            return parseCatalanDate(a.data) - parseCatalanDate(b.data);
+        } else if (sortType === 'millor') {
+            if (b.rating !== a.rating) {
+                return b.rating - a.rating;
+            }
+            return parseCatalanDate(b.data) - parseCatalanDate(a.data);
+        } else if (sortType === 'pitjor') {
+            if (a.rating !== b.rating) {
+                return a.rating - b.rating;
+            }
+            return parseCatalanDate(b.data) - parseCatalanDate(a.data);
+        }
+        return 0;
+    });
+}
+
+// Canviar l'ordenació i actualitzar la llista del DOM
+function handleReviewSortChange(sortType, craftId) {
+    currentReviewSort = sortType;
+    currentReviewsLimit = 3; // Reiniciar límit en canviar d'ordenació
+
+    const craft = APP_DATA.crafts.find(c => c.id === craftId);
+    if (!craft) return;
+
+    sortReviews(craft, sortType);
+    updateReviewsListUI(craft);
+}
+
+// Carregar més ressenyes incrementant el límit visible
+function handleLoadMoreReviews(craftId) {
+    const craft = APP_DATA.crafts.find(c => c.id === craftId);
+    if (!craft) return;
+
+    currentReviewsLimit += 3;
+    updateReviewsListUI(craft);
+}
+
+// Actualitzar de manera eficient la subsecció de ressenyes sense refer tot el modal
+function updateReviewsListUI(craft) {
+    const container = document.getElementById('reviews-list-container');
+    const loadMoreBtn = document.getElementById('load-more-reviews-btn');
+
+    if (container) {
+        container.innerHTML = renderReviewsList(craft.ressenyes.slice(0, currentReviewsLimit));
+        initImageObserver();
+    }
+
+    if (loadMoreBtn) {
+        if (craft.ressenyes.length <= currentReviewsLimit) {
+            loadMoreBtn.classList.add('hidden');
+        } else {
+            loadMoreBtn.classList.remove('hidden');
+        }
+    }
+}
 
 function setReviewRating(rating) {
     currentReviewRating = rating;
@@ -1841,6 +1940,9 @@ function handleReviewSubmit(event, craftId) {
         } catch (e) { latestReviews = savedReviews; }
         const originalRessenyes = APP_DATA.crafts[craftIndex]._originalRessenyes || [];
         APP_DATA.crafts[craftIndex].ressenyes = [...latestReviews, ...originalRessenyes];
+
+        // Ordenar la llista actualitzada abans de tornar-la a renderitzar
+        sortReviews(APP_DATA.crafts[craftIndex], currentReviewSort);
     }
 
     // Refresh modal to show new review
@@ -1950,6 +2052,18 @@ function refreshCraftsReviews() {
             const str = localStorage.getItem(reviewKey);
             if (str) savedReviews = JSON.parse(str);
         } catch (e) { }
+
+        // Suportar també les ressenyes de la versió anterior (retrocompatibilitat)
+        const legacyReviewStr = localStorage.getItem('reviewed_' + craft.id);
+        if (legacyReviewStr) {
+            try {
+                const legacyReview = JSON.parse(legacyReviewStr);
+                if (!savedReviews.some(r => r.autor === legacyReview.autor && r.text === legacyReview.text)) {
+                    savedReviews.push(legacyReview);
+                }
+            } catch (e) { }
+        }
+
         const originals = craft._originalRessenyes || [];
         craft.ressenyes = [...savedReviews, ...originals];
     });
