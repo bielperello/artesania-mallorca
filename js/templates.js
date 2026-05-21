@@ -831,6 +831,28 @@ function renderMultimediaGrid(items) {
     return html;
 }
 
+// ── Ressenyes Llista Renderització ───────────────────────────
+function renderReviewsList(ressenyes) {
+    if (!ressenyes || ressenyes.length === 0) {
+        return `<p class="text-slate-500 dark:text-slate-400 text-center py-6">No hi ha ressenyes encara. Sigues el primer a valorar!</p>`;
+    }
+    return ressenyes.map(r => {
+        const imatgesHTML = r.imatges && r.imatges.length ? `<div class="flex gap-2">${r.imatges.map(img => `<div class="w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden relative">${createResponsiveImage({ src: img, alt: 'Foto de la ressenya', sizes: 'thumbnail', lazy: true, className: 'absolute inset-0 w-full h-full object-cover' })}</div>`).join('')}</div>` : '';
+        return `
+        <div class="border-b border-slate-200 dark:border-slate-800 pb-6 last:border-0">
+            <div class="flex items-start justify-between mb-2">
+                <div>
+                    <h5 class="font-bold text-slate-900 dark:text-slate-100">${r.autor}</h5>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">${r.data}</p>
+                </div>
+                <div class="flex text-yellow-400 text-sm">${renderStars(r.rating)}</div>
+            </div>
+            <p class="text-slate-700 dark:text-slate-300 ${r.imatges && r.imatges.length ? 'mb-4' : ''}">${r.text}</p>
+            ${imatgesHTML}
+        </div>`;
+    }).join('');
+}
+
 // ── Fitxa Detallada (Modal) ──────────────────────────────────
 
 function renderCraftDetail(craft) {
@@ -920,22 +942,9 @@ function renderCraftDetail(craft) {
         </div>
     `).join('');
 
-    // Ressenyes (background-image fotos → img helper)
-    const ressenyesHTML = craft.ressenyes.map(r => {
-        const imatgesHTML = r.imatges.length ? `<div class="flex gap-2">${r.imatges.map(img => `<div class="w-20 h-20 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden relative">${createResponsiveImage({ src: img, alt: 'Foto de la ressenya', sizes: 'thumbnail', lazy: true, className: 'absolute inset-0 w-full h-full object-cover' })}</div>`).join('')}</div>` : '';
-        return `
-        <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
-            <div class="flex items-start justify-between mb-2">
-                <div>
-                    <h5 class="font-bold text-slate-900 dark:text-slate-100">${r.autor}</h5>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">${r.data}</p>
-                </div>
-                <div class="flex text-yellow-400 text-sm">${renderStars(r.rating)}</div>
-            </div>
-            <p class="text-slate-700 dark:text-slate-300 ${r.imatges.length ? 'mb-4' : ''}">${r.text}</p>
-            ${imatgesHTML}
-        </div>`;
-    }).join('');
+    // Ressenyes
+    const currentLimit = (typeof currentReviewsLimit !== 'undefined') ? currentReviewsLimit : 3;
+    const ressenyesHTML = renderReviewsList(craft.ressenyes.slice(0, currentLimit));
 
     return `
     <div class="p-8 flex flex-col gap-8">
@@ -1054,10 +1063,15 @@ function renderCraftDetail(craft) {
                 <div class="lg:col-span-2 flex flex-col gap-6">
                     <div class="flex items-center justify-between">
                         <h4 class="text-xl font-bold text-slate-900 dark:text-slate-100 font-display">${craft.numRatings} Valoracions</h4>
-                        <select class="rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm focus:border-terracotta focus:ring-terracotta text-sm"><option>Més recents</option><option>Més antigues</option><option>Millor valoració</option><option>Pitjor valoració</option></select>
+                        <select id="review-sort-select" onchange="handleReviewSortChange(this.value, '${craft.id}')" class="rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm focus:border-terracotta focus:ring-terracotta text-sm">
+                            <option value="recents" ${(typeof currentReviewSort !== 'undefined' && currentReviewSort === 'recents') ? 'selected' : ''}>Més recents</option>
+                            <option value="antigues" ${(typeof currentReviewSort !== 'undefined' && currentReviewSort === 'antigues') ? 'selected' : ''}>Més antigues</option>
+                            <option value="millor" ${(typeof currentReviewSort !== 'undefined' && currentReviewSort === 'millor') ? 'selected' : ''}>Millor valoració</option>
+                            <option value="pitjor" ${(typeof currentReviewSort !== 'undefined' && currentReviewSort === 'pitjor') ? 'selected' : ''}>Pitjor valoració</option>
+                        </select>
                     </div>
-                    <div class="flex flex-col gap-6">${ressenyesHTML}</div>
-                    <button class="text-terracotta font-medium hover:underline self-center mt-4">Carregar més ressenyes</button>
+                    <div id="reviews-list-container" class="flex flex-col gap-6">${ressenyesHTML}</div>
+                    <button id="load-more-reviews-btn" onclick="handleLoadMoreReviews('${craft.id}')" class="text-terracotta font-medium hover:underline self-center mt-4 ${craft.ressenyes.length <= currentLimit ? 'hidden' : ''}">Carregar més ressenyes</button>
                 </div>
             </div>
         </div>
