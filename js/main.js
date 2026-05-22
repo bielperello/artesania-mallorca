@@ -251,6 +251,81 @@ function populateDynamicContent() {
     const weatherTitle = document.getElementById('weather-title');
     if (weatherBody) weatherBody.innerHTML = renderWeatherModal(APP_DATA.weatherFallback);
     if (weatherTitle) weatherTitle.innerHTML = `Previsió Meteorològica - <span class="text-terracotta">${APP_DATA.weatherFallback.lloc}</span>`;
+
+    // Inicialitzar els carrossels de sèrie de la part multimèdia
+    initSerieCarousels();
+}
+
+/**
+ * Inicialitza els carrossels de la secció Sèrie del bloc Multimèdia
+ */
+function initSerieCarousels() {
+    const containers = document.querySelectorAll('[id^="serie-"][aria-roledescription="carrussel"]');
+    
+    containers.forEach(container => {
+        const slides = container.querySelectorAll('.serie-slide');
+        const dots = container.querySelectorAll('.serie-dot');
+        if (slides.length === 0) return;
+        
+        let current = 0;
+        let timer = null;
+
+        function goTo(next) {
+            if (!slides[current] || !dots[current]) return;
+            
+            // Diapositiva actual a invisible i aria-hidden true
+            slides[current].classList.replace('opacity-100', 'opacity-0');
+            slides[current].setAttribute('aria-hidden', 'true');
+            if (dots[current]) {
+                dots[current].classList.replace('bg-white', 'bg-white/30');
+            }
+
+            current = (next + slides.length) % slides.length;
+
+            if (!slides[current] || !dots[current]) return;
+
+            // Nova diapositiva a visible i aria-hidden false
+            slides[current].classList.replace('opacity-0', 'opacity-100');
+            slides[current].setAttribute('aria-hidden', 'false');
+            if (dots[current]) {
+                dots[current].classList.replace('bg-white/30', 'bg-white');
+            }
+        }
+
+        function start() {
+            if (timer) clearInterval(timer);
+            timer = setInterval(() => {
+                // Si el contenidor ha estat destruït o eliminat del DOM (p. ex., en re-renderitzar),
+                // cancel·lem el temporitzador per evitar fuites de memòria.
+                if (!document.body.contains(container)) {
+                    clearInterval(timer);
+                    timer = null;
+                    return;
+                }
+                goTo(current + 1);
+            }, 4000);
+        }
+        
+        function stop() { 
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        // Pausa en passar el ratolí per sobre
+        container.addEventListener('mouseenter', stop);
+        container.addEventListener('mouseleave', start);
+
+        // Avançar manualment fent clic
+        container.addEventListener('click', (e) => {
+            stop();
+            goTo(current + 1);
+            start();
+        });
+
+        start();
+    });
 }
 
 // ══════════════════════════════════════════════════════════════

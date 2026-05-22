@@ -47,7 +47,40 @@ const APP_DATA = {
                 { src: './media/images/siurells/siurells-bet-03.jpeg', avif: './media/images/siurells/siurells-bet-03.avif', webp: './media/images/siurells/siurells-bet-03.webp', alt: 'Siurells de Ca Madò Bet — imatge 3' },
             ]
         },
-        { tipus: 'serie', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_A0SUw9RqSKQLcR9plH8oQk7szdi5Jwz5Y2cIw7oFiTuC8QhhWD0GDPn9JDazVeRhNXLXDe3hyi_cAaMn-mttS4qbCn7B_hqztWhgY-gL85PLO-vpajx6t2L8r1oO0C-zpeZ_zbHvdasp2_VU_XIFcXAOUkCFiWHSlx8yV8nFjw7fxYypGVOQQsas9cUckIUjxuBiojI64zl4KsP01ytFkiW-M04BTdrJ3AHhKQNWfzXAduvg7dzvMiZYN25GE2HEQNRq8wPxubk1', titol: 'Mestres de la Llatra', subtitol: 'La paciència trenada en fulles de margalló al nord de l\'illa.' },
+        {
+            tipus: 'serie',
+            titol: 'Oficis de l\'Illa',
+            slides: [
+                {
+                    img:  './media/images/serie/siurells-alta-01.jpg',
+                    webp: './media/images/serie/siurells-alta-01.webp',
+                    avif: './media/images/serie/siurells-alta-01.avif',
+                    titol: 'El Siurell',
+                    subtitol: 'Fang, calç i un xiulet: el símbol més antic de l\'ànima mallorquina.'
+                },
+                {
+                    img:  './media/images/serie/llata-alta-01.jpg',
+                    webp: './media/images/serie/llata-alta-01.webp',
+                    avif: './media/images/serie/llata-alta-01.avif',
+                    titol: 'La Llata',
+                    subtitol: 'Sanalles, capells i estores: la paciència trenada fulla a fulla.'
+                },
+                {
+                    img:  './media/images/serie/ceramica-alta-01.jpg',
+                    webp: './media/images/serie/ceramica-alta-01.webp',
+                    avif: './media/images/serie/ceramica-alta-01.avif',
+                    titol: 'La Ceràmica',
+                    subtitol: 'Terra i foc units per mans que modelen cinc segles de tradició.'
+                },
+                {
+                    img:  './media/images/serie/alta-01.jpg',
+                    webp: './media/images/serie/alta-01.webp',
+                    avif: './media/images/serie/alta-01.avif',
+                    titol: 'La Fusta',
+                    subtitol: 'Estris de cuina tallats a mà: la memòria de cada llar mallorquina.'
+                },
+            ]
+        },
         { tipus: 'audio', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W', titol: 'El ritme del teler', durada: '02:45' },
     ],
 

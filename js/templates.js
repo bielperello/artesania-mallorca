@@ -812,25 +812,43 @@ function renderMultimediaGrid(items) {
                 </div>
             </div>`;
         } else if (item.tipus === 'serie') {
+            const slides = item.slides || [];
+            const serieId = `serie-${idx}`;
+            // Generar les diapositives (superposades, totes absolutes)
+            const slidesHTML = slides.map((s, si) => `
+                <div class="serie-slide absolute inset-0 transition-opacity duration-700 ${si === 0 ? 'opacity-100' : 'opacity-0'}" data-index="${si}" aria-hidden="${si !== 0}">
+                    <picture class="absolute inset-0 w-full h-full">
+                        ${s.avif ? `<source srcset="${s.avif}" type="image/avif">` : ''}
+                        ${s.webp ? `<source srcset="${s.webp}" type="image/webp">` : ''}
+                        <img src="${s.img}" alt="${s.titol}" loading="${si === 0 ? 'eager' : 'lazy'}" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                    </picture>
+                    <!-- Gradient + text -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/90 z-10"></div>
+                    <div class="absolute inset-x-0 bottom-0 p-6 z-20 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                        <h4 class="text-2xl font-serif font-bold text-white mb-1">${s.titol}</h4>
+                        <p class="text-slate-300 text-sm line-clamp-2 mb-4 max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500 delay-100">${s.subtitol || ''}</p>
+                    </div>
+                </div>`
+            ).join('');
+
+            // Dots de progrés
+            const dotsHTML = slides.map((_, si) =>
+                `<div class="serie-dot h-1 flex-1 rounded-full transition-all duration-500 ${si === 0 ? 'bg-white' : 'bg-white/30'}" data-index="${si}"></div>`
+            ).join('');
+
             html += `
-            <div class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" onclick="showToast('Sèrie: ${item.titol} — pròximament', 'info', 'subscriptions')">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/90 z-10"></div>
-                ${createResponsiveImage({ src: item.img, alt: item.titol, sizes: 'gallery', lazy: true, srcset: localSrcset(item.img), className: 'absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700' })}
-                <div class="absolute top-4 right-4 z-20 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1 border border-white/10">
+            <div id="${serieId}" class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" aria-roledescription="carrussel" aria-label="${item.titol}">
+                <!-- Badge Lliu EN VENDA / Sèrie -->
+                <div class="absolute top-4 right-4 z-30 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1 border border-white/10">
                     <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                     <span class="text-white text-xs font-bold uppercase">Sèrie</span>
                 </div>
-                <div class="absolute inset-x-0 bottom-0 p-6 z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <h4 class="text-2xl font-serif font-bold text-white mb-2">${item.titol}</h4>
-                    <p class="text-slate-300 text-sm line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">${item.subtitol || ''}</p>
-                    <div class="flex gap-1 mb-2">
-                        <div class="h-1 flex-1 bg-white rounded-full"></div>
-                        <div class="h-1 flex-1 bg-white/30 rounded-full"></div>
-                        <div class="h-1 flex-1 bg-white/30 rounded-full"></div>
-                        <div class="h-1 flex-1 bg-white/30 rounded-full"></div>
-                    </div>
-                </div>
+                <!-- Diapositives -->
+                ${slidesHTML}
+                <!-- Dots a baix de tot -->
+                <div class="absolute bottom-4 left-6 right-6 z-30 flex gap-1">${dotsHTML}</div>
             </div>`;
+
         } else if (item.tipus === 'audio') {
             // ── Àudio natiu: <audio> amb preload="none" i controls personalitzats ──
             // Src pendent d'inserir l'URL definitiu del fitxer MP3/OGG
@@ -1028,12 +1046,9 @@ function renderCraftDetail(craft) {
         </div>
     `).join('');
 
-    // Artesans (background-image → img absoluta via helper)
+    // Artesans
     const artesansHTML = craft.artesans.map(a => `
-        <div class="flex flex-col min-w-[300px] w-[300px] bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 snap-center cursor-pointer group/artisan hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 transition-all duration-500">
-            <div class="w-24 h-24 rounded-full mb-4 border-4 border-slate-100 dark:border-slate-700 self-center group-hover/artisan:border-primary/40 group-hover/artisan:scale-110 group-hover/artisan:shadow-lg transition-all duration-500 overflow-hidden relative">
-                ${createResponsiveImage({ src: a.foto, alt: a.nom, sizes: 'avatar', lazy: true, srcset: localSrcset(a.foto), className: 'absolute inset-0 w-full h-full object-cover' })}
-            </div>
+        <div class="flex flex-col min-w-[280px] w-[280px] bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 snap-center cursor-pointer group/artisan hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 transition-all duration-500">
             <h4 class="font-display font-bold text-xl text-slate-900 dark:text-slate-100 text-center mb-1 group-hover/artisan:text-primary transition-colors duration-300">${a.nom}</h4>
             <div class="flex justify-center items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 mb-4">
                 <span>${a.dates}</span><span>•</span><span>${a.lloc}</span>
