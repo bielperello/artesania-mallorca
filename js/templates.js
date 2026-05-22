@@ -253,8 +253,13 @@ function renderCatalogSection() {
                 <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 transition-all duration-500">
                     <!-- JS renderCatalogCards() -->
                 </div>
-                <div class="flex justify-center mt-8">
-                    <button class="px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-bold transition-colors">Carregar més artesanies</button>
+                <div class="flex justify-center mt-8 gap-3" id="catalog-load-controls">
+                    <button id="load-more-crafts-btn" class="px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg font-bold transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">expand_more</span>Carregar més artesanies
+                    </button>
+                    <button id="show-less-crafts-btn" class="hidden px-6 py-3 border-2 border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg font-bold transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">expand_less</span>Mostrar menys
+                    </button>
                 </div>
             </div>
         </div>
@@ -398,7 +403,7 @@ function renderModals() {
                     <button aria-label="Afegir a preferits" onclick="toggleModalFavorite(this)" class="flex items-center justify-center rounded-full size-10 bg-slate-100 hover:bg-red-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-400 transition-all group cursor-pointer" title="Afegir a preferits">
                         <span class="material-symbols-outlined group-hover:text-red-400 transition-colors">favorite</span>
                     </button>
-                    <button aria-label="Compartir" class="flex items-center justify-center rounded-full size-10 bg-sand/30 hover:bg-sand/50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors" title="Compartir">
+                    <button aria-label="Compartir" onclick="shareCraft()" class="flex items-center justify-center rounded-full size-10 bg-sand/30 hover:bg-sand/50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors" title="Compartir">
                         <span class="material-symbols-outlined">share</span>
                     </button>
                 </div>
@@ -701,20 +706,32 @@ function renderGeoNearby(tallers) {
     if (!tallers || tallers.length === 0) {
         return `<p class="text-xs text-slate-500 dark:text-slate-400 text-center py-2">Activa la ubicació per veure tallers propers</p>`;
     }
-    return tallers.map(t => `
+    return tallers.map(t => {
+        const distLabel = t.distanciaKm != null
+            ? `${t.distanciaKm.toFixed(1)} km`
+            : `<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[11px] animate-spin">progress_activity</span> Calculant...</span>`;
+        return `
         <div class="flex items-start justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
-            <div>
-                <p class="font-bold text-sm text-slate-900 dark:text-slate-100">${t.nom}</p>
-                <p class="text-[10px] text-slate-500">${t.adreca || t.zona || ''}</p>
+            <div class="flex-1 min-w-0 mr-2">
+                <p class="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">${t.nom}</p>
+                <p class="text-[10px] text-slate-500 truncate">${t.adreca || ''}</p>
                 <div class="flex items-center gap-1 mt-1 font-bold text-blue-600 text-[10px]">
-                    <span class="material-symbols-outlined text-[12px]">directions_car</span> ${t.distancia || 'Calculant...'}
+                    <span class="material-symbols-outlined text-[12px]">directions_car</span> ${distLabel}
                 </div>
             </div>
-            <a href="https://maps.google.com/?q=${t.mapsQuery || encodeURIComponent(t.nom)}" target="_blank" class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 p-1.5 rounded-md hover:bg-blue-100 transition-colors">
+            <a href="https://maps.google.com/?q=${t.mapsQuery || encodeURIComponent(t.nom)}" target="_blank" class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 p-1.5 rounded-md hover:bg-blue-100 transition-colors flex-shrink-0">
                 <span class="material-symbols-outlined text-[16px]">directions</span>
             </a>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
+}
+
+function renderGeoCalculating() {
+    return `
+    <div class="flex items-center justify-center gap-2 py-3 text-blue-600 dark:text-blue-400">
+        <span class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span>
+        <span class="text-xs font-semibold">Calculant tallers propers...</span>
+    </div>`;
 }
 
 // ── Multimèdia ───────────────────────────────────────────────
@@ -855,6 +872,62 @@ function renderReviewsList(ressenyes) {
 
 // ── Fitxa Detallada (Modal) ──────────────────────────────────
 
+// ── Vídeo YouTube per a la Fitxa Detallada ──────────────────
+// Mapa de craft.id → YouTube Video ID
+const CRAFT_YOUTUBE_VIDEOS = {
+    'siurells':      'GJvarb-kEtw',  // Documental siurells mallorquins
+    'vidre-bufat':   '43vY6sS21Es',  // Procés de vidre bufat
+    'roba-llengues': 'NDmbuo_DGZI',  // Tela de llengües tradicional
+    'llatra':        'AmZIiSisR1s',  // Art de la llata (margalló)
+};
+
+/**
+ * Retorna un iframe de YouTube responsive i accessible per a la fitxa detallada.
+ * Si l'artesania no té vídeo associat, mostra la imatge hero de l'artesania.
+ * @param {Object} craft - Dades de l'artesania
+ * @returns {string} HTML de l'iframe o imatge de fallback
+ */
+function renderCraftVideo(craft) {
+    const videoId = CRAFT_YOUTUBE_VIDEOS[craft.id];
+
+    if (videoId) {
+        // Paràmetres YouTube:
+        //   rel=0           → no mostrar vídeos relacionats d'altres canals al final
+        //   modestbranding=1 → logotip de YouTube discret
+        //   autoplay=0      → sense reproducció automàtica (UX + accessibilitat)
+        const src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=0`;
+        return `<iframe
+            class="w-full h-full"
+            src="${src}"
+            title="Vídeo documental sobre el procés artesanal de: ${craft.nom}"
+            loading="lazy"
+            frameborder="0"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+        ></iframe>`;
+    }
+
+    // Fallback per a artesanies sense vídeo de YouTube: imatge hero amb overlay
+    return `
+        <div class="relative w-full h-full">
+            ${createResponsiveImage({
+                src: craft.imatge,
+                alt: `Imatge representativa de l'artesania: ${craft.nom}`,
+                sizes: 'card',
+                lazy: true,
+                srcset: localSrcset(craft.imatge),
+                className: 'absolute inset-0 w-full h-full object-cover'
+            })}
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex items-end p-5">
+                <div class="flex items-center gap-2 text-white/80">
+                    <span class="material-symbols-outlined text-sm">photo_camera</span>
+                    <span class="text-xs font-medium">${craft.nom} — Artesania Mallorquina</span>
+                </div>
+            </div>
+        </div>`;
+}
+
 function renderCraftDetail(craft) {
     if (!craft) return '';
 
@@ -966,22 +1039,9 @@ function renderCraftDetail(craft) {
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Vídeo HTML5 natiu: preload="metadata" per no descarregar fins play. Poster = thumbnail de la fitxa -->
-            <div class="relative aspect-video rounded-xl overflow-hidden shadow-lg group bg-slate-900">
-                <video
-                    id="craft-video-${craft.id}"
-                    class="w-full h-full object-cover"
-                    poster="${craft.videoThumb || craft.imatge}"
-                    preload="metadata"
-                    playsinline
-                    controls
-                    aria-label="Vídeo del procés artesanal: ${craft.nom}"
-                >
-                    <source src="<!-- PENDENT: ./media/video/${craft.id}.mp4 -->" type="video/mp4">
-                    <source src="<!-- PENDENT: ./media/video/${craft.id}.webm -->" type="video/webm">
-                    <track kind="captions" src="<!-- PENDENT: ./media/video/${craft.id}-ca.vtt -->" srclang="ca" label="Català" default>
-                    <track kind="captions" src="<!-- PENDENT: ./media/video/${craft.id}-es.vtt -->" srclang="es" label="Castellà">
-                </video>
+            <!-- Vídeo YouTube incrustat: responsive, accessible i amb lazy loading -->
+            <div class="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-slate-900">
+                ${renderCraftVideo(craft)}
             </div>
             <div class="grid grid-cols-2 gap-4">
                 ${galeriaHTML}

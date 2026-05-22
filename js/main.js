@@ -665,17 +665,39 @@ function applyFilters() {
         }
     });
 
-    // Control de visibilitat del botó "Carregar més"
-    const loadMoreContainer = document.querySelector('#cataleg .flex.justify-center');
-    const loadMoreBtn = loadMoreContainer ? loadMoreContainer.querySelector('button') : null;
+    // Control de visibilitat del botó "Carregar més" i "Mostrar menys"
+    const loadMoreContainer = document.getElementById('catalog-load-controls');
+    const loadMoreBtn = document.getElementById('load-more-crafts-btn');
+    const showLessBtn = document.getElementById('show-less-crafts-btn');
+    const MIN_ROWS = 2; // mínim de files (4 artesanies en 2 col·les = 4 mínim)
 
-    if (loadMoreBtn && loadMoreContainer) {
-        if (matchingCards.length > limit) {
-            loadMoreContainer.style.display = 'flex';
-            loadMoreBtn.style.display = '';
-        } else {
+    if (loadMoreContainer) {
+        const hasMore = matchingCards.length > limit;
+        const hasExtra = catalogVisibleRows > MIN_ROWS;
+
+        // Botó "Carregar més"
+        if (loadMoreBtn) {
+            if (hasMore) {
+                loadMoreBtn.classList.remove('hidden');
+            } else {
+                loadMoreBtn.classList.add('hidden');
+            }
+        }
+
+        // Botó "Mostrar menys"
+        if (showLessBtn) {
+            if (hasExtra) {
+                showLessBtn.classList.remove('hidden');
+            } else {
+                showLessBtn.classList.add('hidden');
+            }
+        }
+
+        // Amagar el contenidor sencer si cap botó és visible
+        if (!hasMore && !hasExtra) {
             loadMoreContainer.style.display = 'none';
-            loadMoreBtn.style.display = 'none';
+        } else {
+            loadMoreContainer.style.display = 'flex';
         }
     }
 
@@ -1197,6 +1219,9 @@ function confirmGeolocation() {
             // Iniciar vigilància contínua de posició
             GeoService.startWatching();
 
+            // Calcular i mostrar els 3 tallers més propers (passant la precisió per a l'avís)
+            updateNearbyWorkshops(coords.latitude, coords.longitude, coords.accuracy);
+
             showToast(`Ubicació compartida (precisió: ${Math.round(coords.accuracy)}m)`, 'success', 'my_location');
         })
         .catch((error) => {
@@ -1243,6 +1268,126 @@ function stopGeolocation() {
     }
 
     showToast('Ubicació desactivada', 'warning', 'location_off');
+}
+
+/**
+ * Comparteix el contingut de l'artesania actual usant la Web Share API nativa.
+ * Si el navegador no suporta navigator.share (majoritàriament escriptori),
+ * copia l'URL al portapapers com a alternativa.
+ */
+async function shareCraft() {
+    if (!currentCraft) return;
+
+    const craftName = currentCraft.nom;
+    const craftDesc = currentCraft.descripcio || '';
+    const shareUrl = `${window.location.origin}${window.location.pathname}#cataleg`;
+
+    const shareData = {
+        title: `${craftName} — Artesania Mallorquina`,
+        text: `Descobreix l'artesania tradicional mallorquina: ${craftName}. ${craftDesc}`,
+        url: shareUrl
+    };
+
+    // Intentar la Web Share API nativa (mòbil i alguns navegadors d'escriptori moderns)
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        try {
+            await navigator.share(shareData);
+            showToast('Contingut compartit correctament', 'success', 'share');
+        } catch (err) {
+            // L'usuari ha cancel·lat o hi ha hagut un error
+            if (err.name !== 'AbortError') {
+                // Fallback al portapapers si falla
+                await _copyToClipboard(shareUrl, craftName);
+            }
+        }
+    } else if (navigator.share) {
+        // navigator.share existeix però sense canShare (versions antigues)
+        try {
+            await navigator.share({ title: shareData.title, url: shareUrl });
+            showToast('Contingut compartit correctament', 'success', 'share');
+        } catch (err) {
+            if (err.name !== 'AbortError') {
+                await _copyToClipboard(shareUrl, craftName);
+            }
+        }
+    } else {
+        // Escriptori sense suport de Web Share API — copiar al portapapers
+        await _copyToClipboard(shareUrl, craftName);
+    }
+}
+
+/**
+ * Copia l'URL al portapapers i mostra un toast de confirmació.
+ */
+async function _copyToClipboard(url, craftName) {
+    try {
+        await navigator.clipboard.writeText(url);
+        showToast(`Enllaç de "${craftName}" copiat al portapapers`, 'success', 'content_copy');
+    } catch (err) {
+        // Últim recurs: selecció manual (navegadors molt antics)
+        const tempInput = document.createElement('input');
+        tempInput.value = url;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showToast(`Enllaç copiat al portapapers`, 'info', 'content_copy');
+    }
+}
+
+/**
+ * Calcula la distància en km entre dos punts (fórmula de Haversine).
+ */
+function haversineKm(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+/**
+ * Calcula les distàncies a tots els tallers, ordena per proximitat
+ * i actualitza la llista mostrant només els 3 més propers.
+ * @param {number} userLat - Latitud de l'usuari
+ * @param {number} userLng - Longitud de l'usuari
+ * @param {number} [accuracy] - Precisió GPS en metres (opcional)
+ */
+function updateNearbyWorkshops(userLat, userLng, accuracy) {
+    const geoList = document.getElementById('geo-list');
+    if (!geoList || !APP_DATA.tallers) return;
+
+    // Mostrar estat "Calculant..."
+    geoList.innerHTML = renderGeoCalculating();
+
+    // Petit delay per donar feedback visual
+    setTimeout(() => {
+        // Filtrar tallers que tinguin coordenades i calcular distàncies
+        const tallersAmbDist = APP_DATA.tallers
+            .filter(t => t.lat != null && t.lng != null)
+            .map(t => ({
+                ...t,
+                distanciaKm: haversineKm(userLat, userLng, t.lat, t.lng)
+            }))
+            .sort((a, b) => a.distanciaKm - b.distanciaKm)
+            .slice(0, 3); // Només els 3 més propers
+
+        let html = renderGeoNearby(tallersAmbDist);
+
+        // Avís de baixa precisió GPS (habitual a l'ordinador, on s'usa IP en lloc de GPS)
+        if (accuracy && accuracy > 5000) {
+            html += `
+            <div class="mt-2 flex items-start gap-1.5 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg px-2 py-1.5">
+                <span class="material-symbols-outlined text-amber-500 text-[14px] mt-0.5 flex-shrink-0">info</span>
+                <p class="text-[10px] text-amber-700 dark:text-amber-400 leading-tight">
+                    Precisió GPS baixa (${Math.round(accuracy / 1000).toFixed(1)} km). Les distàncies poden ser aproximades. En mòbil la precisió és molt millor.
+                </p>
+            </div>`;
+        }
+
+        geoList.innerHTML = html;
+    }, 600);
 }
 
 function toggleAIChat() {
@@ -1443,7 +1588,10 @@ function attachGlobalListeners() {
     });
 
     // "Carregar més artesanies" — Incrementa de 2 en 2 files
-    const loadMoreBtn = document.querySelector('#cataleg .flex.justify-center button');
+    const loadMoreBtn = document.getElementById('load-more-crafts-btn');
+    const showLessBtn = document.getElementById('show-less-crafts-btn');
+    const MIN_CATALOG_ROWS = 2; // mínim: 2 files (= 4 cards en 2 col·les)
+
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', () => {
             if (catalogVisibleRows * getCurrentGridCols() >= APP_DATA.crafts.length) {
@@ -1453,7 +1601,21 @@ function attachGlobalListeners() {
                 applyFilters();
                 showToast("S'han carregat més artesanies", 'info', 'grid_view');
             }
+        });
+    }
 
+    if (showLessBtn) {
+        showLessBtn.addEventListener('click', () => {
+            if (catalogVisibleRows > MIN_CATALOG_ROWS) {
+                catalogVisibleRows = Math.max(MIN_CATALOG_ROWS, catalogVisibleRows - 2);
+                applyFilters();
+                // Fer scroll suau cap al principi del catàleg
+                const catalogSection = document.getElementById('cataleg');
+                if (catalogSection) {
+                    catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                showToast("S'han amagat algunes artesanies", 'info', 'expand_less');
+            }
         });
     }
 
