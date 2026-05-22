@@ -35,7 +35,18 @@ const APP_DATA = {
     // ── Multimèdia ──────────────────────────────────────────
     multimedia: [
         { tipus: 'video-hero', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrf51cyWMYkm1-iXrDnBTsNKCHmukIssX9kg-6tH6No8tDIgDezjCACL8RP22k9hqkNi-RipDbvuWRUIqK4fYO34WX7Iz3XgCEF1afjGl2cv1Cd4U_IKCXMkgJ9do5hMXbg8KpVsEn-b-_x05y3TP97AazCGqUYVvsnMeJyRvCUDO3mjwsarD8R95VjVZCJeWtU_v7JUgCBu-N7VEXCNdmPKcy1oo80-Dz_dVcGV1tWhS3lD6umLv4Jyq5JTHMjMxrc6w_ERefzNao', tag: 'El procés de l\'aire', titol: 'Màgia fosa en vidre bufat' },
-        { tipus: 'galeria', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuALNMrHGXDsC-khMfjebpWKtVYTZnlpWAT7DzH9lfHG-GInEh0uH5Mk9t2j9MKHqQMX_FWeCUsN55wh42Lo2q6Y92OTn2wkdMo7bGo7PeQSxq4XovnZw6gitz0EEx6C-An8BZ3EyTu6HMv11Hb2YXKmyTN7w1Ap5FsT8HYATGshAcyGjmUriS2EI4buqxf2oUPDgMDVFys5naIVDmncM1nKL2OOWg_k-bHk9jBvwCcWSlg3YVqTF_sKBofEcz555u9Wzz2KUBy0pK6C', titol: 'Detalls de fang i pintura' },
+        {
+            tipus: 'galeria',
+            img: './media/images/siurells/siurells-bet-01.jpeg',
+            imgAvif: './media/images/siurells/siurells-bet-01.avif',
+            imgWebp: './media/images/siurells/siurells-bet-01.webp',
+            titol: 'Siurells de Ca Madò Bet',
+            fotos: [
+                { src: './media/images/siurells/siurells-bet-01.jpeg', avif: './media/images/siurells/siurells-bet-01.avif', webp: './media/images/siurells/siurells-bet-01.webp', alt: 'Siurells de Ca Madò Bet — imatge 1' },
+                { src: './media/images/siurells/siurells-bet-02.jpeg', avif: './media/images/siurells/siurells-bet-02.avif', webp: './media/images/siurells/siurells-bet-02.webp', alt: 'Siurells de Ca Madò Bet — imatge 2' },
+                { src: './media/images/siurells/siurells-bet-03.jpeg', avif: './media/images/siurells/siurells-bet-03.avif', webp: './media/images/siurells/siurells-bet-03.webp', alt: 'Siurells de Ca Madò Bet — imatge 3' },
+            ]
+        },
         { tipus: 'serie', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_A0SUw9RqSKQLcR9plH8oQk7szdi5Jwz5Y2cIw7oFiTuC8QhhWD0GDPn9JDazVeRhNXLXDe3hyi_cAaMn-mttS4qbCn7B_hqztWhgY-gL85PLO-vpajx6t2L8r1oO0C-zpeZ_zbHvdasp2_VU_XIFcXAOUkCFiWHSlx8yV8nFjw7fxYypGVOQQsas9cUckIUjxuBiojI64zl4KsP01ytFkiW-M04BTdrJ3AHhKQNWfzXAduvg7dzvMiZYN25GE2HEQNRq8wPxubk1', titol: 'Mestres de la Llatra', subtitol: 'La paciència trenada en fulles de margalló al nord de l\'illa.' },
         { tipus: 'audio', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W', titol: 'El ritme del teler', durada: '02:45' },
     ],

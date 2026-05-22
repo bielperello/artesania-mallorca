@@ -431,7 +431,24 @@ function renderModals() {
         </div>
     </div>
 
-    <!-- Gallery Modal -->
+    <!-- Photo Gallery Modal (Galeria de fotos de la secció Multimèdia) -->
+    <div id="photo-gallery-modal" class="fixed inset-0 z-[350] hidden items-center justify-center bg-black/90 backdrop-blur-md opacity-0 transition-opacity duration-300 p-4 sm:p-8" role="dialog" aria-modal="true" aria-labelledby="photo-gallery-title">
+        <div id="photo-gallery-content" class="w-full max-w-5xl max-h-[92vh] flex flex-col transform scale-95 transition-transform duration-300">
+            <!-- Capçalera -->
+            <div class="flex items-center justify-between mb-5">
+                <h2 id="photo-gallery-title" class="text-2xl font-serif font-bold text-white">Galeria</h2>
+                <button onclick="closePhotoGallery()" aria-label="Tancar galeria de fotos" class="text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm transition-all">
+                    <span class="material-symbols-outlined text-2xl">close</span>
+                </button>
+            </div>
+            <!-- Graella de fotos (adaptable per a més imatges) -->
+            <div id="photo-gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 overflow-y-auto pr-1 pb-4" style="max-height: calc(92vh - 80px);">
+                <!-- JS openPhotoGallery() -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Modal (fitxa artesania) -->
     <div id="gallery-modal" class="fixed inset-0 z-[300] hidden items-center justify-center bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300 p-4 sm:p-8">
         <button onclick="closeGalleryModal()" class="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm transition-all z-50">
             <span class="material-symbols-outlined text-3xl">close</span>
@@ -772,14 +789,24 @@ function renderMultimediaGrid(items) {
                 </div>
             </div>`;
         } else if (item.tipus === 'galeria') {
+            // Serialitzem les fotos de forma segura per passar-les a l'onclick
+            const fotosJson = item.fotos ? JSON.stringify(item.fotos).replace(/'/g, "&#39;").replace(/"/g, '&quot;') : '[]';
+            const coverSrc = item.img || '';
+            const coverSrcset = item.imgAvif || item.imgWebp
+                ? `{ avif: '${item.imgAvif || ''}', webp: '${item.imgWebp || ''}' }`
+                : '{}';
             html += `
-            <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="showToast('Obrint galeria: ${item.titol}', 'info', 'photo_library')">
+            <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="openPhotoGallery('${item.titol}', this)" data-fotos="${fotosJson}">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
-                ${createResponsiveImage({ src: item.img, alt: item.titol, sizes: 'gallery', lazy: true, srcset: localSrcset(item.img), className: 'absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700' })}
+                <picture class="absolute inset-0 w-full h-full">
+                    ${item.imgAvif ? `<source srcset="${item.imgAvif}" type="image/avif">` : ''}
+                    ${item.imgWebp ? `<source srcset="${item.imgWebp}" type="image/webp">` : ''}
+                    <img src="${item.img}" alt="${item.titol}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                </picture>
                 <div class="absolute inset-0 z-20 p-6 flex flex-col justify-end opacity-90 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-300">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-white text-xl">photo_library</span>
-                        <span class="text-white text-xs font-bold uppercase tracking-wider">Galeria</span>
+                        <span class="text-white text-xs font-bold uppercase tracking-wider">Galeria &bull; ${item.fotos ? item.fotos.length + ' fotos' : ''}</span>
                     </div>
                     <h4 class="text-2xl font-serif font-bold text-white">${item.titol}</h4>
                 </div>

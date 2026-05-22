@@ -922,6 +922,103 @@ function openGalleryModal() {
     }, 10);
 }
 
+/**
+ * Obre el modal de galeria de fotos de la secció Multimèdia.
+ * Llegeix les dades de fotos des de l'atribut data-fotos de l'element clicat.
+ * @param {string} titol - Títol de la galeria
+ * @param {HTMLElement} cardEl - L'element de la targeta clicat
+ */
+function openPhotoGallery(titol, cardEl) {
+    const modal = document.getElementById('photo-gallery-modal');
+    const content = document.getElementById('photo-gallery-content');
+    const grid = document.getElementById('photo-gallery-grid');
+    const titleEl = document.getElementById('photo-gallery-title');
+    if (!modal || !grid) return;
+
+    // Llegir les fotos des de l'atribut data-fotos (JSON)
+    let fotos = [];
+    try {
+        const raw = cardEl ? cardEl.getAttribute('data-fotos') : '[]';
+        fotos = raw ? JSON.parse(raw.replace(/&quot;/g, '"').replace(/&#39;/g, "'")) : [];
+    } catch (e) {
+        console.warn('[PhotoGallery] Error parsejant data-fotos:', e);
+    }
+
+    // Actualitzar el títol del modal
+    if (titleEl) titleEl.textContent = titol || 'Galeria de fotos';
+
+    // Poblar la graella amb les fotos
+    if (fotos.length > 0) {
+        grid.innerHTML = fotos.map((foto, i) => `
+            <div class="relative aspect-square rounded-xl overflow-hidden group shadow-md">
+                <picture>
+                    ${foto.avif ? `<source srcset="${foto.avif}" type="image/avif">` : ''}
+                    ${foto.webp ? `<source srcset="${foto.webp}" type="image/webp">` : ''}
+                    <img
+                        src="${foto.src}"
+                        alt="${foto.alt || titol + ' — imatge ' + (i + 1)}"
+                        loading="${i === 0 ? 'eager' : 'lazy'}"
+                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    >
+                </picture>
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 rounded-xl"></div>
+            </div>`
+        ).join('');
+    } else {
+        grid.innerHTML = `<p class="text-white/60 text-center col-span-full py-12">No hi ha fotos disponibles</p>`;
+    }
+
+    // Mostrar modal amb animació
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    requestAnimationFrame(() => {
+        modal.classList.remove('opacity-0');
+        modal.classList.add('opacity-100');
+        if (content) {
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+    });
+
+    // Tancar amb Escape
+    const onKeyDown = (e) => {
+        if (e.key === 'Escape') {
+            closePhotoGallery();
+            document.removeEventListener('keydown', onKeyDown);
+        }
+    };
+    document.addEventListener('keydown', onKeyDown);
+
+    // Tancar clicant el fons
+    modal.onclick = (e) => {
+        if (e.target === modal) closePhotoGallery();
+    };
+}
+
+/**
+ * Tanca el modal de galeria de fotos de la secció Multimèdia.
+ */
+function closePhotoGallery() {
+    const modal = document.getElementById('photo-gallery-modal');
+    const content = document.getElementById('photo-gallery-content');
+    if (!modal) return;
+
+    modal.classList.remove('opacity-100');
+    modal.classList.add('opacity-0');
+    if (content) {
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+    }
+    setTimeout(() => {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+        modal.onclick = null;
+        // Buidar la graella per alliberar recursos
+        const grid = document.getElementById('photo-gallery-grid');
+        if (grid) grid.innerHTML = '';
+    }, 300);
+}
+
 function closeGalleryModal() {
     const modal = document.getElementById('gallery-modal');
     const content = document.getElementById('gallery-content');
