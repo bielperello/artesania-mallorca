@@ -72,7 +72,7 @@ function renderHeader() {
         <div class="flex items-center justify-between px-4 md:px-10 py-4">
             <!-- Branding -->
             <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
-                ${createResponsiveImage({ src: './media/images/logo/logo.jpg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, srcset: { avif: './media/images/logo/logo.avif', webp: './media/images/logo/logo.webp' }, className: 'h-10 w-10 rounded-lg object-cover shadow-sm' })}
+                ${createResponsiveImage({ src: './media/images/logo/logo.jpg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, srcset: { avif: './media/images/logo/logo.avif', webp: './media/images/logo/logo.webp' }, className: 'h-14 w-14 rounded-lg object-cover shadow-sm' })}
                 <span class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
                     Artesania Mallorquina
                 </span>
@@ -450,12 +450,12 @@ function renderModals() {
 
     <!-- Gallery Modal (fitxa artesania) -->
     <div id="gallery-modal" class="fixed inset-0 z-[300] hidden items-center justify-center bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300 p-4 sm:p-8">
-        <button onclick="closeGalleryModal()" class="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm transition-all z-50">
+        <button onclick="closeGalleryModal()" class="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-sm transition-all z-50 flex items-center justify-center cursor-pointer">
             <span class="material-symbols-outlined text-3xl">close</span>
         </button>
-        <div id="gallery-content" class="w-full max-w-5xl max-h-full flex flex-col transform scale-95 transition-transform duration-300 mt-10">
+        <div id="gallery-content" class="w-full max-w-4xl max-h-full flex flex-col transform scale-95 transition-transform duration-300 mt-2 relative select-none">
             <h3 class="text-2xl font-serif font-bold text-white mb-6 text-center">Tota la Galeria</h3>
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto pr-2 hide-scrollbars pb-8">
+            <div id="gallery-grid" class="w-full flex flex-col relative">
                 <!-- JS renderGalleryImages() -->
             </div>
         </div>
@@ -813,6 +813,7 @@ function renderMultimediaGrid(items) {
             </div>`;
         } else if (item.tipus === 'serie') {
             const slides = item.slides || [];
+            const slidesJson = item.slides ? JSON.stringify(item.slides).replace(/'/g, "&#39;").replace(/"/g, '&quot;') : '[]';
             const serieId = `serie-${idx}`;
             // Generar les diapositives (superposades, totes absolutes)
             const slidesHTML = slides.map((s, si) => `
@@ -837,7 +838,7 @@ function renderMultimediaGrid(items) {
             ).join('');
 
             html += `
-            <div id="${serieId}" class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" aria-roledescription="carrussel" aria-label="${item.titol}">
+            <div id="${serieId}" class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" aria-roledescription="carrussel" aria-label="${item.titol}" onclick="openSeriesGallery('${item.titol.replace(/'/g, "\\'")}', this)" data-slides="${slidesJson}">
                 <!-- Badge Lliu EN VENDA / Sèrie -->
                 <div class="absolute top-4 right-4 z-30 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1 border border-white/10">
                     <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -920,10 +921,10 @@ function renderReviewsList(ressenyes) {
 // ── Vídeo YouTube per a la Fitxa Detallada ──────────────────
 // Mapa de craft.id → YouTube Video ID
 const CRAFT_YOUTUBE_VIDEOS = {
-    'siurells':      'GJvarb-kEtw',  // Documental siurells mallorquins
-    'vidre-bufat':   '43vY6sS21Es',  // Procés de vidre bufat
+    'siurells': 'GJvarb-kEtw',  // Documental siurells mallorquins
+    'vidre-bufat': '43vY6sS21Es',  // Procés de vidre bufat
     'roba-llengues': 'NDmbuo_DGZI',  // Tela de llengües tradicional
-    'llatra':        'AmZIiSisR1s',  // Art de la llata (margalló)
+    'llatra': 'AmZIiSisR1s',  // Art de la llata (margalló)
 };
 
 /**
@@ -957,13 +958,13 @@ function renderCraftVideo(craft) {
     return `
         <div class="relative w-full h-full">
             ${createResponsiveImage({
-                src: craft.imatge,
-                alt: `Imatge representativa de l'artesania: ${craft.nom}`,
-                sizes: 'card',
-                lazy: true,
-                srcset: localSrcset(craft.imatge),
-                className: 'absolute inset-0 w-full h-full object-cover'
-            })}
+        src: craft.imatge,
+        alt: `Imatge representativa de l'artesania: ${craft.nom}`,
+        sizes: 'card',
+        lazy: true,
+        srcset: localSrcset(craft.imatge),
+        className: 'absolute inset-0 w-full h-full object-cover'
+    })}
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex items-end p-5">
                 <div class="flex items-center gap-2 text-white/80">
                     <span class="material-symbols-outlined text-sm">photo_camera</span>
@@ -1247,86 +1248,112 @@ function renderWeatherModal(weather) {
 function renderGalleryImages(craft) {
     if (!craft) return '';
 
-    // Imatges de la galeria
+    const totalImageSlides = 1 + craft.galeria.length;
+
     let html = `
-        <div class="sm:col-span-2 md:col-span-3 mb-2">
-            <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">photo_library</span> Imatges (${craft.galeria.length + 1})</h4>
-        </div>`;
-
-    html += craft.galeria.map(g => `
-        <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer">
-            ${createResponsiveImage({ src: g.imatge, alt: g.titol, sizes: 'gallery', lazy: true, srcset: localSrcset(g.imatge), className: 'w-full h-64 object-cover group-hover/gal:scale-110 transition-transform duration-700' })}
-            <div class="absolute inset-0 bg-black/0 group-hover/gal:bg-black/30 transition-colors duration-300 flex items-end">
-                <div class="p-3 w-full translate-y-full group-hover/gal:translate-y-0 transition-transform duration-300">
-                    <p class="text-white text-sm font-bold drop-shadow-lg">${g.titol}</p>
-                    <p class="text-white/70 text-xs">${g.subtitol}</p>
+    <!-- Contenidor del Slider amb fletxes -->
+    <div class="relative w-full aspect-[4/3] md:aspect-[16/9] bg-slate-950 rounded-2xl overflow-hidden border border-white/10 group/slider">
+        <!-- Wrapper per lliscar horitzontalment -->
+        <div id="gallery-slider-wrapper" class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbars select-none">
+            <!-- Slide 1: Imatge Principal -->
+            <div class="gallery-slide w-full h-full shrink-0 snap-center relative flex items-center justify-center" data-slide-index="0">
+                <picture class="w-full h-full flex items-center justify-center">
+                    <source srcset="${localSrcset(craft.imatge)?.avif || ''}" type="image/avif">
+                    <source srcset="${localSrcset(craft.imatge)?.webp || ''}" type="image/webp">
+                    <img src="${craft.imatge}" alt="${craft.nom}" class="max-w-full max-h-full object-contain img-optimized img-loaded">
+                </picture>
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 text-left">
+                    <h4 class="text-white text-lg font-serif font-bold drop-shadow-lg">${craft.nom}</h4>
+                    <p class="text-white/70 text-xs drop-shadow-md">Imatge principal</p>
                 </div>
             </div>
-        </div>
-    `).join('');
-
-    // Imatge principal
-    html += `
-        <div class="relative group/gal rounded-xl overflow-hidden shadow-lg border border-white/10 cursor-pointer sm:col-span-2 md:col-span-3 aspect-[21/9]">
-            ${createResponsiveImage({ src: craft.imatge, alt: craft.nom, sizes: 'hero', lazy: true, srcset: localSrcset(craft.imatge), className: 'w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-700' })}
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-                <div class="p-6"><p class="text-white text-lg font-serif font-bold">${craft.nom}</p></div>
-            </div>
-        </div>`;
-
-    // Secció Vídeo — <video> HTML5 natiu amb preload="metadata" i <track> per subtítols VTT
-    html += `
-        <div class="sm:col-span-2 md:col-span-3 mt-4 mb-2">
-            <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">videocam</span> Vídeo</h4>
-        </div>
-        <div class="sm:col-span-2 md:col-span-3 relative rounded-xl overflow-hidden bg-slate-900 border border-white/10 aspect-video">
-            <video
-                id="gallery-video-${craft.id}"
-                class="w-full h-full object-cover"
-                poster="${craft.videoThumb || craft.imatge}"
-                preload="metadata"
-                playsinline
-                controls
-                aria-label="Procés artesanal: ${craft.nom}"
-            >
-                <source src="<!-- PENDENT: ./media/video/${craft.id}.mp4 -->" type="video/mp4">
-                <source src="<!-- PENDENT: ./media/video/${craft.id}.webm -->" type="video/webm">
-                <track kind="captions" src="<!-- PENDENT: ./media/video/${craft.id}-ca.vtt -->" srclang="ca" label="Català" default>
-                <track kind="captions" src="<!-- PENDENT: ./media/video/${craft.id}-es.vtt -->" srclang="es" label="Castellà">
-            </video>
-        </div>`;
-
-    // Secció Àudio — <audio> HTML5 natiu amb preload="none" i controls personalitzats accessibles
-    html += `
-        <div class="sm:col-span-2 md:col-span-3 mt-4 mb-2">
-            <h4 class="text-white/60 text-xs font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-sm">headphones</span> Àudio</h4>
-        </div>
-        <div class="sm:col-span-2 md:col-span-3 bg-slate-800/80 border border-white/10 rounded-xl p-5 flex items-center gap-4 group/aud hover:bg-slate-700/80 transition-colors">
-            <audio
-                id="gallery-audio-${craft.id}"
-                preload="none"
-                aria-label="Sons de l'ofici: ${craft.nom}"
-                class="hidden"
-            >
-                <source src="./media/audio/${craft.id}_desc.mp3" type="audio/mpeg">
-                <source src="<!-- PENDENT: ./media/audio/${craft.id}_desc.ogg -->" type="audio/ogg">
-            </audio>
-            <button
-                id="gallery-audio-btn-${craft.id}"
-                onclick="(function(btn){ const aud = document.getElementById('gallery-audio-${craft.id}'); if(!aud) return; if(aud.paused){ aud.play(); btn.querySelector('.play-icon').textContent='pause'; btn.classList.add('bg-primary/30'); } else { aud.pause(); btn.querySelector('.play-icon').textContent='play_arrow'; btn.classList.remove('bg-primary/30'); } })(this)"
-                aria-label="Reproduir sons de l'ofici: ${craft.nom}"
-                class="w-14 h-14 rounded-full bg-white/10 backdrop-blur flex items-center justify-center shrink-0 group-hover/aud:bg-primary/30 transition-colors border border-white/20"
-            >
-                <span class="material-symbols-outlined text-white text-2xl play-icon">play_arrow</span>
-            </button>
-            <div class="flex-1">
-                <p class="text-white font-bold text-sm">Sons de l'ofici: ${craft.nom}</p>
-                <p class="text-white/50 text-xs mb-2">Fitxer MP3 · preload="none"</p>
-                <div class="w-full bg-white/10 rounded-full h-1.5">
-                    <div class="bg-primary h-1.5 rounded-full w-0 group-hover/aud:w-1/4 transition-all duration-1000"></div>
+            
+            <!-- Slides de la Galeria -->
+            ${craft.galeria.map((g, i) => `
+            <div class="gallery-slide w-full h-full shrink-0 snap-center relative flex items-center justify-center" data-slide-index="${i + 1}">
+                <picture class="w-full h-full flex items-center justify-center">
+                    <source srcset="${localSrcset(g.imatge)?.avif || ''}" type="image/avif">
+                    <source srcset="${localSrcset(g.imatge)?.webp || ''}" type="image/webp">
+                    <img src="${g.imatge}" alt="${g.titol}" class="max-w-full max-h-full object-contain img-optimized" loading="lazy">
+                </picture>
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 text-left">
+                    <h4 class="text-white text-lg font-serif font-bold drop-shadow-lg">${g.titol}</h4>
+                    <p class="text-white/70 text-xs drop-shadow-md">${g.subtitol || ''}</p>
                 </div>
             </div>
-        </div>`;
+            `).join('')}
+        </div>
+        
+        <!-- Fletxa Esquerra -->
+        <button id="gallery-prev-btn" onclick="slideGallery(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:scale-105 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover/slider:opacity-100 focus:opacity-100" aria-label="Imatge anterior">
+            <span class="material-symbols-outlined text-2xl">chevron_left</span>
+        </button>
+        
+        <!-- Fletxa Dreta -->
+        <button id="gallery-next-btn" onclick="slideGallery(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:scale-105 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover/slider:opacity-100 focus:opacity-100" aria-label="Imatge següent">
+            <span class="material-symbols-outlined text-2xl">chevron_right</span>
+        </button>
+    </div>
+    
+    <!-- Controls inferiors -->
+    <div class="flex flex-col items-center gap-3 mt-4">
+        <div id="gallery-counter" class="text-white/60 text-sm font-medium tracking-wider">1 / ${totalImageSlides}</div>
+        <div id="gallery-dots" class="flex gap-2 justify-center max-w-full overflow-x-auto py-1 hide-scrollbars">
+            <span class="w-2.5 h-2.5 rounded-full bg-white/80 cursor-pointer transition-all duration-300 transform scale-110 active-dot" onclick="goToGallerySlide(0)"></span>
+            ${craft.galeria.map((g, i) => `
+                <span class="w-2 h-2 rounded-full bg-white/30 hover:bg-white/50 cursor-pointer transition-all duration-300" onclick="goToGallerySlide(${i + 1})"></span>
+            `).join('')}
+        </div>
+    </div>`;
+
+    return html;
+}
+
+function renderSeriesGalleryImages(titol, slides) {
+    if (!slides || slides.length === 0) return '';
+
+    const totalImageSlides = slides.length;
+
+    let html = `
+    <!-- Contenidor del Slider amb fletxes -->
+    <div class="relative w-full aspect-[4/3] md:aspect-[16/9] bg-slate-950 rounded-2xl overflow-hidden border border-white/10 group/slider">
+        <!-- Wrapper per lliscar horitzontalment -->
+        <div id="gallery-slider-wrapper" class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbars select-none">
+            ${slides.map((s, i) => `
+            <div class="gallery-slide w-full h-full shrink-0 snap-center relative flex items-center justify-center" data-slide-index="${i}">
+                <picture class="w-full h-full flex items-center justify-center">
+                    ${s.avif ? `<source srcset="${s.avif}" type="image/avif">` : ''}
+                    ${s.webp ? `<source srcset="${s.webp}" type="image/webp">` : ''}
+                    <img src="${s.img}" alt="${s.titol || titol}" class="max-w-full max-h-full object-contain img-optimized" loading="${i === 0 ? 'eager' : 'lazy'}">
+                </picture>
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 text-left">
+                    <h4 class="text-white text-lg font-serif font-bold drop-shadow-lg">${s.titol || titol}</h4>
+                    <p class="text-white/70 text-xs drop-shadow-md">${s.subtitol || ''}</p>
+                </div>
+            </div>
+            `).join('')}
+        </div>
+        
+        <!-- Fletxa Esquerra -->
+        <button id="gallery-prev-btn" onclick="slideGallery(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:scale-105 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover/slider:opacity-100 focus:opacity-100" aria-label="Imatge anterior">
+            <span class="material-symbols-outlined text-2xl">chevron_left</span>
+        </button>
+        
+        <!-- Fletxa Dreta -->
+        <button id="gallery-next-btn" onclick="slideGallery(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:scale-105 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover/slider:opacity-100 focus:opacity-100" aria-label="Imatge següent">
+            <span class="material-symbols-outlined text-2xl">chevron_right</span>
+        </button>
+    </div>
+    
+    <!-- Controls inferiors -->
+    <div class="flex flex-col items-center gap-3 mt-4">
+        <div id="gallery-counter" class="text-white/60 text-sm font-medium tracking-wider">1 / ${totalImageSlides}</div>
+        <div id="gallery-dots" class="flex gap-2 justify-center max-w-full overflow-x-auto py-1 hide-scrollbars">
+            ${slides.map((s, i) => `
+                <span class="w-2 h-2 rounded-full bg-white/${i === 0 ? '80' : '30'} hover:bg-white/50 cursor-pointer transition-all duration-300 ${i === 0 ? 'transform scale-110 active-dot' : ''}" onclick="goToGallerySlide(${i})"></span>
+            `).join('')}
+        </div>
+    </div>`;
 
     return html;
 }

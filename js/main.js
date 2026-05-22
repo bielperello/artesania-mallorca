@@ -8,6 +8,7 @@ let toastTimeout = null;
 let _weatherTallerId = null;
 let craftsRes = null;
 let tallersRes = null;
+let currentGallerySlide = 0;
 
 // ══════════════════════════════════════════════════════════════
 // TOAST NOTIFICATIONS
@@ -995,6 +996,111 @@ function openGalleryModal() {
             content.classList.add('scale-100');
         }
     }, 10);
+
+    // Inicialitzar slider
+    currentGallerySlide = 0;
+    setTimeout(() => {
+        goToGallerySlide(0);
+        initGalleryScrollListener();
+    }, 50);
+
+    // Navegació per teclat
+    const onGalleryKeyDown = (e) => {
+        if (e.key === 'ArrowLeft') {
+            slideGallery(-1);
+        } else if (e.key === 'ArrowRight') {
+            slideGallery(1);
+        } else if (e.key === 'Escape') {
+            closeGalleryModal();
+        }
+    };
+    document.addEventListener('keydown', onGalleryKeyDown);
+    
+    // Guardar listener per poder eliminar-lo en tancar el modal
+    modal._onKeyDown = onGalleryKeyDown;
+}
+
+function slideGallery(direction) {
+    const wrapper = document.getElementById('gallery-slider-wrapper');
+    if (!wrapper) return;
+    const slides = wrapper.querySelectorAll('.gallery-slide');
+    if (slides.length === 0) return;
+    
+    currentGallerySlide = (currentGallerySlide + direction + slides.length) % slides.length;
+    goToGallerySlide(currentGallerySlide);
+}
+
+function goToGallerySlide(index) {
+    const wrapper = document.getElementById('gallery-slider-wrapper');
+    if (!wrapper) return;
+    const slides = wrapper.querySelectorAll('.gallery-slide');
+    if (slides.length === 0 || index < 0 || index >= slides.length) return;
+    
+    currentGallerySlide = index;
+    
+    // Scroll a la diapositiva corresponent
+    const targetSlide = slides[index];
+    wrapper.scrollTo({
+        left: targetSlide.offsetLeft,
+        behavior: 'smooth'
+    });
+    
+    // Actualitzar comptador
+    const counter = document.getElementById('gallery-counter');
+    if (counter) {
+        counter.textContent = `${currentGallerySlide + 1} / ${slides.length}`;
+    }
+    
+    // Actualitzar punts actius
+    const dots = document.querySelectorAll('#gallery-dots span');
+    dots.forEach((dot, idx) => {
+        if (idx === currentGallerySlide) {
+            dot.classList.add('bg-white/80', 'scale-110');
+            dot.classList.remove('bg-white/30', 'hover:bg-white/50');
+        } else {
+            dot.classList.remove('bg-white/80', 'scale-110');
+            dot.classList.add('bg-white/30', 'hover:bg-white/50');
+        }
+    });
+}
+
+function initGalleryScrollListener() {
+    const wrapper = document.getElementById('gallery-slider-wrapper');
+    if (!wrapper) return;
+    
+    let scrollTimeout;
+    wrapper.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            const width = wrapper.clientWidth;
+            if (width === 0) return;
+            const scrollLeft = wrapper.scrollLeft;
+            const newIndex = Math.round(scrollLeft / width);
+            
+            const slides = wrapper.querySelectorAll('.gallery-slide');
+            if (slides.length > 0 && newIndex !== currentGallerySlide && newIndex >= 0 && newIndex < slides.length) {
+                currentGallerySlide = newIndex;
+                
+                // Actualitzar comptador
+                const counter = document.getElementById('gallery-counter');
+                if (counter) {
+                    counter.textContent = `${currentGallerySlide + 1} / ${slides.length}`;
+                }
+                
+                // Actualitzar punts actius
+                const dots = document.querySelectorAll('#gallery-dots span');
+                dots.forEach((dot, idx) => {
+                    if (idx === currentGallerySlide) {
+                        dot.classList.add('bg-white/80', 'scale-110');
+                        dot.classList.remove('bg-white/30', 'hover:bg-white/50');
+                    } else {
+                        dot.classList.remove('bg-white/80', 'scale-110');
+                        dot.classList.add('bg-white/30', 'hover:bg-white/50');
+                    }
+                });
+            }
+        }, 100);
+    });
 }
 
 /**
@@ -1094,6 +1200,34 @@ function closePhotoGallery() {
     }, 300);
 }
 
+/**
+ * Obre la galeria lliscant horitzontal per a una sèrie de fotos de la secció Multimèdia.
+ * @param {string} titol - Títol de la sèrie
+ * @param {HTMLElement} cardEl - L'element clicat amb les dades dels slides
+ */
+function openSeriesGallery(titol, cardEl) {
+    const galleryGrid = document.getElementById('gallery-grid');
+    if (!galleryGrid) return;
+
+    // Llegir els slides des de l'atribut data-slides (JSON)
+    let slides = [];
+    try {
+        const raw = cardEl ? cardEl.getAttribute('data-slides') : '[]';
+        slides = raw ? JSON.parse(raw.replace(/&quot;/g, '"').replace(/&#39;/g, "'")) : [];
+    } catch (e) {
+        console.warn('[SeriesGallery] Error parsejant data-slides:', e);
+    }
+
+    if (slides.length === 0) return;
+
+    // Poblar la galeria amb el disseny d'slider de sèries
+    galleryGrid.innerHTML = renderSeriesGalleryImages(titol, slides);
+    initImageObserver();
+
+    // Obre el modal i inicialitza el moviment horitzontal
+    openGalleryModal();
+}
+
 function closeGalleryModal() {
     const modal = document.getElementById('gallery-modal');
     const content = document.getElementById('gallery-content');
@@ -1105,6 +1239,12 @@ function closeGalleryModal() {
         content.classList.remove('scale-100');
         content.classList.add('scale-95');
     }
+    
+    if (modal._onKeyDown) {
+        document.removeEventListener('keydown', modal._onKeyDown);
+        modal._onKeyDown = null;
+    }
+    
     setTimeout(() => {
         modal.classList.remove('flex');
         modal.classList.add('hidden');
