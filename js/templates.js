@@ -139,7 +139,7 @@ function renderAbout() {
                     <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
                     <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>
                     <div class="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed font-light text-lg">
-                        <p>L'artesania a les Illes Balears no és només una manera de crear objectes; és el llegat silenciós de centenars d'anys d'adaptació al medi, de diàleg amb la terra, l'argila, la fusta i el mar.</p>
+                        <p>L'artesania a les Illes Balears no és només una manera de crear objectes; és el llegat silenciós de centenars d'anys d'adaptació al medi, de diàleg amb la terra, l'argila, la fusta i la mar.</p>
                         <p>La nostra missió és documentar, protegir i difondre el treball dels mestres artesans que encara avui mantenen vives tècniques ancestrals com el siurell, el bufat de vidre o la llatra.</p>
                         <p>Aquest espai neix per connectar el passat amb les noves generacions, valorant la lentitud, el detall i la bellesa de l'imperfet en un món cada cop més accelerat.</p>
                     </div>
@@ -355,7 +355,7 @@ function renderMultimediaSection() {
     return `
     <section class="mb-20 px-10 lg:px-20 max-w-[1600px] mx-auto w-full" id="multimedia">
         <div class="flex justify-between items-center mb-10 border-b border-slate-200 dark:border-slate-800 pb-4">
-            <h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100">Multimèdia Inmersiva i Visual</h2>
+            <h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100">Multimèdia Immersiva i Visual</h2>
         </div>
         <div id="multimedia-grid" class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-[800px] w-full bg-slate-900 rounded-2xl overflow-hidden p-4 relative">
             <!-- JS renderMultimediaGrid() -->
@@ -454,7 +454,7 @@ function renderModals() {
             <span class="material-symbols-outlined text-3xl">close</span>
         </button>
         <div id="gallery-content" class="w-full max-w-4xl max-h-full flex flex-col transform scale-95 transition-transform duration-300 mt-2 relative select-none">
-            <h3 class="text-2xl font-serif font-bold text-white mb-6 text-center">Tota la Galeria</h3>
+            <h3 id="gallery-title" class="text-2xl font-serif font-bold text-white mb-6 text-center">Tota la Galeria</h3>
             <div id="gallery-grid" class="w-full flex flex-col relative">
                 <!-- JS renderGalleryImages() -->
             </div>
@@ -759,14 +759,13 @@ function renderMultimediaGrid(items) {
     items.forEach((item, idx) => {
         const itemId = `mm-${idx}`;
         if (item.tipus === 'video-hero') {
-            // ── Vídeo Hero: <video> HTML5 natiu amb preload="metadata" i <track> VTT ──
-            // Src pendent d'inserir l'URL definitiu del fitxer MP4
+            const miniatura = './media/images/ceramica/ceramica-ca-na-mel-1.jpg';
             html += `
-            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20" onclick="openVideoGallery('${item.titol.replace(/'/g, "\\'")}', './media/videos/ca_na_mel.mp4', '${item.img}')">
+            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20" onclick="openVideoGallery('${item.titol.replace(/'/g, "\\'")}', './media/videos/resultado.mp4', '${miniatura}')">
                 <video
                     id="video-${itemId}"
                     class="absolute inset-0 w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
-                    poster="${item.img}"
+                    poster="${miniatura}"
                     preload="metadata"
                     playsinline
                     aria-label="${item.titol}"
@@ -1354,27 +1353,66 @@ function renderSeriesGalleryImages(titol, slides) {
     return html;
 }
 
-function renderVideoGalleryItem(titol, videoSrc, posterSrc) {
+function renderMixedGallery(titol, videoSrc, posterSrc, images) {
+    if (!images) images = [];
+    const totalSlides = 1 + images.length;
+
     let html = `
-    <!-- Contenidor del Slider amb el vídeo -->
-    <div class="relative w-full aspect-[4/3] md:aspect-[16/9] bg-slate-950 rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center">
-        <video
-            class="w-full h-full object-contain"
-            poster="${posterSrc || ''}"
-            controls
-            autoplay
-            playsinline
-            aria-label="${titol}"
-        >
-            <source src="${videoSrc}" type="video/mp4">
-            El teu navegador no suporta la reproducció de vídeos.
-        </video>
+    <!-- Contenidor del Slider amb fletxes -->
+    <div class="relative w-full aspect-[4/3] md:aspect-[16/9] bg-slate-950 rounded-2xl overflow-hidden border border-white/10 group/slider">
+        <!-- Wrapper per lliscar horitzontalment -->
+        <div id="gallery-slider-wrapper" class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbars select-none">
+            <!-- Slide 0: El Vídeo -->
+            <div class="gallery-slide w-full h-full shrink-0 snap-center relative flex items-center justify-center" data-slide-index="0">
+                <video
+                    class="w-full h-full object-contain animate-fade-in"
+                    poster="${posterSrc || ''}"
+                    controls
+                    autoplay
+                    playsinline
+                    aria-label="${titol}"
+                >
+                    <source src="${videoSrc}" type="video/mp4">
+                    El teu navegador no suporta la reproducció de vídeos.
+                </video>
+            </div>
+            
+            <!-- Slides 1 a N: Les Imatges de Ca Na Mel -->
+            ${images.map((img, i) => {
+        const srcset = localSrcset(img.src);
+        return `
+                <div class="gallery-slide w-full h-full shrink-0 snap-center relative flex items-center justify-center" data-slide-index="${i + 1}">
+                    <picture class="w-full h-full flex items-center justify-center">
+                        ${srcset?.avif ? `<source srcset="${srcset.avif}" type="image/avif">` : ''}
+                        ${srcset?.webp ? `<source srcset="${srcset.webp}" type="image/webp">` : ''}
+                        <img src="${img.src}" alt="${titol} — ${img.desc}" class="max-w-full max-h-full object-contain img-optimized" loading="lazy">
+                    </picture>
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 text-left">
+                        <p class="text-white text-sm font-medium drop-shadow-md">${img.desc}</p>
+                    </div>
+                </div>`;
+    }).join('')}
+        </div>
+        
+        <!-- Fletxa Esquerra -->
+        <button id="gallery-prev-btn" onclick="slideGallery(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:scale-105 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover/slider:opacity-100 focus:opacity-100" aria-label="Imatge anterior">
+            <span class="material-symbols-outlined text-2xl">chevron_left</span>
+        </button>
+        
+        <!-- Fletxa Dreta -->
+        <button id="gallery-next-btn" onclick="slideGallery(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:scale-105 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover/slider:opacity-100 focus:opacity-100" aria-label="Imatge següent">
+            <span class="material-symbols-outlined text-2xl">chevron_right</span>
+        </button>
     </div>
+    
     <!-- Controls inferiors -->
     <div class="flex flex-col items-center gap-3 mt-4">
-        <div id="gallery-counter" class="text-white/60 text-sm font-medium tracking-wider">1 / 1</div>
-        <div id="gallery-dots" class="flex gap-2 justify-center py-1">
-            <span class="w-2.5 h-2.5 rounded-full bg-white/80 scale-110 active-dot"></span>
+        <div id="gallery-counter" class="text-white/60 text-sm font-medium tracking-wider">1 / ${totalSlides}</div>
+        <div id="gallery-dots" class="flex gap-2 justify-center max-w-full overflow-x-auto py-1 hide-scrollbars">
+            <span class="w-2.5 h-2.5 rounded-full bg-white/80 cursor-pointer transition-all duration-300 transform scale-110 active-dot" onclick="goToGallerySlide(0)"></span>
+            ${images.map((_, i) => `
+                <span class="w-2 h-2 rounded-full bg-white/30 hover:bg-white/50 cursor-pointer transition-all duration-300" onclick="goToGallerySlide(${i + 1})"></span>
+            `).join('')}
         </div>
     </div>`;
 

@@ -34,7 +34,7 @@ const APP_DATA = {
 
     // ── Multimèdia ──────────────────────────────────────────
     multimedia: [
-        { tipus: 'video-hero', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrf51cyWMYkm1-iXrDnBTsNKCHmukIssX9kg-6tH6No8tDIgDezjCACL8RP22k9hqkNi-RipDbvuWRUIqK4fYO34WX7Iz3XgCEF1afjGl2cv1Cd4U_IKCXMkgJ9do5hMXbg8KpVsEn-b-_x05y3TP97AazCGqUYVvsnMeJyRvCUDO3mjwsarD8R95VjVZCJeWtU_v7JUgCBu-N7VEXCNdmPKcy1oo80-Dz_dVcGV1tWhS3lD6umLv4Jyq5JTHMjMxrc6w_ERefzNao', tag: 'El procés de l\'aire', titol: 'Màgia fosa en vidre bufat' },
+        { tipus: 'video-hero', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrf51cyWMYkm1-iXrDnBTsNKCHmukIssX9kg-6tH6No8tDIgDezjCACL8RP22k9hqkNi-RipDbvuWRUIqK4fYO34WX7Iz3XgCEF1afjGl2cv1Cd4U_IKCXMkgJ9do5hMXbg8KpVsEn-b-_x05y3TP97AazCGqUYVvsnMeJyRvCUDO3mjwsarD8R95VjVZCJeWtU_v7JUgCBu-N7VEXCNdmPKcy1oo80-Dz_dVcGV1tWhS3lD6umLv4Jyq5JTHMjMxrc6w_ERefzNao', tag: 'Taller Destacat', titol: 'Visita a Ca Na Mel a Campos' },
         {
             tipus: 'galeria',
             img: './media/images/siurells/siurells-bet-01.jpeg',
@@ -52,28 +52,28 @@ const APP_DATA = {
             titol: 'Oficis de l\'Illa',
             slides: [
                 {
-                    img:  './media/images/serie/siurells-alta-01.jpg',
+                    img: './media/images/serie/siurells-alta-01.jpg',
                     webp: './media/images/serie/siurells-alta-01.webp',
                     avif: './media/images/serie/siurells-alta-01.avif',
                     titol: 'El Siurell',
                     subtitol: 'Fang, calç i un xiulet: el símbol més antic de l\'ànima mallorquina.'
                 },
                 {
-                    img:  './media/images/serie/llata-alta-01.jpg',
+                    img: './media/images/serie/llata-alta-01.jpg',
                     webp: './media/images/serie/llata-alta-01.webp',
                     avif: './media/images/serie/llata-alta-01.avif',
                     titol: 'La Llata',
                     subtitol: 'Sanalles, capells i estores: la paciència trenada fulla a fulla.'
                 },
                 {
-                    img:  './media/images/serie/ceramica-alta-01.jpg',
+                    img: './media/images/serie/ceramica-alta-01.jpg',
                     webp: './media/images/serie/ceramica-alta-01.webp',
                     avif: './media/images/serie/ceramica-alta-01.avif',
                     titol: 'La Ceràmica',
                     subtitol: 'Terra i foc units per mans que modelen cinc segles de tradició.'
                 },
                 {
-                    img:  './media/images/serie/alta-01.jpg',
+                    img: './media/images/serie/alta-01.jpg',
                     webp: './media/images/serie/alta-01.webp',
                     avif: './media/images/serie/alta-01.avif',
                     titol: 'La Fusta',

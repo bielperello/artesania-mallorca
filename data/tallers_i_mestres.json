@@ -246,21 +246,21 @@
             "craftId": "olleria"
         },
         {
-            "id": "escola-ceramica",
-            "nom": "Escola de Ceràmica Pilar Sastre",
-            "comarca": "raiguer",
-            "adreca": "Palma / Marratxí",
-            "telefon": "+34 971 60 30 00",
-            "email": "info@escolaceramica.es",
-            "contactType": "mail",
-            "temp": "21°C",
-            "mapsQuery": "Escola+Ceramica+Marratxi",
-            "lat": 39.639,
-            "lng": 2.728,
-            "imatge": "https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=600&q=80",
+            "id": "ca-na-mel",
+            "nom": "Ca Na Mel",
+            "comarca": "migjorn",
+            "adreca": "Carrer d'Àfrica, 36, 07630 Campos",
+            "telefon": "+34 680 20 55 68",
+            "web": "http://www.canamel.es",
+            "contactType": "language",
+            "temp": "20°C",
+            "mapsQuery": "Ceramica+Ca+Na+Mel+Campos",
+            "lat": 39.42674,
+            "lng": 3.02331,
+            "imatge": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80",
             "mapPosition": {
-                "top": "40%",
-                "left": "42%"
+                "top": "74%",
+                "left": "51%"
             },
             "craftId": "olleria"
         },

@@ -262,18 +262,18 @@ function populateDynamicContent() {
  */
 function initSerieCarousels() {
     const containers = document.querySelectorAll('[id^="serie-"][aria-roledescription="carrussel"]');
-    
+
     containers.forEach(container => {
         const slides = container.querySelectorAll('.serie-slide');
         const dots = container.querySelectorAll('.serie-dot');
         if (slides.length === 0) return;
-        
+
         let current = 0;
         let timer = null;
 
         function goTo(next) {
             if (!slides[current] || !dots[current]) return;
-            
+
             // Diapositiva actual a invisible i aria-hidden true
             slides[current].classList.replace('opacity-100', 'opacity-0');
             slides[current].setAttribute('aria-hidden', 'true');
@@ -306,8 +306,8 @@ function initSerieCarousels() {
                 goTo(current + 1);
             }, 4000);
         }
-        
-        function stop() { 
+
+        function stop() {
             if (timer) {
                 clearInterval(timer);
                 timer = null;
@@ -827,6 +827,10 @@ function openModal(craftId) {
     // Poblar galeria modal
     const galleryGrid = document.getElementById('gallery-grid');
     if (galleryGrid) {
+        const galleryTitle = document.getElementById('gallery-title');
+        if (galleryTitle) {
+            galleryTitle.textContent = `Galeria de ${craft.nom}`;
+        }
         galleryGrid.innerHTML = renderGalleryImages(craft);
         // Activar observer per a les imatges de la galeria
         initImageObserver();
@@ -1015,7 +1019,7 @@ function openGalleryModal() {
         }
     };
     document.addEventListener('keydown', onGalleryKeyDown);
-    
+
     // Guardar listener per poder eliminar-lo en tancar el modal
     modal._onKeyDown = onGalleryKeyDown;
 }
@@ -1025,7 +1029,7 @@ function slideGallery(direction) {
     if (!wrapper) return;
     const slides = wrapper.querySelectorAll('.gallery-slide');
     if (slides.length === 0) return;
-    
+
     currentGallerySlide = (currentGallerySlide + direction + slides.length) % slides.length;
     goToGallerySlide(currentGallerySlide);
 }
@@ -1035,22 +1039,30 @@ function goToGallerySlide(index) {
     if (!wrapper) return;
     const slides = wrapper.querySelectorAll('.gallery-slide');
     if (slides.length === 0 || index < 0 || index >= slides.length) return;
-    
+
     currentGallerySlide = index;
-    
+
+    // Aturar vídeo si sortim de la primera diapositiva (índex 0)
+    if (index !== 0) {
+        const video = wrapper.querySelector('video');
+        if (video && !video.paused) {
+            video.pause();
+        }
+    }
+
     // Scroll a la diapositiva corresponent
     const targetSlide = slides[index];
     wrapper.scrollTo({
         left: targetSlide.offsetLeft,
         behavior: 'smooth'
     });
-    
+
     // Actualitzar comptador
     const counter = document.getElementById('gallery-counter');
     if (counter) {
         counter.textContent = `${currentGallerySlide + 1} / ${slides.length}`;
     }
-    
+
     // Actualitzar punts actius
     const dots = document.querySelectorAll('#gallery-dots span');
     dots.forEach((dot, idx) => {
@@ -1067,7 +1079,7 @@ function goToGallerySlide(index) {
 function initGalleryScrollListener() {
     const wrapper = document.getElementById('gallery-slider-wrapper');
     if (!wrapper) return;
-    
+
     let scrollTimeout;
     wrapper.addEventListener('scroll', () => {
         clearTimeout(scrollTimeout);
@@ -1076,17 +1088,25 @@ function initGalleryScrollListener() {
             if (width === 0) return;
             const scrollLeft = wrapper.scrollLeft;
             const newIndex = Math.round(scrollLeft / width);
-            
+
             const slides = wrapper.querySelectorAll('.gallery-slide');
             if (slides.length > 0 && newIndex !== currentGallerySlide && newIndex >= 0 && newIndex < slides.length) {
                 currentGallerySlide = newIndex;
-                
+
+                // Aturar vídeo si sortim de la primera diapositiva (índex 0)
+                if (newIndex !== 0) {
+                    const video = wrapper.querySelector('video');
+                    if (video && !video.paused) {
+                        video.pause();
+                    }
+                }
+
                 // Actualitzar comptador
                 const counter = document.getElementById('gallery-counter');
                 if (counter) {
                     counter.textContent = `${currentGallerySlide + 1} / ${slides.length}`;
                 }
-                
+
                 // Actualitzar punts actius
                 const dots = document.querySelectorAll('#gallery-dots span');
                 dots.forEach((dot, idx) => {
@@ -1221,6 +1241,10 @@ function openSeriesGallery(titol, cardEl) {
     if (slides.length === 0) return;
 
     // Poblar la galeria amb el disseny d'slider de sèries
+    const galleryTitle = document.getElementById('gallery-title');
+    if (galleryTitle) {
+        galleryTitle.textContent = titol;
+    }
     galleryGrid.innerHTML = renderSeriesGalleryImages(titol, slides);
     initImageObserver();
 
@@ -1238,8 +1262,23 @@ function openVideoGallery(titol, videoSrc, posterSrc) {
     const galleryGrid = document.getElementById('gallery-grid');
     if (!galleryGrid) return;
 
-    // Poblar la galeria amb el vídeo natiu
-    galleryGrid.innerHTML = renderVideoGalleryItem(titol, videoSrc, posterSrc);
+    // Llista d'imatges de la terrisseria de Ca Na Mel amb els seus peus de foto
+    const images = [
+        { src: './media/images/ceramica/ceramica-ca-na-mel-1.jpg', desc: 'Una botiga amb història al cor de Campos' },
+        { src: './media/images/ceramica/ceramica-ca-na-mel-2.jpg', desc: 'Grans peces sota el cel de Mallorca' },
+        { src: './media/images/ceramica/ceramica-ca-na-mel-3.jpg', desc: 'Respiradors d\'argila, artesania que deixa passar l\'aire' },
+        { src: './media/images/ceramica/ceramica-ca-na-mel-4.jpg', desc: 'Eines de cuina i detalls per a la llar, fets amb argila i tradició' },
+        { src: './media/images/ceramica/ceramica-ca-na-mel-5.jpg', desc: 'Peces de ceràmica que decoren i expliquen històries' },
+        { src: './media/images/ceramica/ceramica-ca-na-mel-6.jpg', desc: 'La mar capturat en fang i color' }
+    ];
+
+    // Poblar la galeria amb el vídeo natiu i la llista d'imatges
+    const galleryTitle = document.getElementById('gallery-title');
+    if (galleryTitle) {
+        galleryTitle.textContent = titol;
+    }
+    galleryGrid.innerHTML = renderMixedGallery(titol, videoSrc, posterSrc, images);
+    initImageObserver();
 
     // Obre el modal i inicialitza el moviment
     openGalleryModal();
@@ -1249,6 +1288,12 @@ function closeGalleryModal() {
     const modal = document.getElementById('gallery-modal');
     const content = document.getElementById('gallery-content');
     if (!modal) return;
+
+    // Restablir el títol per defecte de la galeria
+    const galleryTitle = document.getElementById('gallery-title');
+    if (galleryTitle) {
+        galleryTitle.textContent = 'Tota la Galeria';
+    }
 
     // Aturar qualsevol vídeo que s'estigui reproduint dins del modal
     const videos = modal.querySelectorAll('video');
@@ -1264,12 +1309,12 @@ function closeGalleryModal() {
         content.classList.remove('scale-100');
         content.classList.add('scale-95');
     }
-    
+
     if (modal._onKeyDown) {
         document.removeEventListener('keydown', modal._onKeyDown);
         modal._onKeyDown = null;
     }
-    
+
     setTimeout(() => {
         modal.classList.remove('flex');
         modal.classList.add('hidden');
