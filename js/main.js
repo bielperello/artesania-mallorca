@@ -1228,10 +1228,35 @@ function openSeriesGallery(titol, cardEl) {
     openGalleryModal();
 }
 
+/**
+ * Obre la galeria modal amb un únic element que és un vídeo.
+ * @param {string} titol - Títol del vídeo
+ * @param {string} videoSrc - Ruta del fitxer de vídeo
+ * @param {string} posterSrc - Ruta de la imatge de poster
+ */
+function openVideoGallery(titol, videoSrc, posterSrc) {
+    const galleryGrid = document.getElementById('gallery-grid');
+    if (!galleryGrid) return;
+
+    // Poblar la galeria amb el vídeo natiu
+    galleryGrid.innerHTML = renderVideoGalleryItem(titol, videoSrc, posterSrc);
+
+    // Obre el modal i inicialitza el moviment
+    openGalleryModal();
+}
+
 function closeGalleryModal() {
     const modal = document.getElementById('gallery-modal');
     const content = document.getElementById('gallery-content');
     if (!modal) return;
+
+    // Aturar qualsevol vídeo que s'estigui reproduint dins del modal
+    const videos = modal.querySelectorAll('video');
+    videos.forEach(v => {
+        v.pause();
+        v.src = '';
+        v.load();
+    });
 
     modal.classList.remove('opacity-100');
     modal.classList.add('opacity-0');
@@ -1248,6 +1273,8 @@ function closeGalleryModal() {
     setTimeout(() => {
         modal.classList.remove('flex');
         modal.classList.add('hidden');
+        const galleryGrid = document.getElementById('gallery-grid');
+        if (galleryGrid) galleryGrid.innerHTML = '';
     }, 300);
 }
 

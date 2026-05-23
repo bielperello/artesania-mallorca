@@ -762,20 +762,16 @@ function renderMultimediaGrid(items) {
             // ── Vídeo Hero: <video> HTML5 natiu amb preload="metadata" i <track> VTT ──
             // Src pendent d'inserir l'URL definitiu del fitxer MP4
             html += `
-            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group shadow-2xl z-20">
+            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20" onclick="openVideoGallery('${item.titol.replace(/'/g, "\\'")}', './media/videos/ca_na_mel.mp4', '${item.img}')">
                 <video
                     id="video-${itemId}"
-                    class="absolute inset-0 w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700"
+                    class="absolute inset-0 w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
                     poster="${item.img}"
                     preload="metadata"
                     playsinline
                     aria-label="${item.titol}"
-                    onclick="this.paused ? this.play() : this.pause()"
                 >
-                    <source src="<!-- PENDENT: ./media/video/${itemId}.mp4 -->" type="video/mp4">
-                    <source src="<!-- PENDENT: ./media/video/${itemId}.webm -->" type="video/webm">
-                    <track kind="captions" src="<!-- PENDENT: ./media/video/${itemId}-ca.vtt -->" srclang="ca" label="Català">
-                    <track kind="captions" src="<!-- PENDENT: ./media/video/${itemId}-es.vtt -->" srclang="es" label="Castellà">
+                    <source src="./media/videos/ca_na_mel.mp4" type="video/mp4">
                 </video>
                 <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 z-10 pointer-events-none"></div>
                 <div class="absolute inset-0 flex items-center justify-center z-20 opacity-100 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
@@ -1352,6 +1348,33 @@ function renderSeriesGalleryImages(titol, slides) {
             ${slides.map((s, i) => `
                 <span class="w-2 h-2 rounded-full bg-white/${i === 0 ? '80' : '30'} hover:bg-white/50 cursor-pointer transition-all duration-300 ${i === 0 ? 'transform scale-110 active-dot' : ''}" onclick="goToGallerySlide(${i})"></span>
             `).join('')}
+        </div>
+    </div>`;
+
+    return html;
+}
+
+function renderVideoGalleryItem(titol, videoSrc, posterSrc) {
+    let html = `
+    <!-- Contenidor del Slider amb el vídeo -->
+    <div class="relative w-full aspect-[4/3] md:aspect-[16/9] bg-slate-950 rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center">
+        <video
+            class="w-full h-full object-contain"
+            poster="${posterSrc || ''}"
+            controls
+            autoplay
+            playsinline
+            aria-label="${titol}"
+        >
+            <source src="${videoSrc}" type="video/mp4">
+            El teu navegador no suporta la reproducció de vídeos.
+        </video>
+    </div>
+    <!-- Controls inferiors -->
+    <div class="flex flex-col items-center gap-3 mt-4">
+        <div id="gallery-counter" class="text-white/60 text-sm font-medium tracking-wider">1 / 1</div>
+        <div id="gallery-dots" class="flex gap-2 justify-center py-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-white/80 scale-110 active-dot"></span>
         </div>
     </div>`;
 
