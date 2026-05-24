@@ -20,6 +20,9 @@ const APP_DATA = {
         { id: 'bufat', label: 'Bufat de vidre' },
         { id: 'brodat', label: 'Brodat i Costura' },
         { id: 'trenat', label: 'Trenat d\'espart' },
+        { id: 'adobat', label: 'Adobat i Sabateria' },
+        { id: 'forja', label: 'Forja' },
+        { id: 'rebosteria', label: 'Rebosteria' },
     ],
     filterMaterials: [
         { id: 'fang', label: 'Fang', icon: 'potted_plant', color: 'primary' },

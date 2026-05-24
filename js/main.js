@@ -173,11 +173,13 @@ async function init() {
                     }
                 } catch (e) { }
             }
+            const craftTallers = tallers.filter(t => t.craftId === craft.id);
             return {
                 ...craft,
                 _originalRessenyes: [...(craft.ressenyes || [])],
                 ressenyes: [...savedReviews, ...(craft.ressenyes || [])],
-                tallers: (craft.tallers_ids || []).map(id => tallers.find(t => t.id === id)).filter(Boolean),
+                tallers: craftTallers,
+                numTallers: craftTallers.length,
                 artesans: (craft.artesans_ids || []).map(id => mestres.find(m => m.id === id)).filter(Boolean)
             };
         });

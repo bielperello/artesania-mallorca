@@ -136,7 +136,7 @@
         "rating": 4.9,
         "numRatings": 156,
         "numComentaris": 98,
-        "numTallers": 2,
+        "numTallers": 3,
         "favorit": false,
         "videoThumb": "https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W",
         "galeria": [
@@ -174,7 +174,8 @@
         ],
         "tallers_ids": [
             "vicens",
-            "bujosa"
+            "bujosa",
+            "teixits-riera"
         ],
         "artesans_ids": [
             "roba-llengues_artesa_0",
@@ -195,7 +196,7 @@
         "rating": 4.5,
         "numRatings": 72,
         "numComentaris": 45,
-        "numTallers": 2,
+        "numTallers": 3,
         "favorit": false,
         "videoThumb": "",
         "galeria": [
@@ -233,7 +234,8 @@
         ],
         "tallers_ids": [
             "sonpocapalla-arta",
-            "sonpocapalla"
+            "sonpocapalla",
+            "castell-capdepera"
         ],
         "artesans_ids": [
             "llatra_artesa_0",
@@ -245,7 +247,7 @@
         "nom": "Brodat Mallorquí",
         "material": "Cotó, llana i seda",
         "zona": "tramuntana",
-        "tecnica": "filat",
+        "tecnica": "brodat",
         "teVideo": false,
         "imatge": "./media/images/brodat/brodat-01.jpg",
         "descripcio": "Art del brodat artesanal sobre tela per crear peces decoratives i tèxtils tradicionals mallorquins amb el característic punt mallorquí.",
@@ -254,7 +256,7 @@
         "rating": 4.6,
         "numRatings": 34,
         "numComentaris": 19,
-        "numTallers": 3,
+        "numTallers": 2,
         "favorit": false,
         "videoThumb": "",
         "galeria": [
@@ -291,8 +293,7 @@
             }
         ],
         "tallers_ids": [
-            "casa-bonet",
-            "flor-de-fil",
+            "merceria-nadal",
             "brodats-valldemossa"
         ],
         "artesans_ids": [
@@ -314,7 +315,7 @@
         "rating": 4.7,
         "numRatings": 58,
         "numComentaris": 42,
-        "numTallers": 3,
+        "numTallers": 4,
         "favorit": false,
         "videoThumb": "",
         "galeria": [
@@ -353,7 +354,8 @@
         "tallers_ids": [
             "cas-canonge",
             "museu-fang",
-            "escola-ceramica"
+            "ca-na-mel",
+            "can-garanya"
         ],
         "artesans_ids": [
             "olleria_artesa_0"
@@ -373,7 +375,7 @@
         "rating": 4.4,
         "numRatings": 47,
         "numComentaris": 33,
-        "numTallers": 3,
+        "numTallers": 6,
         "favorit": false,
         "videoThumb": "",
         "galeria": [
@@ -412,7 +414,10 @@
         "tallers_ids": [
             "lottusse",
             "avarcas-torres",
-            "camper-inca"
+            "camper-inca",
+            "can-blancos",
+            "bestard",
+            "esparteria-beltran"
         ],
         "artesans_ids": [
             "calcado_artesa_0"
@@ -423,7 +428,7 @@
         "nom": "Neules Mallorquines",
         "material": "Farina i sucre",
         "zona": "palma",
-        "tecnica": "filat",
+        "tecnica": "rebosteria",
         "teVideo": false,
         "imatge": "./media/images/neules/neules-01.jpg",
         "descripcio": "Rebosteria artesanal nadalenca: coca prima i crocant de massa enrotllada a mà, cuits entre dos ferros calents, feta una a una.",
@@ -490,7 +495,7 @@
         "rating": 4.5,
         "numRatings": 28,
         "numComentaris": 18,
-        "numTallers": 2,
+        "numTallers": 0,
         "favorit": false,
         "videoThumb": "",
         "galeria": [
@@ -526,10 +531,7 @@
                 "imatges": []
             }
         ],
-        "tallers_ids": [
-            "can-nofret",
-            "ferrers-fires"
-        ],
+        "tallers_ids": [],
         "artesans_ids": [
             "ganivets_artesa_0"
         ]

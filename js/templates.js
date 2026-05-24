@@ -69,7 +69,7 @@ function renderHeader() {
 
     return `
     <header class="sticky top-0 z-50 border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur">
-        <div class="flex items-center justify-between px-4 md:px-10 py-4">
+        <div class="flex items-center justify-between px-4 md:px-10 py-1">
             <!-- Branding -->
             <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
                 ${createResponsiveImage({ src: './media/images/logo/logo.jpg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, srcset: { avif: './media/images/logo/logo.avif', webp: './media/images/logo/logo.webp' }, className: 'h-14 w-14 rounded-lg object-cover shadow-sm' })}
@@ -856,31 +856,72 @@ function renderMultimediaGrid(items) {
                     <span class="text-primary text-xs font-bold uppercase tracking-widest mb-4">Sons de l'ofici</span>
                     <audio
                         id="audio-${itemId}"
-                        preload="none"
+                        preload="metadata"
                         aria-label="${item.titol}"
                         class="hidden"
+                        onloadedmetadata="(function(aud){
+                            const p = aud.closest('div').querySelector('.audio-duration');
+                            if(!p) return;
+                            const mins = Math.floor(aud.duration / 60);
+                            const secs = Math.floor(aud.duration % 60).toString().padStart(2, '0');
+                            p.textContent = mins + ':' + secs;
+                        })(this)"
+                        ontimeupdate="(function(aud){
+                            const p = aud.closest('div').querySelector('.audio-current-time');
+                            if(!p) return;
+                            const mins = Math.floor(aud.currentTime / 60);
+                            const secs = Math.floor(aud.currentTime % 60).toString().padStart(2, '0');
+                            p.textContent = mins + ':' + secs;
+                        })(this)"
+                        onplay="(function(aud){
+                            const waves = aud.closest('div').querySelectorAll('.audio-wave');
+                            waves.forEach(w => w.style.animationPlayState = 'running');
+                        })(this)"
+                        onpause="(function(aud){
+                            const waves = aud.closest('div').querySelectorAll('.audio-wave');
+                            waves.forEach(w => w.style.animationPlayState = 'paused');
+                        })(this)"
+                        onended="(function(aud){
+                            const btn = aud.closest('div').querySelector('button');
+                            if(btn) btn.querySelector('.material-symbols-outlined').textContent='play_arrow';
+                            const p = aud.closest('div').querySelector('.audio-current-time');
+                            if(p) p.textContent = '0:00';
+                            const waves = aud.closest('div').querySelectorAll('.audio-wave');
+                            waves.forEach(w => w.style.animationPlayState = 'paused');
+                        })(this)"
                     >
-                        <source src="<!-- PENDENT: ./media/audio/${itemId}.mp3 -->" type="audio/mpeg">
-                        <source src="<!-- PENDENT: ./media/audio/${itemId}.ogg -->" type="audio/ogg">
+                        <source src="./media/audio/Teler-mejorada-v2.mp3" type="audio/mpeg">
                     </audio>
                     <button
-                        onclick="(function(btn){ const aud = document.getElementById('audio-${itemId}'); if(!aud) return; if(aud.paused){ aud.play(); btn.querySelector('span').textContent='pause'; } else { aud.pause(); btn.querySelector('span').textContent='play_arrow'; } })(this)"
+                        onclick="(function(btn){
+                            const aud = document.getElementById('audio-${itemId}');
+                            if(!aud) return;
+                            if(aud.paused){
+                                aud.play();
+                                btn.querySelector('.material-symbols-outlined').textContent='pause';
+                            } else {
+                                aud.pause();
+                                btn.querySelector('.material-symbols-outlined').textContent='play_arrow';
+                            }
+                        })(this)"
                         aria-label="Reproduir ${item.titol}"
-                        class="w-20 h-20 rounded-full bg-white flex items-center justify-center text-slate-900 hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.1)] mb-4 relative"
+                        class="w-20 h-20 rounded-full bg-white flex items-center justify-center text-slate-900 hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.1)] mb-4 relative cursor-pointer"
                     >
                         <span class="absolute inset-0 rounded-full border border-white animate-ping opacity-20"></span>
                         <span class="material-symbols-outlined text-4xl ml-1">play_arrow</span>
                     </button>
                     <h4 class="text-xl font-serif font-bold text-white mb-1">${item.titol}</h4>
-                    <p class="text-slate-400 text-sm">${item.durada || ''}</p>
-                    <div class="w-full flex items-center gap-1 h-8 mt-4 opacity-50 group-hover:opacity-100 transition-opacity">
-                        <div class="w-1 bg-primary rounded-full h-2 animate-[pulse_1s_ease-in-out_infinite]"></div>
-                        <div class="w-1 bg-primary rounded-full h-5 animate-[pulse_1.2s_ease-in-out_infinite_0.1s]"></div>
-                        <div class="w-1 bg-primary rounded-full h-3 animate-[pulse_0.8s_ease-in-out_infinite_0.2s]"></div>
-                        <div class="w-1 bg-primary rounded-full h-8 animate-[pulse_1.5s_ease-in-out_infinite_0.3s]"></div>
-                        <div class="w-1 bg-primary rounded-full h-4 animate-[pulse_1.1s_ease-in-out_infinite_0.4s]"></div>
-                        <div class="w-1 bg-primary rounded-full h-6 animate-[pulse_0.9s_ease-in-out_infinite_0.5s]"></div>
-                        <div class="w-1 bg-primary rounded-full h-2 animate-[pulse_1.3s_ease-in-out_infinite_0.6s]"></div>
+                    <p class="text-slate-400 text-sm">
+                        <span class="audio-current-time font-medium">0:00</span> / <span class="audio-duration font-medium">${item.durada || '0:00'}</span>
+                    </p>
+                    <div class="w-full flex items-center justify-center gap-1 h-8 mt-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                        <div class="audio-wave w-1 bg-primary rounded-full h-2 animate-[pulse_1s_ease-in-out_infinite]" style="animation-play-state: paused;"></div>
+                        <div class="audio-wave w-1 bg-primary rounded-full h-5 animate-[pulse_1.2s_ease-in-out_infinite_0.1s]" style="animation-play-state: paused;"></div>
+                        <div class="audio-wave w-1 bg-primary rounded-full h-3 animate-[pulse_0.8s_ease-in-out_infinite_0.2s]" style="animation-play-state: paused;"></div>
+                        <div class="audio-wave w-1 bg-primary rounded-full h-8 animate-[pulse_1.5s_ease-in-out_infinite_0.3s]" style="animation-play-state: paused;"></div>
+                        <div class="audio-wave w-1 bg-primary rounded-full h-4 animate-[pulse_1.1s_ease-in-out_infinite_0.4s]" style="animation-play-state: paused;"></div>
+                        <div class="audio-wave w-1 bg-primary rounded-full h-6 animate-[pulse_0.9s_ease-in-out_infinite_0.5s]" style="animation-play-state: paused;"></div>
+                        <div class="audio-wave w-1 bg-primary rounded-full h-2 animate-[pulse_1.3s_ease-in-out_infinite_0.6s]" style="animation-play-state: paused;"></div>
                     </div>
                 </div>
             </div>`;
