@@ -24,12 +24,11 @@ const APP_DATA = {
     filterMaterials: [
         { id: 'fang', label: 'Fang', icon: 'potted_plant', color: 'primary' },
         { id: 'vidre', label: 'Vidre', icon: 'water_drop', color: 'blue-500' },
-        { id: 'llana', label: 'Llana', icon: 'styler', color: 'pink-500' },
-        { id: 'espart', label: 'Espart', icon: 'grass', color: 'amber-600' },
-        { id: 'fusta', label: 'Fusta', icon: 'park', color: 'amber-800' },
-        { id: 'ceramica', label: 'Ceràmica', icon: 'emoji_objects', color: 'orange-500' },
-        { id: 'pedra', label: 'Pedra', icon: 'landscape', color: 'slate-500' },
+        { id: 'teixit', label: 'Teixit', icon: 'texture', color: 'pink-500' },
         { id: 'palma', label: 'Palma', icon: 'eco', color: 'green-600' },
+        { id: 'ferro', label: 'Ferro', icon: 'construction', color: 'slate-600' },
+        { id: 'cuir', label: 'Cuir', icon: 'work', color: 'amber-800' },
+        { id: 'dolcos', label: 'Rebosteria', icon: 'bakery_dining', color: 'yellow-600' }
     ],
 
     // ── Multimèdia ──────────────────────────────────────────

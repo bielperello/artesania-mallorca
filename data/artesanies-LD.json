@@ -370,7 +370,7 @@
                             "author": { "@type": "Person", "name": "Margalida Font" },
                             "datePublished": "2024-06-01",
                             "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
-                            "reviewBody": "Les senalles d'Artespart són precioses i molt resistents. Fa anys que n'ús una per anar al mercat cada setmana."
+                            "reviewBody": "Les senalles de Son Poca Palla són precioses i molt resistents. Fa anys que n'ús una per anar al mercat cada setmana."
                         },
                         {
                             "@type": "Review",
@@ -400,12 +400,12 @@
                     "provider": [
                         {
                             "@type": "LocalBusiness",
-                            "@id": "https://artesania-mallorca.cat/#taller-artespart",
-                            "name": "Artespart Artà",
-                            "address": { "@type": "PostalAddress", "streetAddress": "Carrer de Ses Roques, 3", "addressLocality": "Artà", "addressRegion": "Illes Balears", "addressCountry": "ES" },
-                            "telephone": "+34 971 83 56 12",
-                            "url": "https://artespart.com",
-                            "geo": { "@type": "GeoCoordinates", "latitude": 39.6960, "longitude": 3.3490 }
+                            "@id": "https://artesania-mallorca.cat/#taller-sonpocapalla-arta",
+                            "name": "Son Poca Palla Artà",
+                            "address": { "@type": "PostalAddress", "streetAddress": "Plaça del Conqueridor, 10", "addressLocality": "Artà", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "telephone": "+34 971 56 20 38",
+                            "url": "https://sonpocapalla.es",
+                            "geo": { "@type": "GeoCoordinates", "latitude": 39.6935, "longitude": 3.3492 }
                         },
                         {
                             "@type": "LocalBusiness",

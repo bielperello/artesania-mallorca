@@ -370,12 +370,11 @@ function initMainMap() {
                         const colorMap = {
                             'primary': '#ec4913',      // Terracotta/Fang
                             'blue-500': '#3b82f6',     // Vidre
-                            'pink-500': '#ec4899',     // Llana
-                            'amber-600': '#d97706',    // Espart
-                            'amber-800': '#92400e',    // Fusta
-                            'orange-500': '#f97316',   // Ceràmica
-                            'slate-500': '#64748b',    // Pedra
-                            'green-600': '#16a34a'     // Palma
+                            'pink-500': '#ec4899',     // Teixit
+                            'green-600': '#16a34a',    // Palma
+                            'slate-600': '#475569',    // Ferro
+                            'amber-800': '#92400e',    // Cuir
+                            'yellow-600': '#ca8a04'    // Rebosteria
                         };
                         markerColor = colorMap[matConfig.color] || '#ec4913';
                     }
@@ -622,7 +621,18 @@ function getActiveFilters() {
 }
 
 function materialNameToId(materialName) {
-    const map = { 'Fang': 'fang', 'Vidre': 'vidre', 'Llana': 'llana', 'Espart': 'espart', 'Fusta': 'fusta', 'Ceràmica': 'ceramica', 'Pedra': 'pedra', 'Palma': 'palma' };
+    const map = {
+        'Fang': 'fang',
+        'Argila': 'fang',
+        'Ceràmica': 'fang',
+        'Vidre': 'vidre',
+        'Llana': 'teixit',
+        'Cotó, llana i seda': 'teixit',
+        'Margalló': 'palma',
+        'Acer forjat': 'ferro',
+        'Cuir i pell': 'cuir',
+        'Farina i sucre': 'dolcos'
+    };
     return map[materialName] || materialName.toLowerCase();
 }
 

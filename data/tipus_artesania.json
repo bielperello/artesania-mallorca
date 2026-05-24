@@ -115,7 +115,7 @@
         ],
         "tallers_ids": [
             "gordiola",
-            "menestralia"
+            "lafiore"
         ],
         "artesans_ids": [
             "vidre-bufat_artesa_0",
@@ -220,7 +220,7 @@
                 "autor": "Margalida Font",
                 "data": "1 de juny de 2024",
                 "rating": 5,
-                "text": "Les senalles d'Artespart són precioses i molt resistents. Fa anys que n'ús una per anar al mercat cada setmana.",
+                "text": "Les senalles de Son Poca Palla són precioses i molt resistents. Fa anys que n'ús una per anar al mercat cada setmana.",
                 "imatges": []
             },
             {
@@ -232,8 +232,8 @@
             }
         ],
         "tallers_ids": [
-            "artespart",
-            "ses-dones"
+            "sonpocapalla-arta",
+            "sonpocapalla"
         ],
         "artesans_ids": [
             "llatra_artesa_0",
