@@ -134,7 +134,7 @@ function renderAbout() {
         <div class="flex flex-col lg:flex-row gap-16 items-center">
             
             <div class="w-full lg:w-1/2 relative">
-                <img src="./media/images/logo.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none"/>
+                <img src="./media/images/logo/logo.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none"/>
                 <div class="relative z-10">
                     <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
                     <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>

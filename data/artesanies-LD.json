@@ -16,7 +16,7 @@
         "url": "https://artesania-mallorca.cat",
         "logo": {
             "@type": "ImageObject",
-            "url": "./media/images/logo.png"
+            "url": "./media/images/logo/logo.png"
         }
     },
     "mainEntity": {
@@ -206,16 +206,30 @@
                     "review": [
                         {
                             "@type": "Review",
-                            "author": { "@type": "Person", "name": "Miquel Àngel Socias" },
+                            "author": {
+                                "@type": "Person",
+                                "name": "Miquel Àngel Socias"
+                            },
                             "datePublished": "2023-11-20",
-                            "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+                            "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": 5,
+                                "bestRating": 5
+                            },
                             "reviewBody": "Una experiència increïble veure els mestres vidriers treballar amb el foc. La botiga té peces meravelloses a preus raonables."
                         },
                         {
                             "@type": "Review",
-                            "author": { "@type": "Person", "name": "Laura Bennàssar" },
+                            "author": {
+                                "@type": "Person",
+                                "name": "Laura Bennàssar"
+                            },
                             "datePublished": "2023-08-03",
-                            "reviewRating": { "@type": "Rating", "ratingValue": 4, "bestRating": 5 },
+                            "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": 4,
+                                "bestRating": 5
+                            },
                             "reviewBody": "El museu del vidre és fascinant. Recomanable la visita guiada per entendre tot el procés."
                         }
                     ],
@@ -225,14 +239,20 @@
                             "name": "Daniel Gordiola Majó",
                             "birthDate": "1890",
                             "deathDate": "1952",
-                            "birthPlace": { "@type": "Place", "name": "Algaida, Mallorca" },
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Algaida, Mallorca"
+                            },
                             "description": "Fundador de Vidrieries Gordiola, va transmetre la tècnica del vidre bufat venecià adaptada als materials mallorquins durant tres generacions."
                         },
                         {
                             "@type": "Person",
                             "name": "Francesca Torrens Oliver",
                             "birthDate": "1978",
-                            "birthPlace": { "@type": "Place", "name": "Campanet, Mallorca" },
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Campanet, Mallorca"
+                            },
                             "description": "Artesana contemporània que combina el vidre bufat tradicional amb tècniques modernes de coloració. Les seves peces han estat exposades a fires internacionals."
                         }
                     ],
@@ -241,19 +261,39 @@
                             "@type": "LocalBusiness",
                             "@id": "https://artesania-mallorca.cat/#taller-gordiola",
                             "name": "Vidrieries Gordiola",
-                            "address": { "@type": "PostalAddress", "streetAddress": "Ctra. Palma-Manacor, km 19", "addressLocality": "Algaida", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Ctra. Palma-Manacor, km 19",
+                                "addressLocality": "Algaida",
+                                "addressRegion": "Illes Balears",
+                                "addressCountry": "ES"
+                            },
                             "telephone": "+34 971 66 50 46",
                             "url": "https://gordiola.com",
-                            "geo": { "@type": "GeoCoordinates", "latitude": 39.5600, "longitude": 2.8920 }
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 39.5600,
+                                "longitude": 2.8920
+                            }
                         },
                         {
                             "@type": "LocalBusiness",
                             "@id": "https://artesania-mallorca.cat/#taller-menestralia",
                             "name": "La Menestralia",
-                            "address": { "@type": "PostalAddress", "streetAddress": "Carrer del Vidre, 8", "addressLocality": "Campanet", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Carrer del Vidre, 8",
+                                "addressLocality": "Campanet",
+                                "addressRegion": "Illes Balears",
+                                "addressCountry": "ES"
+                            },
                             "telephone": "+34 971 51 60 78",
                             "email": "info@menestralia.es",
-                            "geo": { "@type": "GeoCoordinates", "latitude": 39.7800, "longitude": 2.9700 }
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 39.7800,
+                                "longitude": 2.9700
+                            }
                         }
                     ]
                 }
@@ -286,16 +326,30 @@
                     "review": [
                         {
                             "@type": "Review",
-                            "author": { "@type": "Person", "name": "Aina Maria Coll" },
+                            "author": {
+                                "@type": "Person",
+                                "name": "Aina Maria Coll"
+                            },
                             "datePublished": "2024-03-08",
-                            "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+                            "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": 5,
+                                "bestRating": 5
+                            },
                             "reviewBody": "Visitar Teixits Vicens és com viatjar al passat. Els telers centenaris encara funcionen perfectament i el resultat és espectacular."
                         },
                         {
                             "@type": "Review",
-                            "author": { "@type": "Person", "name": "Bernat Tous" },
+                            "author": {
+                                "@type": "Person",
+                                "name": "Bernat Tous"
+                            },
                             "datePublished": "2024-01-15",
-                            "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+                            "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": 5,
+                                "bestRating": 5
+                            },
                             "reviewBody": "Vaig comprar una peça de roba de llengües per decorar el sofà i és simplement meravellosa. El tacte i els colors són únics."
                         }
                     ],
@@ -305,7 +359,10 @@
                             "name": "Guillem Vicens Reynés",
                             "birthDate": "1854",
                             "deathDate": "1930",
-                            "birthPlace": { "@type": "Place", "name": "Pollença, Mallorca" },
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Pollença, Mallorca"
+                            },
                             "description": "Fundador de Teixits Vicens, va preservar la tradició de la roba de llengües quan la industrialització amenaçava la seva desaparició. La seva fàbrica segueix operativa avui dia."
                         },
                         {
@@ -313,7 +370,10 @@
                             "name": "Catalina Bujosa Martorell",
                             "birthDate": "1920",
                             "deathDate": "2010",
-                            "birthPlace": { "@type": "Place", "name": "Santa Maria del Camí, Mallorca" },
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Santa Maria del Camí, Mallorca"
+                            },
                             "description": "Mestra teixidora que va innovar amb nous patrons de roba de llengües mantenint la tècnica ancestral del teler de fusta. Va formar més de 30 aprenents al llarg de la seva vida."
                         }
                     ],
@@ -322,19 +382,39 @@
                             "@type": "LocalBusiness",
                             "@id": "https://artesania-mallorca.cat/#taller-vicens",
                             "name": "Teixits Vicens",
-                            "address": { "@type": "PostalAddress", "streetAddress": "Carrer de Sant Agustí, 1", "addressLocality": "Pollença", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Carrer de Sant Agustí, 1",
+                                "addressLocality": "Pollença",
+                                "addressRegion": "Illes Balears",
+                                "addressCountry": "ES"
+                            },
                             "telephone": "+34 971 53 04 50",
                             "url": "https://teixitsvicens.com",
-                            "geo": { "@type": "GeoCoordinates", "latitude": 39.8767, "longitude": 3.0152 }
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 39.8767,
+                                "longitude": 3.0152
+                            }
                         },
                         {
                             "@type": "LocalBusiness",
                             "@id": "https://artesania-mallorca.cat/#taller-bujosa",
                             "name": "Teixits Bujosa",
-                            "address": { "@type": "PostalAddress", "streetAddress": "Carrer de Sa Rosa, 50", "addressLocality": "Santa Maria del Camí", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Carrer de Sa Rosa, 50",
+                                "addressLocality": "Santa Maria del Camí",
+                                "addressRegion": "Illes Balears",
+                                "addressCountry": "ES"
+                            },
                             "telephone": "+34 971 62 00 54",
                             "url": "https://bujosa.com",
-                            "geo": { "@type": "GeoCoordinates", "latitude": 39.6510, "longitude": 2.7670 }
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 39.6510,
+                                "longitude": 2.7670
+                            }
                         }
                     ]
                 }
@@ -367,16 +447,30 @@
                     "review": [
                         {
                             "@type": "Review",
-                            "author": { "@type": "Person", "name": "Margalida Font" },
+                            "author": {
+                                "@type": "Person",
+                                "name": "Margalida Font"
+                            },
                             "datePublished": "2024-06-01",
-                            "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+                            "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": 5,
+                                "bestRating": 5
+                            },
                             "reviewBody": "Les senalles de Son Poca Palla són precioses i molt resistents. Fa anys que n'ús una per anar al mercat cada setmana."
                         },
                         {
                             "@type": "Review",
-                            "author": { "@type": "Person", "name": "Tomeu Servera" },
+                            "author": {
+                                "@type": "Person",
+                                "name": "Tomeu Servera"
+                            },
                             "datePublished": "2024-04-28",
-                            "reviewRating": { "@type": "Rating", "ratingValue": 4, "bestRating": 5 },
+                            "reviewRating": {
+                                "@type": "Rating",
+                                "ratingValue": 4,
+                                "bestRating": 5
+                            },
                             "reviewBody": "Molt bona explicació del procés. Caldria més difusió d'aquest ofici que s'està perdent ràpidament."
                         }
                     ],
@@ -386,14 +480,20 @@
                             "name": "Margalida Ferrer Sureda",
                             "birthDate": "1908",
                             "deathDate": "2001",
-                            "birthPlace": { "@type": "Place", "name": "Artà, Mallorca" },
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Artà, Mallorca"
+                            },
                             "description": "Considerada la darrera gran mestra de la llatra d'Artà. Va crear peces de complexitat extraordinària i va ensenyar l'ofici a més de cinquanta dones del municipi."
                         },
                         {
                             "@type": "Person",
                             "name": "Joana Maria Massanet",
                             "birthDate": "1965",
-                            "birthPlace": { "@type": "Place", "name": "Capdepera, Mallorca" },
+                            "birthPlace": {
+                                "@type": "Place",
+                                "name": "Capdepera, Mallorca"
+                            },
                             "description": "Artesana actual que treballa per preservar la llatra combinant dissenys contemporanis amb la tècnica ancestral. Organitza tallers a escoles per transmetre l'ofici als més joves."
                         }
                     ],
@@ -402,19 +502,39 @@
                             "@type": "LocalBusiness",
                             "@id": "https://artesania-mallorca.cat/#taller-sonpocapalla-arta",
                             "name": "Son Poca Palla Artà",
-                            "address": { "@type": "PostalAddress", "streetAddress": "Plaça del Conqueridor, 10", "addressLocality": "Artà", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Plaça del Conqueridor, 10",
+                                "addressLocality": "Artà",
+                                "addressRegion": "Illes Balears",
+                                "addressCountry": "ES"
+                            },
                             "telephone": "+34 971 56 20 38",
                             "url": "https://sonpocapalla.es",
-                            "geo": { "@type": "GeoCoordinates", "latitude": 39.6935, "longitude": 3.3492 }
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 39.6935,
+                                "longitude": 3.3492
+                            }
                         },
                         {
                             "@type": "LocalBusiness",
                             "@id": "https://artesania-mallorca.cat/#taller-ses-dones",
                             "name": "Associació Ses Dones de la Llatra",
-                            "address": { "@type": "PostalAddress", "streetAddress": "Centre Cultural", "addressLocality": "Capdepera", "addressRegion": "Illes Balears", "addressCountry": "ES" },
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Centre Cultural",
+                                "addressLocality": "Capdepera",
+                                "addressRegion": "Illes Balears",
+                                "addressCountry": "ES"
+                            },
                             "telephone": "+34 971 56 30 33",
                             "email": "sesdones@llatra.cat",
-                            "geo": { "@type": "GeoCoordinates", "latitude": 39.7020, "longitude": 3.4320 }
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 39.7020,
+                                "longitude": 3.4320
+                            }
                         }
                     ]
                 }
