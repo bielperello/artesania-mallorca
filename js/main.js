@@ -2102,6 +2102,7 @@ function attachGlobalListeners() {
                     'raider': 'raiguer',
                     'si horells': 'siurells',
                     'si horeix': 'siurells',
+                    'ciurells': 'siurells',
                     's\'hi horeix': 'siurells',
                     's\'horeix': 'siurells',
                     'floreix': 'siurells',
@@ -2114,7 +2115,16 @@ function attachGlobalListeners() {
                     'moradatge': 'modelatge',
                     'drenat': 'trenat',
                     'tronat': 'trenat',
-                    'entrenat': 'trenat'
+                    'entrenat': 'trenat',
+                    'yata': 'llata',
+                    'llengos': 'llengües',
+                    'dinca': 'd\'inca',
+                    'pay': 'pell',
+                    'reposteria': 'rebosteria',
+                    'guinebets': 'ganivets',
+                    'vinevats': 'ganivets',
+                    'nevades': 'navalles',
+                    'a ser': 'acer'
                 };
 
                 Object.keys(corrections).forEach(wrong => {
@@ -2126,6 +2136,9 @@ function attachGlobalListeners() {
 
                 searchInput.value = transcript;
                 handleSearch(transcript);
+                if (clearBtn) {
+                    clearBtn.style.display = transcript.length > 0 ? 'flex' : 'none';
+                }
             };
 
             voiceBtn.addEventListener('click', () => {

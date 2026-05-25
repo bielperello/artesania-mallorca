@@ -1,3 +1,8 @@
+@import './fonts.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html {
     scroll-behavior: smooth;
 }
@@ -315,41 +320,50 @@ html {
     margin-top: 10px;
     padding: 8px 12px;
     background: #ec4913;
-    color: white;
+    color: white !important;
     border-radius: 8px;
     font-size: 0.8rem;
     font-weight: 600;
-    text-decoration: none;
+    text-decoration: none !important;
     transition: background 0.2s;
 }
 
-.popup-directions:hover {
-    background: #d4400f;
-    color: white;
+.popup-directions:hover,
+a.popup-directions:hover,
+.leaflet-container a.popup-directions:hover {
+    background: #d4400f !important;
+    color: white !important;
 }
 
 .popup-directions .popup-icon {
     color: white;
 }
 
-a.popup-directions {
-    color: white;
+a.popup-directions,
+.leaflet-container a.popup-directions {
+    color: white !important;
+    text-decoration: none !important;
 }
 
 /* ── Optimització d'Imatges ────────────────────────── */
 .img-optimized {
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
 }
 
 .img-optimized.img-loaded,
-.img-optimized[data-error-handled] {
-    opacity: 1;
-}
-
-/* Fallback immediat per imatges ja carregades (cached) */
+.img-optimized[data-error-handled],
 .img-optimized[complete] {
     opacity: 1;
+    animation: fadeInImage 0.5s ease-in-out;
+}
+
+@keyframes fadeInImage {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .img-error {

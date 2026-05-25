@@ -73,7 +73,7 @@ function renderHeader() {
             <!-- Branding -->
             <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
                 ${createResponsiveImage({ src: './media/images/logo/logo.jpg', alt: 'Logo Artesania Mallorquina', sizes: 'avatar', lazy: false, srcset: { avif: './media/images/logo/logo.avif', webp: './media/images/logo/logo.webp' }, className: 'h-14 w-14 rounded-lg object-cover shadow-sm' })}
-                <span class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
+                <span class="text-slate-900 dark:text-slate-100 text-3xl md:text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
                     Artesania Mallorquina
                 </span>
             </a>
@@ -1610,3 +1610,32 @@ function renderChatMessages(messages) {
         </div>`;
     }).join('');
 }
+
+// Exposar a window per a la compatibilitat del mòdul ES6 en el bundle de Vite
+window.renderFilterZones = renderFilterZones;
+window.renderFilterTechniques = renderFilterTechniques;
+window.renderFilterMaterials = renderFilterMaterials;
+window.renderCatalogCards = renderCatalogCards;
+window.renderMapComarques = renderMapComarques;
+window.renderMapMaterials = renderMapMaterials;
+window.renderGeoNearby = renderGeoNearby;
+window.renderMultimediaGrid = renderMultimediaGrid;
+window.renderChatMessages = renderChatMessages;
+window.renderWeatherModal = renderWeatherModal;
+window.renderHeader = renderHeader;
+window.renderHero = renderHero;
+window.renderAbout = renderAbout;
+window.renderCatalogSection = renderCatalogSection;
+window.renderMapSection = renderMapSection;
+window.renderMultimediaSection = renderMultimediaSection;
+window.renderFooter = renderFooter;
+window.renderFAB = renderFAB;
+window.renderModals = renderModals;
+window.renderCraftDetail = renderCraftDetail;
+window.renderStars = renderStars;
+window.renderReviewsList = renderReviewsList;
+window.renderCraftVideo = renderCraftVideo;
+window.renderGalleryImages = renderGalleryImages;
+window.renderSeriesGalleryImages = renderSeriesGalleryImages;
+window.renderMixedGallery = renderMixedGallery;
+window.renderArtGalleries = renderArtGalleries;

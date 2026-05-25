@@ -1,0 +1,35 @@
+{
+  "name": "artesania-mallorca",
+  "version": "1.0.0",
+  "description": "Web-App SPA (Single Page Application) orientada a la difusió i digitalització de l'artesania tradicional de Mallorca. Combina un catàleg interactiu, fitxes multimèdia, mapa de tallers i funcionalitats d'IA per oferir una experiència immersiva i educativa.",
+  "main": "tailwind.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bielperello/artesania-mallorca.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bielperello/artesania-mallorca/issues"
+  },
+  "homepage": "https://github.com/bielperello/artesania-mallorca#readme",
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.19",
+    "vite": "^8.0.14"
+  }
+}

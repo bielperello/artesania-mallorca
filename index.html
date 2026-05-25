@@ -9,47 +9,21 @@
     <meta name="theme-color" content="#ec4913" />
 
     <title>Catàleg Interactiu d'Artesania Mallorquina</title>
-    <link rel="icon" href="./media/images/logo/logo.png" />
+    <link class="icon" rel="icon" href="./media/images/logo/logo.png" />
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;900&amp;family=Playfair+Display:wght@400;600;700;900&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#ec4913",
-                        "terracotta": "#e2725b",
-                        "terracotta-light": "#fceee9",
-                        "sand": "#e8d8c3",
-                        "sand-dark": "#d1bfae",
-                        "background-light": "#f8f6f6",
-                        "background-dark": "#221510",
-                    },
-                    fontFamily: {
-                        "display": ["Newsreader", "serif"],
-                        "serif": ["Playfair Display", "serif"],
-                        "body": ["Plus Jakarta Sans", "sans-serif"],
-                        "sans": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
-                },
-            },
-        }
-    </script>
-    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Preload de recursos crítics per accelerar el renderitzat inicial (LCP/FCP) -->
+    <link rel="preload" href="/css/styles.css" as="style" />
+    <link rel="preload" href="/fonts/font-31.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/font-50.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Full d'estils principal (inclou fonts locals, Tailwind i estils customitzats) -->
+    <link rel="stylesheet" href="/css/styles.css" />
+
+    <!-- Càrrega asíncrona no bloquejant de Leaflet (el mapa no és al Hero de dalt de tot) -->
+    <link rel="stylesheet" href="/css/leaflet.css" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="/css/leaflet.css" />
+    </noscript>
 
     <!-- JSON-LD Structured Data (schema.org) per SEO i web semàntica -->
     <script>
@@ -71,15 +45,14 @@
     <!-- SPA: Tot el contingut es renderitza via JS -->
     <div id="app"></div>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="js/data.js" defer></script>
-    <script src="js/services.js" defer></script>
-    <script src="js/map.js" defer></script>
-    <script src="js/imageHelper.js" defer></script>
-    <script src="js/templates.js" defer></script>
-    <script src="js/main.js" defer></script>
+    <!-- Scripts de la SPA clàssics seqüencials carregats de forma estàtica en el directori de producció de Vite -->
+    <script src="/js/data.js" defer></script>
+    <script src="/js/services.js" defer></script>
+    <script src="/js/leaflet.js" defer></script>
+    <script src="/js/map.js" defer></script>
+    <script src="/js/imageHelper.js" defer></script>
+    <script src="/js/templates.js" defer></script>
+    <script src="/js/main.js" defer></script>
 </body>
 
 </html>
