@@ -64,9 +64,12 @@ function initLeafletMap(containerId, options = {}) {
     destroyMap(containerId);
 
     // Fusionar opcions amb valors per defecte
+    const isMobile = window.innerWidth < 768;
+    const defaultZoom = isMobile ? 9 : MAP_CONFIG.ZOOM;
+
     const config = {
         center: options.center || MAP_CONFIG.CENTER,
-        zoom: options.zoom || MAP_CONFIG.ZOOM,
+        zoom: options.zoom !== undefined ? options.zoom : defaultZoom,
         minZoom: options.minZoom !== undefined ? options.minZoom : MAP_CONFIG.MIN_ZOOM,
         maxZoom: options.maxZoom || MAP_CONFIG.MAX_ZOOM,
         scrollWheelZoom: options.scrollWheelZoom !== undefined ? options.scrollWheelZoom : true,
@@ -148,6 +151,27 @@ function addWorkshopMarker(map, data) {
 
     // Crear el marcador
     const marker = L.marker([data.lat, data.lng], { icon: markerIcon }).addTo(map);
+
+    // Canviar color del pin quan s'obre o es tanca el seu popup
+    marker.on('popupopen', () => {
+        setTimeout(() => {
+            const el = marker.getElement();
+            if (el) {
+                const pin = el.querySelector('.workshop-pin');
+                if (pin) pin.classList.add('active');
+            }
+        }, 50);
+    });
+
+    marker.on('popupclose', () => {
+        setTimeout(() => {
+            const el = marker.getElement();
+            if (el) {
+                const pin = el.querySelector('.workshop-pin');
+                if (pin) pin.classList.remove('active');
+            }
+        }, 50);
+    });
 
     // Crear popup amb la informació del taller
     if (data.nom) {
@@ -231,7 +255,9 @@ function destroyMap(containerId) {
 function resetMapView(containerId) {
     const map = _mapInstances[containerId];
     if (map) {
-        map.setView(MAP_CONFIG.CENTER, MAP_CONFIG.ZOOM, { animate: true });
+        const isMobile = window.innerWidth < 768;
+        const zoom = isMobile ? 9 : MAP_CONFIG.ZOOM;
+        map.setView(MAP_CONFIG.CENTER, zoom, { animate: true });
     }
 }
 

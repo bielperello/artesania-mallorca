@@ -80,7 +80,7 @@ function renderHeader() {
 
             <!-- Navegació i accions -->
             <div class="flex items-center gap-4 md:gap-8">
-                <nav class="hidden lg:flex items-center gap-9" aria-label="Navegació principal">
+                <nav class="hidden min-[1240px]:flex items-center gap-9" aria-label="Navegació principal">
                     ${desktopNavHtml}
                 </nav>
 
@@ -90,14 +90,14 @@ function renderHeader() {
 
                 ${authBtnHtml}
 
-                <button onclick="toggleMobileMenu()" id="mobile-menu-btn" class="lg:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Obrir menú de navegació">
+                <button onclick="toggleMobileMenu()" id="mobile-menu-btn" class="min-[1240px]:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Obrir menú de navegació">
                     <span class="material-symbols-outlined" id="mobile-menu-icon">menu</span>
                 </button>
             </div>
         </div>
 
         <!-- Menú mòbil (amagat per defecte) -->
-        <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden transition-all duration-300 opacity-0 transform -translate-y-2">
+        <div id="mobile-menu" class="hidden min-[1240px]:hidden absolute top-full left-0 w-full bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden transition-all duration-300 opacity-0 transform -translate-y-2">
             <nav class="flex flex-col p-6 gap-6">
                 ${mobileNavHtml}
                 
@@ -207,7 +207,7 @@ function renderCatalogSection() {
                 <div class="border-t border-slate-100 dark:border-slate-800 pt-4">
                     <label class="flex items-center justify-between cursor-pointer">
                         <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-red-500 text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                            <svg class="text-red-500 w-[18px] h-[18px] fill-current inline-block align-text-bottom mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                             <span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Només favorits</span>
                         </div>
                         <div class="relative">
@@ -234,10 +234,10 @@ function renderCatalogSection() {
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10 pointer-events-none text-sm">sort</span>
                             <label for="catalog-sort" class="sr-only">Ordena catàleg</label>
                             <select id="catalog-sort" class="w-full pl-9 pr-8 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary text-slate-700 dark:text-slate-200 appearance-none cursor-pointer">
-                                <option value="relevance">Més rellevants</option>
+                                <option selected value="relevance">Més rellevants</option>
                                 <option value="az">Alfabètic (A-Z)</option>
                                 <option value="za">Alfabètic (Z-A)</option>
-                                <option selected value="rating">Valoració</option>
+                                <option value="rating">Valoració</option>
                                 <option value="comments">Més comentaris</option>
                                 <option value="workshops">Tallers disponibles</option>
                             </select>
@@ -269,11 +269,11 @@ function renderCatalogSection() {
 function renderMapSection() {
     return `
     <section class="mb-20" id="mapa">
-        <div class="relative w-full h-[80vh] min-h-[600px] bg-slate-100 dark:bg-slate-800 overflow-hidden group">
+        <div class="flex flex-col lg:relative w-full gap-5 lg:gap-0 h-auto lg:h-[80vh] lg:min-h-[600px] bg-transparent lg:bg-slate-100 lg:dark:bg-slate-800 lg:overflow-hidden group lg:rounded-2xl lg:border lg:border-slate-200 lg:dark:border-slate-800">
             <!-- Mapa interactiu Leaflet -->
-            <div id="main-map" class="leaflet-map-container absolute inset-0 z-0"></div>
+            <div id="main-map" class="leaflet-map-container relative lg:absolute inset-0 z-0 h-[45vh] lg:h-full min-h-[350px] lg:min-h-[600px] w-full rounded-2xl lg:rounded-none border border-slate-200 dark:border-slate-800 lg:border-none"></div>
             <!-- Panell lateral del mapa -->
-            <div class="absolute top-6 left-6 z-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 max-w-sm w-full max-h-[90vh] overflow-y-auto">
+            <div class="relative lg:absolute lg:top-6 lg:left-6 z-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-4 lg:p-5 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 w-full lg:max-w-xs xl:max-w-sm max-h-[55vh] lg:max-h-[85vh] overflow-y-auto order-first lg:order-none">
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="font-serif font-bold text-xl text-slate-900 dark:text-slate-100">Mapa d'Artesans</h3>
                     <div class="flex items-center gap-2">
@@ -302,6 +302,10 @@ function renderMapSection() {
                             <div id="map-materials" class="grid grid-cols-2 gap-2 group-open:animate-fade-in"><!-- JS --></div>
                         </details>
                     </div>
+                </div>
+                <div class="text-center mt-4 pt-2 border-t border-slate-100 dark:border-slate-800 lg:hidden text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider flex items-center justify-center gap-1 animate-pulse">
+                    <span class="material-symbols-outlined text-[12px] animate-bounce">keyboard_double_arrow_down</span>
+                    Llisca cap avall per a més
                 </div>
             </div>
 
@@ -401,7 +405,7 @@ function renderModals() {
                 </div>
                 <div class="flex items-center gap-2 mr-2">
                     <button aria-label="Afegir a preferits" onclick="toggleModalFavorite(this)" class="flex items-center justify-center rounded-full size-10 bg-slate-100 hover:bg-red-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-400 transition-all group cursor-pointer" title="Afegir a preferits">
-                        <span class="material-symbols-outlined group-hover:text-red-400 transition-colors">favorite</span>
+                        <svg class="w-5 h-5 group-hover:text-red-400 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                     </button>
                     <button aria-label="Compartir" onclick="shareCraft()" class="flex items-center justify-center rounded-full size-10 bg-sand/30 hover:bg-sand/50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors" title="Compartir">
                         <span class="material-symbols-outlined">share</span>
@@ -555,9 +559,12 @@ function renderStars(rating, size = 'text-sm') {
     const half = rating % 1 >= 0.3;
     const empty = 5 - full - (half ? 1 : 0);
     let html = '';
-    for (let i = 0; i < full; i++) html += `<span class="material-symbols-outlined text-amber-400 ${size}" style="font-variation-settings: 'FILL' 1;">star</span>`;
-    if (half) html += `<span class="material-symbols-outlined text-amber-400 ${size}" style="font-variation-settings: 'FILL' 1;">star_half</span>`;
-    for (let i = 0; i < empty; i++) html += `<span class="material-symbols-outlined text-slate-300 dark:text-slate-600 ${size}">star</span>`;
+    const svgFull = `<svg class="${size} text-amber-400 fill-amber-400 inline-block align-text-bottom mr-0.5" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+    const svgHalf = `<svg class="${size} text-amber-400 inline-block align-text-bottom mr-0.5" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /><path d="M12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z" fill="currentColor" /></svg>`;
+    const svgEmpty = `<svg class="${size} text-slate-300 dark:text-slate-600 inline-block align-text-bottom mr-0.5" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+    for (let i = 0; i < full; i++) html += svgFull;
+    if (half) html += svgHalf;
+    for (let i = 0; i < empty; i++) html += svgEmpty;
     return html;
 }
 
@@ -601,8 +608,8 @@ function renderCatalogCards(crafts) {
         const isFav = favorites.has(c.id);
         return `
         <div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow relative" data-craft-id="${c.id}">
-            <button onclick="toggleFavoriteCard('${c.id}', this, event)" class="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center ${isFav ? 'text-red-500' : 'text-slate-400'} hover:text-red-500 transition-colors shadow-sm">
-                <span class="material-symbols-outlined text-sm font-bold" style="font-variation-settings: 'FILL' ${isFav ? 1 : 0};">favorite</span>
+            <button onclick="toggleFavoriteCard('${c.id}', this, event)" class="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center ${isFav ? 'text-red-500' : 'text-slate-400'} hover:text-red-500 transition-colors shadow-sm" aria-label="Añadir a favoritos">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
             </button>
             <div class="overflow-hidden aspect-[4/3] relative">
                 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
@@ -613,7 +620,7 @@ function renderCatalogCards(crafts) {
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="text-xl font-serif font-bold text-slate-900 dark:text-slate-100">${c.nom}</h3>
                     <div class="flex items-center text-amber-500 gap-1">
-                        <span class="material-symbols-outlined text-sm" style='font-variation-settings: "FILL" 1;'>star</span>
+                        <svg class="text-sm text-amber-500 fill-amber-500 inline-block align-text-bottom" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                         <span class="text-sm font-bold text-slate-700 dark:text-slate-300">${c.rating} <span class="text-slate-500 dark:text-slate-400 font-normal">(${c.numRatings})</span></span>
                     </div>
                 </div>
@@ -1170,12 +1177,12 @@ function renderCraftDetail(craft) {
                                             </div>
                                             <div>
                                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Puntuació</label>
-                                                <div id="review-stars" class="flex gap-1 text-slate-300 dark:text-slate-600 text-2xl cursor-pointer">
-                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(1)">star</span>
-                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(2)">star</span>
-                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(3)">star</span>
-                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(4)">star</span>
-                                                    <span class="material-symbols-outlined hover:text-yellow-400 transition-colors" onclick="setReviewRating(5)">star</span>
+                                                <div id="review-stars" class="flex gap-1 text-slate-300 dark:text-slate-600 cursor-pointer">
+                                                    <svg class="w-8 h-8 hover:text-yellow-400 transition-all duration-200 active:scale-90" onclick="setReviewRating(1)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                                    <svg class="w-8 h-8 hover:text-yellow-400 transition-all duration-200 active:scale-90" onclick="setReviewRating(2)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                                    <svg class="w-8 h-8 hover:text-yellow-400 transition-all duration-200 active:scale-90" onclick="setReviewRating(3)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                                    <svg class="w-8 h-8 hover:text-yellow-400 transition-all duration-200 active:scale-90" onclick="setReviewRating(4)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                                    <svg class="w-8 h-8 hover:text-yellow-400 transition-all duration-200 active:scale-90" onclick="setReviewRating(5)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                                                 </div>
                                                 <input type="hidden" id="review-rating" value="0" required>
                                             </div>
@@ -1268,7 +1275,7 @@ function renderWeatherModal(weather) {
         </div>
         <div class="flex items-center gap-6 border-b border-slate-200 dark:border-slate-700">
             <button class="text-blue-600 font-bold text-xs tracking-wider uppercase pb-3 border-b-2 border-blue-600">Pròximes hores</button>
-            <button class="text-slate-400 font-bold text-xs tracking-wider uppercase pb-3 hover:text-slate-600 transition-colors">Pròxims 7 dies</button>
+            <button onclick="document.getElementById('seccion2').scrollIntoView({ behavior: 'smooth' })" class="text-slate-400 font-bold text-xs tracking-wider uppercase pb-3 hover:text-slate-600 transition-colors">Pròxims 7 dies</button>
         </div>
         <div>
             <h4 class="font-serif font-bold text-lg text-slate-900 dark:text-slate-100 mb-4">Evolució per hores</h4>
@@ -1276,7 +1283,7 @@ function renderWeatherModal(weather) {
         </div>
         <div>
             <h4 class="font-serif font-bold text-lg text-slate-900 dark:text-slate-100 mb-4">Pròxims 7 dies</h4>
-            <div class="flex flex-col gap-2">${diesHTML}</div>
+            <div id="seccion2" class="flex flex-col gap-2">${diesHTML}</div>
         </div>
         <div class="w-full text-center pt-2 pb-2">
             <p class="text-[9px] font-bold tracking-[0.2em] text-slate-400 uppercase">Font: Open-Meteo API • Dades actualitzades en temps real</p>
@@ -1492,7 +1499,7 @@ function renderArtGalleries(galleries) {
         // Rating (si n'hi ha)
         const ratingHTML = g.aggregateRating ? `
             <div class="flex items-center gap-1 mt-1">
-                <span class="material-symbols-outlined text-amber-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                <svg class="text-amber-400 fill-amber-400 text-sm inline-block align-text-bottom" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 <span class="text-sm font-bold text-slate-700 dark:text-slate-300">${g.aggregateRating.ratingValue}</span>
                 <span class="text-xs text-slate-400">(${g.aggregateRating.reviewCount})</span>
             </div>` : '';

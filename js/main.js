@@ -852,14 +852,27 @@ function openModal(craftId) {
     const isFav = getFavorites().has(craftId);
     const modalFavBtn = document.querySelector('#craft-modal-content [aria-label="Afegir a preferits"]');
     if (modalFavBtn) {
-        const modalFavIcon = modalFavBtn.querySelector('.material-symbols-outlined');
+        const modalFavIcon = modalFavBtn.querySelector('.material-symbols-outlined, svg');
         if (isFav) {
             modalFavBtn.classList.add('is-favorite', 'text-red-500', 'bg-red-50');
             modalFavBtn.classList.remove('text-slate-400', 'bg-slate-100');
-            if (modalFavIcon) modalFavIcon.style.fontVariationSettings = "'FILL' 1";
+            if (modalFavIcon) {
+                if (modalFavIcon.tagName.toLowerCase() === 'svg') {
+                    modalFavIcon.setAttribute('fill', 'currentColor');
+                } else {
+                    modalFavIcon.style.fontVariationSettings = "'FILL' 1";
+                }
+            }
         } else {
             modalFavBtn.classList.remove('is-favorite', 'text-red-500', 'bg-red-50');
-            if (modalFavIcon) modalFavIcon.style.fontVariationSettings = '';
+            modalFavBtn.classList.add('text-slate-400', 'bg-slate-100');
+            if (modalFavIcon) {
+                if (modalFavIcon.tagName.toLowerCase() === 'svg') {
+                    modalFavIcon.setAttribute('fill', 'none');
+                } else {
+                    modalFavIcon.style.fontVariationSettings = '';
+                }
+            }
         }
     }
 
@@ -1388,17 +1401,25 @@ function updateCardHeart(craftId, isFav) {
     const card = document.querySelector(`[data-craft-id="${craftId}"]`);
     if (!card) return;
     const btn = card.querySelector('button');
-    const icon = btn ? btn.querySelector('.material-symbols-outlined') : null;
+    const icon = btn ? btn.querySelector('.material-symbols-outlined, svg') : null;
     if (!btn || !icon) return;
 
     if (isFav) {
         btn.classList.remove('text-slate-400');
         btn.classList.add('text-red-500');
-        icon.style.fontVariationSettings = "'FILL' 1";
+        if (icon.tagName.toLowerCase() === 'svg') {
+            icon.setAttribute('fill', 'currentColor');
+        } else {
+            icon.style.fontVariationSettings = "'FILL' 1";
+        }
     } else {
         btn.classList.remove('text-red-500');
         btn.classList.add('text-slate-400');
-        icon.style.fontVariationSettings = "'FILL' 0";
+        if (icon.tagName.toLowerCase() === 'svg') {
+            icon.setAttribute('fill', 'none');
+        } else {
+            icon.style.fontVariationSettings = "'FILL' 0";
+        }
     }
 }
 
@@ -1416,7 +1437,7 @@ function toggleFavoriteCard(craftId, btn, event) {
     }
 
     const isFav = toggleFavorite(craftId);
-    const icon = btn.querySelector('.material-symbols-outlined');
+    const icon = btn.querySelector('.material-symbols-outlined, svg');
     const card = btn.closest('[data-craft-id]');
     const nameEl = card ? card.querySelector('h3') : null;
     const craftName = nameEl ? nameEl.textContent : 'Artesania';
@@ -1425,12 +1446,24 @@ function toggleFavoriteCard(craftId, btn, event) {
     if (isFav) {
         btn.classList.remove('text-slate-400');
         btn.classList.add('text-red-500');
-        icon.style.fontVariationSettings = "'FILL' 1";
+        if (icon) {
+            if (icon.tagName.toLowerCase() === 'svg') {
+                icon.setAttribute('fill', 'currentColor');
+            } else {
+                icon.style.fontVariationSettings = "'FILL' 1";
+            }
+        }
         showToast(`${craftName} afegit a favorits`, 'favorite', 'favorite');
     } else {
         btn.classList.remove('text-red-500');
         btn.classList.add('text-slate-400');
-        icon.style.fontVariationSettings = "'FILL' 0";
+        if (icon) {
+            if (icon.tagName.toLowerCase() === 'svg') {
+                icon.setAttribute('fill', 'none');
+            } else {
+                icon.style.fontVariationSettings = "'FILL' 0";
+            }
+        }
         showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
     }
 
@@ -1445,7 +1478,7 @@ function toggleFavoriteCard(craftId, btn, event) {
  * Toggle favorit des del modal de la fitxa detallada.
  */
 function toggleModalFavorite(btn) {
-    const icon = btn.querySelector('.material-symbols-outlined');
+    const icon = btn.querySelector('.material-symbols-outlined, svg');
     if (!icon || !currentCraft) return;
 
     // Bloquejar si no s'ha iniciat sessió
@@ -1461,12 +1494,20 @@ function toggleModalFavorite(btn) {
     if (isFav) {
         btn.classList.add('is-favorite', 'text-red-500', 'bg-red-50');
         btn.classList.remove('text-slate-400', 'bg-slate-100');
-        icon.style.fontVariationSettings = "'FILL' 1";
+        if (icon.tagName.toLowerCase() === 'svg') {
+            icon.setAttribute('fill', 'currentColor');
+        } else {
+            icon.style.fontVariationSettings = "'FILL' 1";
+        }
         showToast(`${craftName} afegit a favorits`, 'favorite', 'favorite');
     } else {
         btn.classList.remove('is-favorite', 'text-red-500', 'bg-red-50');
         btn.classList.add('text-slate-400', 'bg-slate-100');
-        icon.style.fontVariationSettings = "'FILL' 0";
+        if (icon.tagName.toLowerCase() === 'svg') {
+            icon.setAttribute('fill', 'none');
+        } else {
+            icon.style.fontVariationSettings = "'FILL' 0";
+        }
         showToast(`${craftName} s'ha eliminat de favorits`, 'warning', 'heart_broken');
     }
 
@@ -2103,6 +2144,8 @@ function attachGlobalListeners() {
                     'si horells': 'siurells',
                     'si horeix': 'siurells',
                     'ciurells': 'siurells',
+                    'ciureix': 'siurells',
+                    'siureix': 'siurells',
                     's\'hi horeix': 'siurells',
                     's\'horeix': 'siurells',
                     'floreix': 'siurells',
@@ -2112,6 +2155,11 @@ function attachGlobalListeners() {
                     'despart': "d'espart",
                     'bufet': 'bufat',
                     'buffet': 'bufat',
+                    'b****': 'bufat',
+                    'vidrebufat': 'vidre bufat',
+                    'vidrebovat': 'vidre bufat',
+                    'bovat': 'bufat',
+                    'vídeo': 'vidre',
                     'moradatge': 'modelatge',
                     'drenat': 'trenat',
                     'tronat': 'trenat',
@@ -2135,10 +2183,9 @@ function attachGlobalListeners() {
                 });
 
                 searchInput.value = transcript;
+                // Disparar l'esdeveniment input nativament per actualitzar reactivament la creu d'esborrar i altres filtres
+                searchInput.dispatchEvent(new Event('input'));
                 handleSearch(transcript);
-                if (clearBtn) {
-                    clearBtn.style.display = transcript.length > 0 ? 'flex' : 'none';
-                }
             };
 
             voiceBtn.addEventListener('click', () => {
@@ -2218,36 +2265,29 @@ async function handleChatSubmit(event) {
     setTimeout(() => chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight, 10);
 
     try {
-        const token = APP_DATA.groqToken;
-        if (!token || token === 'EL_TEU_TOKEN_AQUI') {
-            throw new Error("Si us plau, configura el teu token de Groq (APP_DATA.groqToken) a js/data.js");
-        }
+        const apiKey = "AIzaSyDGH9mXKIW4xJM8YEDs9KVfGInvnL2nlsU";
 
-        // Preparar històrial de conversa
-        const messages = APP_DATA.chatMessages
+        // Preparar històrial de conversa per a Gemini
+        const contents = APP_DATA.chatMessages
             .filter(m => !m.html || !m.html.includes('Error:'))
             .map(m => {
-                const role = m.role === 'assistant' ? 'assistant' : 'user';
-                // Eliminació bàsica de HTML si no hi ha text
+                const role = m.role === 'assistant' ? 'model' : 'user';
                 const contentText = m.text || (m.html ? m.html.replace(/<[^>]+>/g, '').trim() : '');
-                return { role: role, content: contentText };
+                return { role: role, parts: [{ text: contentText }] };
             });
 
-        // Afegir message del sistema
-        messages.unshift({
-            role: "system",
-            content: `Ets l'assistent virtual del catàleg d'artesania de Mallorca. Respon sempre en català de forma concisa i amable i MOLT IMPORTANT només a preguntes directament relacionades amb artesania mallorquina, sense excepció ni analogies amb altres coses. Evita l'ús de taules i emojis, sí pots separar info en paràgrafs ben formats i formatejats, pots incloure llistes simples i tipats com negreta. Intenta accedir ${JSON.stringify(craftsRes)} i ${JSON.stringify(tallersRes)} per buscar informació, si trobes aquí no cerquis a Internet. Si no trobes informació, no inventis, pots intentar buscar a Internet.`
-        });
+        const systemInstructionText = `Ets l'assistent virtual del catàleg d'artesania de Mallorca. Respon sempre en català de forma MOLT concisa i amable i MOLT IMPORTANT només a preguntes directament relacionades amb artesania mallorquina, sense excepció ni analogies amb altres coses. Evita l'ús de taules i emojis, sí pots separar info en paràgrafs ben formats i formatejats, pots incloure llistes simples i tipats com negreta. Intenta accedir ${JSON.stringify(craftsRes)} i ${JSON.stringify(tallersRes)} per buscar informació, si trobes aquí no cerquis a Internet. Si no trobes informació, no inventis, pots intentar buscar a Internet.`;
 
-        const response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: "openai/gpt-oss-120b",
-                messages: messages
+                contents: contents,
+                systemInstruction: {
+                    parts: [{ text: systemInstructionText }]
+                }
             })
         });
 
@@ -2257,10 +2297,10 @@ async function handleChatSubmit(event) {
         if (loadingEl) loadingEl.remove();
 
         if (!response.ok || data.error) {
-            throw new Error((data.error && data.error.message) || "Error en l'API de Groq");
+            throw new Error((data.error && data.error.message) || "Error en l'API de Gemini");
         }
 
-        const replyText = data.choices[0].message.content;
+        const replyText = data.candidates[0].content.parts[0].text;
         let formattedHtml = replyText.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
         APP_DATA.chatMessages.push({ role: 'assistant', html: `<p class="text-sm text-slate-700 dark:text-slate-300">${formattedHtml}</p>`, text: replyText });
@@ -2383,14 +2423,16 @@ function setReviewRating(rating) {
 
     document.getElementById('review-rating').value = rating;
 
-    const stars = starsContainer.querySelectorAll('span');
+    const stars = starsContainer.querySelectorAll('svg');
     stars.forEach((star, index) => {
         if (index < rating) {
             star.classList.add('text-yellow-400');
-            star.style.fontVariationSettings = "'FILL' 1";
+            star.classList.remove('text-slate-300', 'dark:text-slate-600');
+            star.setAttribute('fill', 'currentColor');
         } else {
             star.classList.remove('text-yellow-400');
-            star.style.fontVariationSettings = "";
+            star.classList.add('text-slate-300', 'dark:text-slate-600');
+            star.setAttribute('fill', 'none');
         }
     });
 }

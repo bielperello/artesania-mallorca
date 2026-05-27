@@ -197,6 +197,13 @@ html {
     transform: rotate(-45deg) scale(1.15);
 }
 
+.workshop-pin.active {
+    --marker-color: #ec4913 !important;
+    transform: rotate(-45deg) scale(1.2) !important;
+    box-shadow: 0 0 15px rgba(236, 73, 19, 0.6), 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    z-index: 999 !important;
+}
+
 .workshop-pin .material-symbols-outlined {
     transform: rotate(45deg);
     color: white;
