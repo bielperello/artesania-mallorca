@@ -277,7 +277,7 @@ function renderMapSection() {
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="font-serif font-bold text-xl text-slate-900 dark:text-slate-100">Mapa d'Artesans</h3>
                     <div class="flex items-center gap-2">
-                        <button class="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors font-medium">
+                        <button id="map-reset-btn" class="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors font-medium">
                             <span class="material-symbols-outlined text-[16px]">zoom_out_map</span> Restablir
                         </button>
                     </div>
@@ -302,10 +302,6 @@ function renderMapSection() {
                             <div id="map-materials" class="grid grid-cols-2 gap-2 group-open:animate-fade-in"><!-- JS --></div>
                         </details>
                     </div>
-                </div>
-                <div class="text-center mt-4 pt-2 border-t border-slate-100 dark:border-slate-800 lg:hidden text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider flex items-center justify-center gap-1 animate-pulse">
-                    <span class="material-symbols-outlined text-[12px] animate-bounce">keyboard_double_arrow_down</span>
-                    Llisca cap avall per a més
                 </div>
             </div>
 
@@ -361,7 +357,7 @@ function renderMultimediaSection() {
         <div class="flex justify-between items-center mb-10 border-b border-slate-200 dark:border-slate-800 pb-4">
             <h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100">Multimèdia Immersiva i Visual</h2>
         </div>
-        <div id="multimedia-grid" class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-[800px] w-full bg-slate-900 rounded-2xl overflow-hidden p-4 relative">
+        <div id="multimedia-grid" class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[800px] w-full bg-slate-900 rounded-2xl overflow-hidden p-4 relative">
             <!-- JS renderMultimediaGrid() -->
         </div>
     </section>`;
@@ -773,7 +769,7 @@ function renderMultimediaGrid(items) {
                     ? `${base}.webp`
                     : `${base}.jpg`;
             html += `
-            <div class="col-span-1 md:col-span-2 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20" onclick="openVideoGallery('${item.titol.replace(/'/g, "\\'")}', './media/videos/resultado.mp4', '${miniatura}')">
+            <div class="col-span-1 md:col-span-2 md:row-span-2 min-h-[320px] sm:min-h-[380px] md:min-h-0 relative rounded-xl overflow-hidden group cursor-pointer shadow-2xl z-20" onclick="openVideoGallery('${item.titol.replace(/'/g, "\\'")}', './media/videos/resultado.mp4', '${miniatura}')">
                 <video
                     id="video-${itemId}"
                     class="absolute inset-0 w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
@@ -786,13 +782,13 @@ function renderMultimediaGrid(items) {
                 </video>
                 <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 z-10 pointer-events-none"></div>
                 <div class="absolute inset-0 flex items-center justify-center z-20 opacity-100 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none">
-                    <div class="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
-                        <span class="material-symbols-outlined text-white text-6xl drop-shadow-lg">play_arrow</span>
+                    <div class="w-16 h-16 md:w-24 md:h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
+                        <span class="material-symbols-outlined text-white text-4xl md:text-6xl drop-shadow-lg">play_arrow</span>
                     </div>
                 </div>
-                <div class="absolute bottom-8 left-8 right-8 z-20 pointer-events-none">
-                    <span class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest mb-4 inline-block shadow-lg">${item.tag}</span>
-                    <h3 class="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-md leading-tight group-hover:-translate-y-2 transition-transform duration-500">${item.titol}</h3>
+                <div class="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8 z-20 pointer-events-none">
+                    <span class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest mb-3 inline-block shadow-lg">${item.tag}</span>
+                    <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white drop-shadow-md leading-tight group-hover:-translate-y-2 transition-transform duration-500">${item.titol}</h3>
                 </div>
             </div>`;
         } else if (item.tipus === 'galeria') {
@@ -803,7 +799,7 @@ function renderMultimediaGrid(items) {
                 ? `{ avif: '${item.imgAvif || ''}', webp: '${item.imgWebp || ''}' }`
                 : '{}';
             html += `
-            <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="openPhotoGallery('${item.titol}', this)" data-fotos="${fotosJson}">
+            <div class="col-span-1 md:col-span-1 md:row-span-1 min-h-[220px] md:min-h-0 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="openPhotoGallery('${item.titol}', this)" data-fotos="${fotosJson}">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
                 <picture class="absolute inset-0 w-full h-full">
                     ${item.imgAvif ? `<source srcset="${item.imgAvif}" type="image/avif">` : ''}
@@ -845,7 +841,7 @@ function renderMultimediaGrid(items) {
             ).join('');
 
             html += `
-            <div id="${serieId}" class="col-span-1 md:col-span-1 md:row-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" aria-roledescription="carrussel" aria-label="${item.titol}" onclick="openSeriesGallery('${item.titol.replace(/'/g, "\\'")}', this)" data-slides="${slidesJson}">
+            <div id="${serieId}" class="col-span-1 md:col-span-1 md:row-span-2 min-h-[320px] sm:min-h-[380px] md:min-h-0 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20" aria-roledescription="carrussel" aria-label="${item.titol}" onclick="openSeriesGallery('${item.titol.replace(/'/g, "\\'")}', this)" data-slides="${slidesJson}">
                 <!-- Badge Lliu EN VENDA / Sèrie -->
                 <div class="absolute top-4 right-4 z-30 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1 border border-white/10">
                     <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -861,7 +857,7 @@ function renderMultimediaGrid(items) {
             // ── Àudio natiu: <audio> amb preload="none" i controls personalitzats ──
             // Src pendent d'inserir l'URL definitiu del fitxer MP3/OGG
             html += `
-            <div class="col-span-1 md:col-span-1 md:row-span-1 relative rounded-xl overflow-hidden group shadow-lg z-20 bg-slate-800">
+            <div class="col-span-1 md:col-span-1 md:row-span-1 min-h-[220px] md:min-h-0 relative rounded-xl overflow-hidden group shadow-lg z-20 bg-slate-800">
                 ${createResponsiveImage({ src: item.img, alt: '', sizes: 'thumbnail', lazy: true, srcset: localSrcset(item.img), className: 'absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700' })}
                 <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 to-slate-800/80 z-10"></div>
                 <div class="relative z-20 h-full p-6 flex flex-col items-center justify-center text-center">
@@ -1623,6 +1619,46 @@ function renderChatMessages(messages) {
     }).join('');
 }
 
+function renderAboutUs() {
+    return `
+    <section class="mb-20 px-10 lg:px-20 max-w-[1600px] mx-auto w-full" id="desenvolupadors">
+        <div class="flex justify-between items-center mb-10 border-b border-slate-200 dark:border-slate-800 pb-4">
+            <h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100">Desenvolupadors</h2>
+        </div>
+        <div class="flex flex-col md:flex-row gap-8 justify-center items-center max-w-4xl mx-auto w-full">
+            <!-- Targeta Marc Garcia Bonet -->
+            <div class="flex-1 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-primary/10 dark:bg-primary/20 text-primary rounded-full flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-symbols-outlined text-4xl">code</span>
+                </div>
+                <h3 class="font-serif font-bold text-2xl text-slate-900 dark:text-slate-100 mb-2">Marc Garcia Bonet</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">Desenvolupador i Creador</p>
+                <a href="https://github.com/Garci8" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-slate-900 dark:bg-slate-800 hover:bg-primary dark:hover:bg-primary text-white hover:text-white px-5 py-2.5 rounded-xl font-bold transition-colors shadow-md">
+                    <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24" aria-hidden="true">                        
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+
+            <!-- Targeta Biel Perelló Perelló -->
+            <div class="flex-1 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group">
+                <div class="w-20 h-20 bg-primary/10 dark:bg-primary/20 text-primary rounded-full flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-symbols-outlined text-4xl">terminal</span>
+                </div>
+                <h3 class="font-serif font-bold text-2xl text-slate-900 dark:text-slate-100 mb-2">Biel Perelló Perelló</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">Desenvolupador i Creador</p>
+                <a href="https://github.com/bielperello/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-slate-900 dark:bg-slate-800 hover:bg-primary dark:hover:bg-primary text-white hover:text-white px-5 py-2.5 rounded-xl font-bold transition-colors shadow-md">
+                    <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24" aria-hidden="true">                        
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+    </section>`;
+}
+
 // Exposar a window per a la compatibilitat del mòdul ES6 en el bundle de Vite
 window.renderFilterZones = renderFilterZones;
 window.renderFilterTechniques = renderFilterTechniques;
@@ -1640,6 +1676,7 @@ window.renderAbout = renderAbout;
 window.renderCatalogSection = renderCatalogSection;
 window.renderMapSection = renderMapSection;
 window.renderMultimediaSection = renderMultimediaSection;
+window.renderAboutUs = renderAboutUs;
 window.renderFooter = renderFooter;
 window.renderFAB = renderFAB;
 window.renderModals = renderModals;

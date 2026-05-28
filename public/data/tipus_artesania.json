@@ -5,7 +5,6 @@
         "material": "Fang",
         "zona": "pla",
         "tecnica": "modelatge",
-        "teVideo": true,
         "imatge": "./media/images/siurells/siurells-01.png",
         "descripcio": "Figures de fang cuit amb un xiulet, pintades tradicionalment de blanc amb traços verds i vermells.",
         "descripcioLlarga": "El siurell és una peça d'artesania autèntica de Mallorca, els orígens de la qual es remunten a segles enrere, amb una forta influència mediterrània. Originalment usat per pastors per controlar els ramats, avui dia és un símbol de l'illa, present en festes tradicionals i celebracions. La seva creació implica modelar el fang, afegir el característic xiulet, enfornar i, finalment, el banyat en calç blanca abans de rebre els tocs finals de color.",
@@ -14,8 +13,6 @@
         "numRatings": 128,
         "numComentaris": 124,
         "numTallers": 2,
-        "favorit": true,
-        "videoThumb": "https://lh3.googleusercontent.com/aida-public/AB6AXuDDYp72p9yb3VAKhAiX6PPO_S3glj1feGCKJA-WiPWZ7tSYLwvZJBktVBW2WKq9AUDSgtaNf9KuyW_QkJ14-3wtJnbkNKPhcUKoKeULc7wNYyG5X__0ej3nv2HtX8Ocx75PvvgS5uW0MTnYh9CKM4iwUEReuN8TrhSf1BL4yITS7HKrT0PtEdx_ZRoIB0GZVE-_wGnra_5iE4SNqp0xvCmgle-keXH4sxvOsPQR4EwHOiq_S_x4T8X6V_eM-qGshbSjTJjlQanbnVUY",
         "galeria": [
             {
                 "imatge": "./media/images/siurells/siurells-02.jpg",
@@ -69,7 +66,6 @@
         "material": "Vidre",
         "zona": "pla",
         "tecnica": "bufat",
-        "teVideo": true,
         "imatge": "./media/images/vidre-bufat/vidre-bufat-01.jpg",
         "descripcio": "Art ancestral de donar forma al vidre fos mitjançant el buf, creant peces transparents i colorides.",
         "descripcioLlarga": "El vidre bufat a Mallorca té una tradició que es remunta al segle XIV. La tècnica consisteix a recollir vidre fos amb una canya de bufar i donar-li forma amb eines i el propi alè de l'artesà. Les vidrieries mallorquines són conegudes per la qualitat del seu vidre, que combina la transparència amb tonalitats verdes, blaves i ambre, resultants dels minerals locals.",
@@ -78,8 +74,6 @@
         "numRatings": 89,
         "numComentaris": 67,
         "numTallers": 2,
-        "favorit": false,
-        "videoThumb": "https://lh3.googleusercontent.com/aida-public/AB6AXuBrf51cyWMYkm1-iXrDnBTsNKCHmukIssX9kg-6tH6No8tDIgDezjCACL8RP22k9hqkNi-RipDbvuWRUIqK4fYO34WX7Iz3XgCEF1afjGl2cv1Cd4U_IKCXMkgJ9do5hMXbg8KpVsEn-b-_x05y3TP97AazCGqUYVvsnMeJyRvCUDO3mjwsarD8R95VjVZCJeWtU_v7JUgCBu-N7VEXCNdmPKcy1oo80-Dz_dVcGV1tWhS3lD6umLv4Jyq5JTHMjMxrc6w_ERefzNao",
         "galeria": [
             {
                 "imatge": "./media/images/vidre-bufat/vidre-bufat-02.jpg",
@@ -128,7 +122,6 @@
         "material": "Llana",
         "zona": "tramuntana",
         "tecnica": "brodat",
-        "teVideo": true,
         "imatge": "./media/images/llengues/llengues-01.jpg",
         "descripcio": "Teixit tradicional mallorquí amb patrons geomètrics en forma de flames, teixit en telers manuals.",
         "descripcioLlarga": "La roba de llengües (o tela de llengos) és un teixit únic de Mallorca, caracteritzat pels seus patrons en forma de flama o \"ikat\". La tècnica consisteix a tenyir els fils abans de teixir-los, creant dibuixos difuminats típics. Originàriament usada per a cortines, coixins i tapisseria, avui és un símbol de la identitat artesanal mallorquina reconegut internacionalment.",
@@ -137,8 +130,6 @@
         "numRatings": 156,
         "numComentaris": 98,
         "numTallers": 3,
-        "favorit": false,
-        "videoThumb": "https://lh3.googleusercontent.com/aida-public/AB6AXuCzA3dCjnGkNQg0Wqd3R-bwSh3Ih9BRp54sqpZMDuGuD-gQEFUS329rqT3sCeJmdDwo7SoHjJSnQXoDl8T9_2Q5IoN7R-BlJwFzakJkzhr9K7M4NSAW5i8VKTSUvJkpOekEdU9TJdlxG_955kC9DM9ah48EOgomMgUYFkS3U6QEW9RVWxqgfcC0QaKNTDDTKvwP2ZGnVU10CtLibTSJcaMkGuyRiGBCY5KQHka3yJWx8_L26Kfb50MB0iwyN5fh_Z93TMM1U5aOZo2W",
         "galeria": [
             {
                 "imatge": "./media/images/llengues/llengues-02.jpg",
@@ -188,7 +179,6 @@
         "material": "Margalló",
         "zona": "llevant",
         "tecnica": "trenat",
-        "teVideo": false,
         "imatge": "./media/images/llata/llata-01.jpg",
         "descripcio": "Art del trenat de fulles de margalló per crear senalles, cistelles i objectes quotidians de la vida rural.",
         "descripcioLlarga": "La llatra és l'art de trenar les fulles del margalló (Chamaerops humilis), l'única palmera autòctona d'Europa. A Mallorca, especialment a la comarca del Llevant, aquesta activitat ha estat fonamental per a l'economia rural durant segles. Les artesanes —ja que històricament era un ofici majoritàriament femení— creaven senalles, cistelles, estores i barrets amb una destresa extraordinària trasmessa de generació en generació.",
@@ -197,8 +187,6 @@
         "numRatings": 72,
         "numComentaris": 45,
         "numTallers": 3,
-        "favorit": false,
-        "videoThumb": "",
         "galeria": [
             {
                 "imatge": "./media/images/llata/llata-02.jpg",
@@ -248,7 +236,6 @@
         "material": "Cotó, llana i seda",
         "zona": "tramuntana",
         "tecnica": "brodat",
-        "teVideo": false,
         "imatge": "./media/images/brodat/brodat-01.jpg",
         "descripcio": "Art del brodat artesanal sobre tela per crear peces decoratives i tèxtils tradicionals mallorquins amb el característic punt mallorquí.",
         "descripcioLlarga": "El brodat mallorquí és una tradició tèxtil artesanal basada en la decoració manual de teles amb fils de cotó, llana i seda sobre lli, cotó o tul. Les tècniques principals són el punt mallorquí (caracteritzat per la lluentor i les formes geomètriques), la cadeneta, el punt enllaçat i el punt de creu. Els motius florals i geomètrics s'executen seguint patrons transmesos des de la tradició mallorquina, notablement diferent a la resta peninsular. S'apliquen a vestimenta tradicional, roba de llar i complements. L'establiment de referència és Casa Bonet, a Palma, actiu des de finals del s. XIX.",
@@ -257,8 +244,6 @@
         "numRatings": 34,
         "numComentaris": 19,
         "numTallers": 2,
-        "favorit": false,
-        "videoThumb": "",
         "galeria": [
             {
                 "imatge": "./media/images/brodat/brodat-02.jpg",
@@ -307,7 +292,6 @@
         "material": "Argila",
         "zona": "raiguer",
         "tecnica": "modelatge",
-        "teVideo": false,
         "imatge": "./media/images/ceramica/ceramica-01.jpg",
         "descripcio": "Tradició terrissera mallorquina de Marratxí: olles, greixoneres i cossiols modelats en torn de fang de l'argila roja del Raiguer.",
         "descripcioLlarga": "L'olleria mallorquina té el seu cor a Marratxí, concretament a Pòrtol i Sa Cabaneta, on la tradició terrissera es remunta com a mínim al segle XVIII. Els terrissaires usen argila roja local modelada en torn de terrissaire o a mà, cocció en forn de llenya (que dona una tonalitat característica), i vernissos de minerals naturals. Els productes principals són olles, greixoneres, cossiols, pitxers, teules i plats. Cada any se celebra la Fira del Fang a Marratxí, que aplega terrissaires de tota l'illa. A Felanitx hi ha també una tradició olera notable. La producció artesana conviu avui amb el Museu del Fang i la Ruta del Fang pels tallers del municipi.",
@@ -316,8 +300,6 @@
         "numRatings": 58,
         "numComentaris": 42,
         "numTallers": 4,
-        "favorit": false,
-        "videoThumb": "",
         "galeria": [
             {
                 "imatge": "./media/images/ceramica/ceramica-02.jpg",
@@ -367,7 +349,6 @@
         "material": "Cuir i pell",
         "zona": "raiguer",
         "tecnica": "adobat",
-        "teVideo": false,
         "imatge": "./media/images/calcat/calcat-01.jpg",
         "descripcio": "Tradició sabatera centenària d'Inca: calçat de cuir artesà i l'avarca mallorquina amb sola de pneumàtic reciclat.",
         "descripcioLlarga": "Inca va tenir al segle XIX una de les indústries del calçat més importants de la Mediterrània. La fabricació tradicional inclou: tall de la pell a patrons, adobat (procés de curtició), cosit a mà o a màquina de filferro, i acabat a mà. L'avarca mallorquina és l'emblema d'aquesta tradició: sola tallada de pneumàtic reciclat i corretges de pell vaqueta teixides a mà. L'artesania sabatera d'Inca donà origen a marques mundials com Camper, fundada el 1975 per Lorenzo Fluxà sobre el llegat familiar que Antonio Fluxà havia iniciat a finals del s. XIX. Lottusse manté la producció artesana amb més de 100 anys de tradició.",
@@ -376,8 +357,6 @@
         "numRatings": 47,
         "numComentaris": 33,
         "numTallers": 6,
-        "favorit": false,
-        "videoThumb": "",
         "galeria": [
             {
                 "imatge": "./media/images/calcat/calcat-02.jpg",
@@ -429,7 +408,6 @@
         "material": "Farina i sucre",
         "zona": "palma",
         "tecnica": "rebosteria",
-        "teVideo": false,
         "imatge": "./media/images/neules/neules-01.jpg",
         "descripcio": "Rebosteria artesanal nadalenca: coca prima i crocant de massa enrotllada a mà, cuits entre dos ferros calents, feta una a una.",
         "descripcioLlarga": "Les neules mallorquines són un producte de rebosteria artesanal elaborat amb farina de blat, sucre, ou i oli d'oliva. La massa s'estén molt prima i es cou entre dos ferros calents (la neulera). La coca prima i crocant resultant s'enrotlla sobre si mateixa mentre encara és calenta per formar el canó característic. Cada neula és feta a mà, una a una, amb una tècnica que no s'ha industrialitzat a Mallorca. La producció és típicament nadalenca i es concentra al Casc Antic de Palma, en establiments com el Forn de Ses Antigues que mantenen una tradició centenària. El Consell de Mallorca ha reconegut mestres neulers com Onofre Martorell com a dipositaris d'una recepta que es remunta a l'edat medieval.",
@@ -438,8 +416,6 @@
         "numRatings": 41,
         "numComentaris": 29,
         "numTallers": 2,
-        "favorit": false,
-        "videoThumb": "",
         "galeria": [
             {
                 "imatge": "./media/images/neules/neules-02.jpg",
@@ -487,7 +463,6 @@
         "material": "Acer forjat",
         "zona": "palma",
         "tecnica": "forja",
-        "teVideo": false,
         "imatge": "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=800&q=80",
         "descripcio": "Ferreria artesana mallorquina: ganivets i navalles forjats a mà amb acer temprat i mànec d'olivera o banya de bou.",
         "descripcioLlarga": "El ganivet mallorquí és un element de la vida quotidiana rural profundament arrelat a l'illa. La tècnica implica la forja de l'acer amb martell i enclusa, escalfat al forn fins al color adequat. La fulla es tempra (escalfament i refredament ràpid en oli o aigua) per endurir-la, i s'afila en mola d'aigua. El mànec es treballa a torn o a mà i es fixa a la fulla amb rebló. El ganivet mallorquí té una forma característica amb fulla ampla i mànec robust, típicament d'olivera, banya de bou, os o materials sintètics. La tradició ferrera s'ha mantingut en tallers de poble, molts dels quals exposen als mercats artesans de Llucmajor i Santa Catalina. Coltelleria Can Nofret a Palma és un dels referents actuals.",
@@ -496,8 +471,6 @@
         "numRatings": 28,
         "numComentaris": 18,
         "numTallers": 0,
-        "favorit": false,
-        "videoThumb": "",
         "galeria": [
             {
                 "imatge": "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=600&q=80",

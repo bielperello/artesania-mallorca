@@ -83,6 +83,7 @@ function renderApp() {
                     ${renderCatalogSection()}
                     ${renderMapSection()}
                     ${renderMultimediaSection()}
+                    ${renderAboutUs()}
                 </main>
                 ${renderFooter()}
             </div>
@@ -344,8 +345,8 @@ function initMainMap() {
     if (!map) return;
 
     // Connectar el botó "Restablir" del panell lateral al mapa
-    const resetBtn = document.querySelector('#mapa .absolute button');
-    if (resetBtn && resetBtn.textContent.includes('Restablir')) {
+    const resetBtn = document.getElementById('map-reset-btn');
+    if (resetBtn) {
         resetBtn.addEventListener('click', () => {
             resetMapFilters();
             resetMapView('main-map');
@@ -2145,6 +2146,8 @@ function attachGlobalListeners() {
                     'si horeix': 'siurells',
                     'ciurells': 'siurells',
                     'ciureix': 'siurells',
+                    'cibreix': 'siurells',
+                    'heurece': 'siurells',
                     'siureix': 'siurells',
                     's\'hi horeix': 'siurells',
                     's\'horeix': 'siurells',
@@ -2155,16 +2158,28 @@ function attachGlobalListeners() {
                     'despart': "d'espart",
                     'bufet': 'bufat',
                     'buffet': 'bufat',
+                    '*****': 'bufat',
                     'b****': 'bufat',
+                    'b*****': 'bufat',
+                    'bitch': 'bufat',
+                    'bich': 'bufat',
                     'vidrebufat': 'vidre bufat',
                     'vidrebovat': 'vidre bufat',
+                    'l\'he de bufat': 'vidre bufat',
+                    'beer': 'vidre',
+                    'llibre': 'vidre',
+                    'beerbufat': 'vidre bufat',
+                    'mirobovat': 'vidre bufat',
                     'bovat': 'bufat',
+                    'bogat': 'bufat',
+                    'bufa': 'bufat',
                     'vídeo': 'vidre',
                     'moradatge': 'modelatge',
                     'drenat': 'trenat',
                     'tronat': 'trenat',
                     'entrenat': 'trenat',
                     'yata': 'llata',
+                    'marvelló': 'margalló',
                     'llengos': 'llengües',
                     'dinca': 'd\'inca',
                     'pay': 'pell',
@@ -2172,7 +2187,17 @@ function attachGlobalListeners() {
                     'guinebets': 'ganivets',
                     'vinevats': 'ganivets',
                     'nevades': 'navalles',
-                    'a ser': 'acer'
+                    'a ser': 'acer',
+                    'frank': 'fang',
+                    'causat': 'calçat',
+                    'pey': 'pell',
+                    'neuros': 'neules',
+                    'neu luz': 'neules',
+                    'gavinets': 'ganivets',
+                    'gabinets': 'ganivets',
+                    'gavinats': 'ganivets',
+                    'gabinats': 'ganivets',
+                    'neutres': 'neules'
                 };
 
                 Object.keys(corrections).forEach(wrong => {
