@@ -12,31 +12,21 @@
     <link class="icon" rel="icon" href="./media/images/logo/logo.png" />
 
     <!-- Preload de recursos crítics per accelerar el renderitzat inicial (LCP/FCP) -->
-    <link rel="preload" href="/css/styles.css" as="style" />
-    <link rel="preload" href="/fonts/font-31.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/font-50.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./css/styles.css" as="style" />
+    <link rel="preload" href="./fonts/font-4.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./fonts/font-31.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./fonts/font-50.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./fonts/material-symbols-subset.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/media/images/hero/hero-01.avif" as="image" type="image/avif" fetchpriority="high" />
 
     <!-- Full d'estils principal (inclou fonts locals, Tailwind i estils customitzats) -->
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
 
     <!-- Càrrega asíncrona no bloquejant de Leaflet (el mapa no és al Hero de dalt de tot) -->
-    <link rel="stylesheet" href="/css/leaflet.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="./css/leaflet.css" media="print" onload="this.media='all'" />
     <noscript>
-        <link rel="stylesheet" href="/css/leaflet.css" />
+        <link rel="stylesheet" href="./css/leaflet.css" />
     </noscript>
-
-    <!-- JSON-LD Structured Data (schema.org) per SEO i web semàntica -->
-    <script>
-        fetch('data/artesanies-LD.json')
-            .then(r => r.text())
-            .then(json => {
-                const el = document.createElement('script');
-                el.type = 'application/ld+json';
-                el.textContent = json;
-                document.head.appendChild(el);
-            })
-            .catch(() => console.warn('[JSON-LD] No s\'ha pogut carregar el fitxer de dades estructurades.'));
-    </script>
 </head>
 
 <body

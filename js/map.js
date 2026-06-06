@@ -88,11 +88,12 @@ function initLeafletMap(containerId, options = {}) {
         zoomControl: config.zoomControl
     });
 
-    L.control.zoom({ position: 'topright', 
+    L.control.zoom({
+        position: 'topright',
         zoomInTitle: 'Apropar',
         zoomOutTitle: 'Allunyar'
     }).addTo(map);
-    
+
 
     // Afegir la capa de tiles d'OpenStreetMap
     L.tileLayer(MAP_CONFIG.TILE_URL, {
@@ -302,6 +303,12 @@ function _buildPopupContent(data) {
         </a>`;
     }
 
-    html += `</div>`;
-    return html;
+    // Exposar a window per a la compatibilitat del mòdul ES6 en el bundle de Vite
+    window.initLeafletMap = initLeafletMap;
+    window.addWorkshopMarker = addWorkshopMarker;
+    window.addUserLocationMarker = addUserLocationMarker;
+    window.getMapInstance = getMapInstance;
+    window.destroyMap = destroyMap;
+    window.resetMapView = resetMapView;
+    window.invalidateMapSize = invalidateMapSize;
 }

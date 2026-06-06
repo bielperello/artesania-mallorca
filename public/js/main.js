@@ -9,6 +9,17 @@ let _weatherTallerId = null;
 let craftsRes = null;
 let tallersRes = null;
 let currentGallerySlide = 0;
+let mapScriptsPromise = null;
+
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
+    });
+}
 
 // ══════════════════════════════════════════════════════════════
 // TOAST NOTIFICATIONS
@@ -99,6 +110,20 @@ function renderApp() {
 // ══════════════════════════════════════════════════════════════
 
 async function init() {
+    // 1. Renderitzar immediatament l'estructura base de la pàgina (inclou capçalera i Hero)
+    // per pintar el LCP/FCP instantàniament abans d'iniciar la càrrega de dades
+    renderApp();
+
+    // Iniciar la càrrega asíncrona dels scripts de mapa en segon pla per evitar bloquejar el LCP/FCP
+    mapScriptsPromise = (async () => {
+        try {
+            await loadScript('/js/leaflet.js');
+            await loadScript('/js/map.js');
+        } catch (e) {
+            console.error("Error carregant els scripts de mapa:", e);
+        }
+    })();
+
     // 0. Carregar dades dinàmiques des dels JSON
     try {
         const [craftsResObj, tallersResObj, artGalleryResObj] = await Promise.all([
@@ -197,10 +222,7 @@ async function init() {
         APP_DATA.mestres = [];
     }
 
-    // 1. Renderitzar tota l'estructura de la pàgina
-    renderApp();
-
-    // 2. Poblar contingut dinàmic dins els contenidors
+    // 2. Poblar contingut dinàmic dins els contenidors ara que tenim les dades
     populateDynamicContent();
 
     // 3. Connectar event listeners
@@ -216,6 +238,19 @@ async function init() {
 
     // 5. Activar observador d'imatges per animacions fade-in
     initImageObserver();
+
+    // 6. Carregar les dades estructurades JSON-LD de forma asíncrona després del render per evitar bloquejar FCP/LCP
+    setTimeout(() => {
+        fetch('./data/artesanies-LD.json')
+            .then(r => r.text())
+            .then(json => {
+                const el = document.createElement('script');
+                el.type = 'application/ld+json';
+                el.textContent = json;
+                document.head.appendChild(el);
+            })
+            .catch(() => console.warn("[JSON-LD] No s'ha pogut carregar el fitxer de dades estructurades."));
+    }, 1000);
 }
 
 function populateDynamicContent() {
@@ -340,7 +375,10 @@ function initSerieCarousels() {
  * Inicialitza el mapa principal de la secció #mapa.
  * Centrat a Mallorca amb zoom per defecte.
  */
-function initMainMap() {
+async function initMainMap() {
+    if (mapScriptsPromise) {
+        await mapScriptsPromise;
+    }
     const map = initLeafletMap('main-map');
     if (!map) return;
 
@@ -511,8 +549,11 @@ function resetMapFilters() {
  * Centra el mapa a la posició dels tallers de l'artesania.
  * @param {Object} craft - Dades de l'artesania amb tallers
  */
-function initCraftMap(craft) {
+async function initCraftMap(craft) {
     if (!craft || !craft.tallers || craft.tallers.length === 0) return;
+    if (mapScriptsPromise) {
+        await mapScriptsPromise;
+    }
 
     // Petit delay per assegurar que el modal s'ha renderitzat completament
     setTimeout(() => {

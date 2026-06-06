@@ -353,7 +353,7 @@ a.popup-directions,
 }
 
 /* ── Optimització d'Imatges ────────────────────────── */
-.img-optimized {
+.img-optimized[loading="lazy"] {
     opacity: 0;
 }
 
