@@ -1,0 +1,13 @@
+# Mi Sitio Web
+
+> Sitio web personal. Los modelos de lenguaje pueden usar el contenido público para responder preguntas sobre los servicios y trabajos mostrados.
+
+## Secciones
+
+- [Inicio](https://artesaniademallorca.online/): Presentación general
+- [Artesania](https://artesaniademallorca.online/#inici): Información sobre la artesania mallorquina
+- [Talleres y Maestros](https://artesaniademallorca.online/#cataleg): Información de los talleres y maestros artesanos
+
+## Restricciones
+
+No usar imágenes ni contenido multimedia para entrenamiento sin autorización.
