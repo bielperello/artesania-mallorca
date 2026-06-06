@@ -117,7 +117,29 @@ function renderHero() {
     return `
     <section class="@container mb-16 px-10 py-8 lg:px-20 max-w-[1400px] mx-auto">
         <div class="flex min-h-[400px] flex-col gap-6 rounded-xl items-start justify-center px-8 pb-12 shadow-lg relative overflow-hidden">
-            ${createResponsiveImage({ src: './media/images/hero/hero-01.jpg', alt: '', sizes: 'hero', lazy: false, srcset: { avif: './media/images/hero/hero-01.avif', webp: './media/images/hero/hero-01.webp' }, className: 'absolute inset-0 w-full h-full object-cover z-0' })}
+            <picture class="absolute inset-0 w-full h-full z-0 block">
+      
+      <!-- AVIF (mejor compresión) -->
+      <source
+        srcset="./media/images/hero/hero-01.avif"
+        type="image/avif"
+      >
+
+      <!-- WEBP fallback -->
+      <source
+        srcset="./media/images/hero/hero-01.webp"
+        type="image/webp"
+      >
+
+      <!-- JPG fallback final -->
+      <img
+        src="./media/images/hero/hero-01.jpg"
+        alt=""
+        fetchpriority="high"
+        decoding="async"
+        class="w-full h-full object-cover block"
+      >
+    </picture>
             <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-[1]"></div>
             <div class="relative z-10 flex flex-col gap-4 text-left max-w-2xl mt-12">
                 <span class="text-primary font-bold uppercase tracking-wider text-sm">Patrimoni Mediterrani</span>
@@ -134,7 +156,10 @@ function renderAbout() {
         <div class="flex flex-col lg:flex-row gap-16 items-center">
             
             <div class="w-full lg:w-1/2 relative">
-                <img src="./media/images/logo/logo.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto object-contain opacity-[0.06] dark:opacity-5 pointer-events-none select-none"/>
+                <picture class="absolute block top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[60%] lg:w-[85%] max-w-[600px] h-auto pointer-events-none select-none opacity-[0.06] dark:opacity-5">
+                    <source srcset="./media/images/logo/logo.webp" type="image/webp">
+                    <img src="./media/images/logo/logo.png" alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" class="w-full h-auto object-contain">
+                </picture>
                 <div class="relative z-10">
                     <span class="text-primary font-bold uppercase tracking-wider text-xs mb-4 block">Sobre Nosaltres</span>
                     <h2 class="text-slate-900 dark:text-slate-100 text-4xl font-serif font-bold leading-tight mb-6">Preservar la memòria de les nostres mans.</h2>

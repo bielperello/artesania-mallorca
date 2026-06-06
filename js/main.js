@@ -1,4 +1,5 @@
 // main.js — Orquestrador de l'SPA d'Artesania Mallorquina
+import './data.js';
 
 // ── Variables globals ────────────────────────────────────────
 let currentCraft = null;
@@ -10,16 +11,6 @@ let craftsRes = null;
 let tallersRes = null;
 let currentGallerySlide = 0;
 let mapScriptsPromise = null;
-
-function loadScript(src) {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.body.appendChild(script);
-    });
-}
 
 // ══════════════════════════════════════════════════════════════
 // TOAST NOTIFICATIONS
@@ -80,29 +71,40 @@ function toggleMobileMenu() {
 // RENDERITZAT CENTRAL: Monta tota la pàgina
 // ══════════════════════════════════════════════════════════════
 
-function renderApp() {
-    const app = document.getElementById('app');
-    if (!app) return;
+function renderApp(deferSections = false) {
+    const headerContainer = document.getElementById('header-container');
+    const dynamicContent = document.getElementById('dynamic-content');
+    if (!dynamicContent) return;
 
-    app.innerHTML = `
-        <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark font-sans transition-colors duration-300" id="design-root">
-            <div class="layout-container flex h-full grow flex-col">
-                ${renderHeader()}
-                <main class="flex-1 w-full mx-auto" id="inici" tabindex="-1">
-                    ${renderHero()}
-                    ${renderAbout()}
-                    ${renderCatalogSection()}
-                    ${renderMapSection()}
-                    ${renderMultimediaSection()}
-                    ${renderAboutUs()}
-                </main>
-                ${renderFooter()}
-            </div>
+    if (headerContainer) {
+        headerContainer.innerHTML = renderHeader();
+    }
+
+    if (deferSections) {
+        dynamicContent.innerHTML = `
+            <div id="section-about">${renderAbout()}</div>
+            <div id="section-catalog"></div>
+            <div id="section-map"></div>
+            <div id="section-multimedia"></div>
+            <div id="section-about-us"></div>
+            <div id="section-footer"></div>
+            <div id="section-fab"></div>
+            <div id="section-modals"></div>
+            <div id="toast" class="toast"></div>
+        `;
+    } else {
+        dynamicContent.innerHTML = `
+            ${renderAbout()}
+            ${renderCatalogSection()}
+            ${renderMapSection()}
+            ${renderMultimediaSection()}
+            ${renderAboutUs()}
+            ${renderFooter()}
             ${renderFAB()}
-        </div>
-        ${renderModals()}
-        <div id="toast" class="toast"></div>
-    `;
+            ${renderModals()}
+            <div id="toast" class="toast"></div>
+        `;
+    }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -110,47 +112,57 @@ function renderApp() {
 // ══════════════════════════════════════════════════════════════
 
 async function init() {
-    // 1. Renderitzar immediatament l'estructura base de la pàgina (inclou capçalera i Hero)
-    // per pintar el LCP/FCP instantàniament abans d'iniciar la càrrega de dades
-    renderApp();
-
-    // Iniciar la càrrega asíncrona dels scripts de mapa en segon pla per evitar bloquejar el LCP/FCP
-    mapScriptsPromise = (async () => {
+    // 1. Iniciar la descàrrega en paral·lel de mòduls no crítics
+    const nonCriticalPromise = (async () => {
         try {
-            await loadScript('/js/leaflet.js');
-            await loadScript('/js/map.js');
+            await import('./imageHelper.js');
+            await import('./services.js');
+            await import('./templates.js');
         } catch (e) {
-            console.error("Error carregant els scripts de mapa:", e);
+            console.error("Error carregant els scripts no crítics:", e);
         }
     })();
 
-    // 0. Carregar dades dinàmiques des dels JSON
-    try {
-        const [craftsResObj, tallersResObj, artGalleryResObj] = await Promise.all([
-            fetch('./data/tipus_artesania.json'),
-            fetch('./data/tallers_i_mestres.json'),
-            fetch('./data/ArtGallery.json')       // JSON extern (Galeries d'Art)
-        ]);
+    // 2. Carregar dades dinàmiques des dels JSON en paral·lel per paral·lelitzar xarxa
+    const dataPromise = (async () => {
+        try {
+            const [craftsResObj, tallersResObj, artGalleryResObj] = await Promise.all([
+                fetch('./data/tipus_artesania.json'),
+                fetch('./data/tallers_i_mestres.json'),
+                fetch('./data/ArtGallery.json')       // JSON extern (Galeries d'Art)
+            ]);
 
-        if (!craftsResObj.ok || !tallersResObj.ok) {
-            throw new Error('No s\'han pogut carregar els fitxers JSON (CORS/File protocol error)');
-        }
-
-        const craftsData = await craftsResObj.json();
-        const tallersDataObj = await tallersResObj.json();
-        const { tallers, mestres } = tallersDataObj;
-
-        // Carregar i mapar ArtGallery.json (schema.org @graph)
-        if (artGalleryResObj.ok) {
-            try {
-                const artGalleryData = await artGalleryResObj.json();
-                // El JSON extern segueix l'estructura schema.org amb un @graph
-                APP_DATA.artGalleries = artGalleryData['@graph'] || artGalleryData || [];
-            } catch (e) {
-                console.warn('[ArtGallery] Error parsejant ArtGallery.json:', e);
-                APP_DATA.artGalleries = [];
+            if (!craftsResObj.ok || !tallersResObj.ok) {
+                throw new Error('No s\'han pogut carregar els fitxers JSON');
             }
+
+            const craftsData = await craftsResObj.json();
+            const tallersDataObj = await tallersResObj.json();
+            const { tallers, mestres } = tallersDataObj;
+            let artGalleries = [];
+
+            if (artGalleryResObj.ok) {
+                try {
+                    const artGalleryData = await artGalleryResObj.json();
+                    artGalleries = artGalleryData['@graph'] || artGalleryData || [];
+                } catch (e) {
+                    console.warn('[ArtGallery] Error parsejant ArtGallery.json:', e);
+                }
+            }
+
+            return { craftsData, tallers, mestres, artGalleries };
+        } catch (err) {
+            console.error("Error carregant les dades JSON:", err);
+            return null;
         }
+    })();
+
+    // 3. Esperar que els mòduls no crítics i les dades estiguin descarregats
+    const [_, jsonData] = await Promise.all([nonCriticalPromise, dataPromise]);
+
+    if (jsonData) {
+        const { craftsData, tallers, mestres, artGalleries } = jsonData;
+        APP_DATA.artGalleries = artGalleries;
 
         // Guardar només els camps sol·licitats a les variables globals per al xat de l'assistent IA
         craftsRes = craftsData.map(c => ({
@@ -212,48 +224,60 @@ async function init() {
 
         APP_DATA.tallers = tallers;
         APP_DATA.mestres = mestres;
-    } catch (err) {
-        console.error("Error carregant les dades JSON:", err);
-        alert("⚠️ ATENCIÓ: No s'han pogut carregar les dades (JSON).\n\nSi has obert l'arxiu fent doble clic (file://), el navegador bloqueja la càrrega per seguretat.\n\nHas d'iniciar un servidor local, per exemple executant:\nnpx serve .");
-
+    } else {
         // Evitar que l'app peti si falla la càrrega
         APP_DATA.crafts = [];
         APP_DATA.tallers = [];
         APP_DATA.mestres = [];
     }
 
-    // 2. Poblar contingut dinàmic dins els contenidors ara que tenim les dades
-    populateDynamicContent();
+    // 4. Renderitzar immediatament els contenidors buits per alliberar el thread inicial
+    renderApp(true);
 
-    // 3. Connectar event listeners
-    attachFilterListeners();
-    attachFavoritesToggle();
-    attachGlobalListeners();
-
-    // 4. Inicialitzar els filtres i l'estat inicial del catàleg
-    applyFilters();
-
-    // 5. Inicialitzar el mapa principal amb Leaflet
-    initMainMap();
-
-    // 5. Activar observador d'imatges per animacions fade-in
-    initImageObserver();
-
-    // 6. Carregar les dades estructurades JSON-LD de forma asíncrona després del render per evitar bloquejar FCP/LCP
+    // 5. Fase 1: Injecció de Catàleg i Mapa de forma asíncrona (25ms)
     setTimeout(() => {
-        fetch('./data/artesanies-LD.json')
-            .then(r => r.text())
-            .then(json => {
-                const el = document.createElement('script');
-                el.type = 'application/ld+json';
-                el.textContent = json;
-                document.head.appendChild(el);
-            })
-            .catch(() => console.warn("[JSON-LD] No s'ha pogut carregar el fitxer de dades estructurades."));
-    }, 1000);
+        const catalogEl = document.getElementById('section-catalog');
+        if (catalogEl) catalogEl.innerHTML = renderCatalogSection();
+        
+        const mapEl = document.getElementById('section-map');
+        if (mapEl) mapEl.innerHTML = renderMapSection();
+
+        // Poblar dades del catàleg i mapa
+        populateCatalogAndMap();
+        applyFilters();
+        setupMapLazyLoading();
+    }, 25);
+
+    // 6. Fase 2: Injecció de Multimedia, Sobre nosaltres, Footer i Modals (120ms - més temps per evitar bloquejar el fil de disseny de la Fase 1)
+    setTimeout(() => {
+        const multimediaEl = document.getElementById('section-multimedia');
+        if (multimediaEl) multimediaEl.innerHTML = renderMultimediaSection();
+
+        const aboutUsEl = document.getElementById('section-about-us');
+        if (aboutUsEl) aboutUsEl.innerHTML = renderAboutUs();
+
+        const footerEl = document.getElementById('section-footer');
+        if (footerEl) footerEl.innerHTML = renderFooter();
+
+        const fabEl = document.getElementById('section-fab');
+        if (fabEl) fabEl.innerHTML = renderFAB();
+
+        const modalsEl = document.getElementById('section-modals');
+        if (modalsEl) modalsEl.innerHTML = renderModals();
+
+        // Poblar i connectar la resta de listeners
+        populateRemainingContent();
+        attachFilterListeners();
+        attachFavoritesToggle();
+        attachGlobalListeners();
+
+        if (typeof initImageObserver === 'function') {
+            initImageObserver();
+        }
+    }, 120);
 }
 
-function populateDynamicContent() {
+function populateCatalogAndMap() {
     // Filtres del catàleg
     const filterZonesEl = document.getElementById('filter-zones');
     const filterTechniquesEl = document.getElementById('filter-techniques');
@@ -271,7 +295,9 @@ function populateDynamicContent() {
     const mapMaterialsEl = document.getElementById('map-materials');
     if (mapComarquesEl) mapComarquesEl.innerHTML = renderMapComarques(APP_DATA.filterZones);
     if (mapMaterialsEl) mapMaterialsEl.innerHTML = renderMapMaterials(APP_DATA.filterMaterials);
+}
 
+function populateRemainingContent() {
     // Geolocalització — es pobla dinàmicament quan l'usuari activa la seva ubicació
     const geoList = document.getElementById('geo-list');
     if (geoList) geoList.innerHTML = renderGeoNearby(APP_DATA.tallers || []);
@@ -293,6 +319,11 @@ function populateDynamicContent() {
 
     // Inicialitzar els carrossels de sèrie de la part multimèdia
     initSerieCarousels();
+}
+
+function populateDynamicContent() {
+    populateCatalogAndMap();
+    populateRemainingContent();
 }
 
 /**
@@ -371,11 +402,70 @@ function initSerieCarousels() {
 // MAPES LEAFLET — Inicialització reutilitzable
 // ══════════════════════════════════════════════════════════════
 
+// Helper per carregar Leaflet i map.js sota demanda
+function loadMapScripts() {
+    if (!mapScriptsPromise) {
+        mapScriptsPromise = (async () => {
+            try {
+                // Afegir dinàmicament el CSS de Leaflet si no és present
+                if (!document.querySelector('link[href*="leaflet.css"]')) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = './css/leaflet.css';
+                    document.head.appendChild(link);
+                }
+                await import('./leaflet.js');
+                await import('./map.js');
+            } catch (e) {
+                console.error("Error carregant els scripts de mapa:", e);
+                mapScriptsPromise = null;
+                throw e;
+            }
+        })();
+    }
+    return mapScriptsPromise;
+}
+
+// Inicialitza el lazy loading del mapa amb IntersectionObserver
+function setupMapLazyLoading() {
+    const mapSection = document.getElementById('mapa');
+    if (!mapSection) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                initMainMap();
+                observer.unobserve(mapSection);
+            }
+        });
+    }, {
+        rootMargin: '200px 0px', // Comença a carregar abans que entri a la pantalla
+        threshold: 0.01
+    });
+
+    observer.observe(mapSection);
+
+    // Escoltador als enllaços del mapa per forçar la càrrega al fer clic
+    document.querySelectorAll('a[href="#mapa"]').forEach(link => {
+        link.addEventListener('click', () => {
+            initMainMap();
+        });
+    });
+}
+
 /**
  * Inicialitza el mapa principal de la secció #mapa.
  * Centrat a Mallorca amb zoom per defecte.
  */
-function initMainMap() {
+async function initMainMap() {
+    try {
+        await loadMapScripts();
+    } catch (e) {
+        return;
+    }
+
+    if (getMapInstance('main-map')) return;
+
     const map = initLeafletMap('main-map');
     if (!map) return;
 
@@ -546,8 +636,14 @@ function resetMapFilters() {
  * Centra el mapa a la posició dels tallers de l'artesania.
  * @param {Object} craft - Dades de l'artesania amb tallers
  */
-function initCraftMap(craft) {
+async function initCraftMap(craft) {
     if (!craft || !craft.tallers || craft.tallers.length === 0) return;
+
+    try {
+        await loadMapScripts();
+    } catch (e) {
+        return;
+    }
 
     // Petit delay per assegurar que el modal s'ha renderitzat completament
     setTimeout(() => {
@@ -1996,14 +2092,8 @@ function selectWorkshopDetail(id) {
     }
 }
 
-// ══════════════════════════════════════════════════════════════
-// DOMContentLoaded: Inicialitzar tot
-// ══════════════════════════════════════════════════════════════
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Inicialitzar la SPA
-    init();
-});
+// Inicialitzar la SPA immediatament al carregar el mòdul (ja s'executa en diferit pel type="module")
+init();
 
 /**
  * Connecta els event listeners globals de l'aplicació un cop l'estructura HTML ha estat injectada al DOM.
@@ -3007,8 +3097,8 @@ window.stopGeolocation = stopGeolocation;
 window.toggleGeoConfirm = toggleGeoConfirm;
 window.setGridCols = setGridCols;
 window.selectWorkshopDetail = selectWorkshopDetail;
-window.showTallerWeather = showTallerWeather;
-window.submitReview = submitReview;
+window.openWeatherModal = openWeatherModal;
+window.handleReviewSubmit = handleReviewSubmit;
 window.toggleSpeakDescription = toggleSpeakDescription;
 window.getFavorites = getFavorites;
 window.openAuthModal = openAuthModal;

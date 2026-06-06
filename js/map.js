@@ -301,14 +301,15 @@ function _buildPopupContent(data) {
         html += `<a class="popup-directions" href="https://maps.google.com/?q=${data.mapsQuery}" target="_blank" rel="noopener noreferrer">
             <span class="material-symbols-outlined popup-icon">directions</span>Com arribar-hi
         </a>`;
-    }
-
-    // Exposar a window per a la compatibilitat del mòdul ES6 en el bundle de Vite
-    window.initLeafletMap = initLeafletMap;
-    window.addWorkshopMarker = addWorkshopMarker;
-    window.addUserLocationMarker = addUserLocationMarker;
-    window.getMapInstance = getMapInstance;
-    window.destroyMap = destroyMap;
-    window.resetMapView = resetMapView;
-    window.invalidateMapSize = invalidateMapSize;
+    }    html += `</div>`;
+    return html;
 }
+
+// Exposar a window per a la compatibilitat del mòdul ES6 en el bundle de Vite
+window.initLeafletMap = initLeafletMap;
+window.addWorkshopMarker = addWorkshopMarker;
+window.addUserLocationMarker = addUserLocationMarker;
+window.getMapInstance = getMapInstance;
+window.destroyMap = destroyMap;
+window.resetMapView = resetMapView;
+window.invalidateMapSize = invalidateMapSize;
