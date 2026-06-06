@@ -1,6 +1,10 @@
 // templates.js — Funcions de renderitzat per a l'SPA d'Artesania Mallorquina
 // Cada funció rep dades i retorna un string HTML
 
+import { createResponsiveImage, localSrcset } from './imageHelper.js';
+// eslint-disable-next-line no-unused-vars
+import { getFavorites, getCurrentUser, logoutUser, openAuthModal } from './main.js';
+
 // ══════════════════════════════════════════════════════════════
 // SECCIONS DE PÀGINA (Estructura principal)
 // ══════════════════════════════════════════════════════════════
@@ -26,8 +30,8 @@ function renderHeader() {
     ).join('\n                ');
 
     const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
-    let authBtnHtml = '';
-    let mobileAuthHtml = '';
+    let authBtnHtml;
+    let mobileAuthHtml;
 
     if (user) {
         const initial = user.nickname ? user.nickname.charAt(0).toUpperCase() : 'U';
@@ -819,10 +823,6 @@ function renderMultimediaGrid(items) {
         } else if (item.tipus === 'galeria') {
             // Serialitzem les fotos de forma segura per passar-les a l'onclick
             const fotosJson = item.fotos ? JSON.stringify(item.fotos).replace(/'/g, "&#39;").replace(/"/g, '&quot;') : '[]';
-            const coverSrc = item.img || '';
-            const coverSrcset = item.imgAvif || item.imgWebp
-                ? `{ avif: '${item.imgAvif || ''}', webp: '${item.imgWebp || ''}' }`
-                : '{}';
             html += `
             <div class="col-span-1 md:col-span-1 md:row-span-1 min-h-[220px] md:min-h-0 relative rounded-xl overflow-hidden group cursor-pointer shadow-lg z-20 flex-1 flex flex-col" onclick="openPhotoGallery('${item.titol}', this)" data-fotos="${fotosJson}">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
@@ -1081,25 +1081,6 @@ function renderCraftDetail(craft) {
             <button class="mt-auto flex items-center justify-center gap-2 w-full ${btnClass} py-2 rounded-lg text-sm font-medium transition-colors">
                 <span class="material-symbols-outlined text-[18px]">directions</span> Com arribar-hi
             </button>
-        </div>`;
-    }).join('');
-
-    // Marcadors del mapa intern
-    const markersHTML = craft.tallers.map((t, i) => {
-        const isFirst = i === 0;
-        const pulseHidden = isFirst ? '' : 'hidden';
-        const iconSize = isFirst ? 'text-5xl text-terracotta scale-110' : 'text-4xl text-slate-700 dark:text-slate-300 opacity-60';
-        const labelOpacity = isFirst ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
-        const labelBg = isFirst ? 'bg-slate-900 text-white' : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100';
-        const zIndex = isFirst ? 'z-20' : 'z-10';
-
-        return `
-        <div id="mk-${t.id}" onclick="selectWorkshopDetail('${t.id}')" class="absolute top-[${t.mapPosition.top}] left-[${t.mapPosition.left}] group ${zIndex} transition-all duration-500 cursor-pointer">
-            <div class="relative flex items-center justify-center">
-                <div id="mk-pulse-${t.id}" class="absolute w-12 h-12 bg-terracotta rounded-full animate-[pulse-ring_2s_cubic-bezier(0.215,0.61,0.355,1)_infinite] pointer-events-none ${pulseHidden}"></div>
-                <span id="mk-icon-${t.id}" class="material-symbols-outlined ${iconSize} drop-shadow-md relative z-10 transition-all">location_on</span>
-                <div id="mk-label-${t.id}" class="absolute -top-12 left-1/2 -translate-x-1/2 ${labelBg} px-3 py-1 rounded shadow-lg text-sm font-bold whitespace-nowrap ${labelOpacity} pointer-events-none transition-opacity">${t.nom}</div>
-            </div>
         </div>`;
     }).join('');
 
@@ -1713,3 +1694,38 @@ window.renderGalleryImages = renderGalleryImages;
 window.renderSeriesGalleryImages = renderSeriesGalleryImages;
 window.renderMixedGallery = renderMixedGallery;
 window.renderArtGalleries = renderArtGalleries;
+window.renderGeoCalculating = renderGeoCalculating;
+window.renderMapMarkers = renderMapMarkers;
+
+export {
+    renderHeader,
+    renderHero,
+    renderAbout,
+    renderCatalogSection,
+    renderMapSection,
+    renderMultimediaSection,
+    renderAboutUs,
+    renderFooter,
+    renderFAB,
+    renderModals,
+    renderFilterZones,
+    renderFilterTechniques,
+    renderFilterMaterials,
+    renderCatalogCards,
+    renderMapComarques,
+    renderMapMaterials,
+    renderGeoNearby,
+    renderMultimediaGrid,
+    renderChatMessages,
+    renderWeatherModal,
+    renderCraftDetail,
+    renderStars,
+    renderReviewsList,
+    renderCraftVideo,
+    renderGalleryImages,
+    renderSeriesGalleryImages,
+    renderMixedGallery,
+    renderArtGalleries,
+    renderGeoCalculating,
+    renderMapMarkers
+};

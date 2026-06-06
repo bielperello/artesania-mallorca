@@ -328,3 +328,5 @@ const WeatherService = {
 // Exposar a window per a la compatibilitat del mòdul ES6 en el bundle de Vite
 window.GeoService = GeoService;
 window.WeatherService = WeatherService;
+
+export { GeoService, WeatherService };

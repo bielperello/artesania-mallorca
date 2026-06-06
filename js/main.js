@@ -1,6 +1,38 @@
 // main.js — Orquestrador de l'SPA d'Artesania Mallorquina
 import './data.js';
 
+import {
+    renderHeader,
+    renderAbout,
+    renderCatalogSection,
+    renderMapSection,
+    renderMultimediaSection,
+    renderAboutUs,
+    renderFooter,
+    renderFAB,
+    renderModals,
+    renderFilterZones,
+    renderFilterTechniques,
+    renderFilterMaterials,
+    renderCatalogCards,
+    renderMapComarques,
+    renderMapMaterials,
+    renderGeoNearby,
+    renderMultimediaGrid,
+    renderChatMessages,
+    renderWeatherModal,
+    renderReviewsList,
+    renderCraftDetail,
+    renderArtGalleries,
+    renderGalleryImages,
+    renderSeriesGalleryImages,
+    renderMixedGallery,
+    renderGeoCalculating
+} from './templates.js';
+
+import { initImageObserver } from './imageHelper.js';
+import { WeatherService, GeoService } from './services.js';
+
 // ── Variables globals ────────────────────────────────────────
 let currentCraft = null;
 let currentDescriptionAudio = null;
@@ -112,18 +144,7 @@ function renderApp(deferSections = false) {
 // ══════════════════════════════════════════════════════════════
 
 async function init() {
-    // 1. Iniciar la descàrrega en paral·lel de mòduls no crítics
-    const nonCriticalPromise = (async () => {
-        try {
-            await import('./imageHelper.js');
-            await import('./services.js');
-            await import('./templates.js');
-        } catch (e) {
-            console.error("Error carregant els scripts no crítics:", e);
-        }
-    })();
-
-    // 2. Carregar dades dinàmiques des dels JSON en paral·lel per paral·lelitzar xarxa
+    // 1. Carregar dades dinàmiques des dels JSON en paral·lel per paral·lelitzar xarxa
     const dataPromise = (async () => {
         try {
             const [craftsResObj, tallersResObj, artGalleryResObj] = await Promise.all([
@@ -157,8 +178,7 @@ async function init() {
         }
     })();
 
-    // 3. Esperar que els mòduls no crítics i les dades estiguin descarregats
-    const [_, jsonData] = await Promise.all([nonCriticalPromise, dataPromise]);
+    const jsonData = await dataPromise;
 
     if (jsonData) {
         const { craftsData, tallers, mestres, artGalleries } = jsonData;
@@ -238,7 +258,7 @@ async function init() {
     setTimeout(() => {
         const catalogEl = document.getElementById('section-catalog');
         if (catalogEl) catalogEl.innerHTML = renderCatalogSection();
-        
+
         const mapEl = document.getElementById('section-map');
         if (mapEl) mapEl.innerHTML = renderMapSection();
 
@@ -1705,7 +1725,6 @@ let geoActive = false;
 function toggleGeoConfirm() {
     const confirmPanel = document.getElementById('geo-confirm');
     const geoPopup = document.getElementById('geo-popup');
-    const geoIcon = document.getElementById('geo-icon');
     if (!confirmPanel) return;
 
     // If geo is already active, toggle the workshop list
@@ -2327,6 +2346,7 @@ function attachGlobalListeners() {
 
                 Object.keys(corrections).forEach(wrong => {
                     const right = corrections[wrong];
+                    // eslint-disable-next-line no-useless-escape
                     const escapedWrong = wrong.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
                     const regex = new RegExp(`\\b${escapedWrong}\\b`, 'gi');
                     transcript = transcript.replace(regex, right);
@@ -3113,3 +3133,14 @@ window.initMainMap = initMainMap;
 window.initCraftMap = initCraftMap;
 window.applyMapFilters = applyMapFilters;
 window.resetMapFilters = resetMapFilters;
+window.resetFilterGroup = resetFilterGroup;
+window.openPhotoGallery = openPhotoGallery;
+window.openSeriesGallery = openSeriesGallery;
+window.openVideoGallery = openVideoGallery;
+window.toggleFavoriteCard = toggleFavoriteCard;
+window.handleReviewSortChange = handleReviewSortChange;
+window.handleLoadMoreReviews = handleLoadMoreReviews;
+window.setReviewRating = setReviewRating;
+window.handlePhotoUpload = handlePhotoUpload;
+
+export { getFavorites, getCurrentUser, logoutUser, openAuthModal };

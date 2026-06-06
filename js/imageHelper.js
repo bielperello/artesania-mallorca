@@ -207,3 +207,5 @@ window.createResponsiveImage = createResponsiveImage;
 window.localSrcset = localSrcset;
 window.handleImageError = handleImageError;
 window.initImageObserver = initImageObserver;
+
+export { createResponsiveImage, localSrcset, handleImageError, initImageObserver };
