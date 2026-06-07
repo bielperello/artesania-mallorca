@@ -15,10 +15,7 @@
     <!-- Preload de recursos crítics per accelerar el renderitzat inicial (LCP/FCP) -->
     <link rel="preload" href="./css/styles.css" as="style" />
     <link rel="preload" href="./fonts/font-4.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="./fonts/font-31.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="./fonts/font-50.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./fonts/material-symbols-subset.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/media/images/hero/hero-01.avif" as="image" type="image/avif" fetchpriority="high" />
 
     <!-- Full d'estils principal (inclou fonts locals, Tailwind i estils customitzats) -->
     <link rel="stylesheet" href="./css/styles.css" />
@@ -38,16 +35,21 @@
 
     <div id="app">
         <div id="header-container">
-            <header class="sticky top-0 z-50 border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur">
+            <header
+                class="sticky top-0 z-50 border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur">
                 <div class="flex items-center justify-between px-4 md:px-10 py-1">
                     <!-- Branding -->
-                    <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina" class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
+                    <a href="#inici" aria-label="Anar a l'inici d'Artesania Mallorquina"
+                        class="flex items-center gap-3 text-primary hover:opacity-90 transition-opacity">
                         <picture class="">
                             <source srcset="./media/images/logo/logo.avif" type="image/avif">
                             <source srcset="./media/images/logo/logo.webp" type="image/webp">
-                            <img src="./media/images/logo/logo.jpg" alt="Logo Artesania Mallorquina" fetchpriority="high" decoding="sync" class="h-14 w-14 rounded-lg object-cover shadow-sm img-optimized">
+                            <img src="./media/images/logo/logo.jpg" alt="Logo Artesania Mallorquina"
+                                fetchpriority="high" decoding="sync"
+                                class="h-14 w-14 rounded-lg object-cover shadow-sm img-optimized">
                         </picture>
-                        <span class="text-slate-900 dark:text-slate-100 text-3xl md:text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
+                        <span
+                            class="text-slate-900 dark:text-slate-100 text-3xl md:text-4xl font-serif font-bold leading-tight tracking-[-0.015em]">
                             Artesania Mallorquina
                         </span>
                     </a>
@@ -55,50 +57,72 @@
                     <!-- Navegació i accions -->
                     <div class="flex items-center gap-4 md:gap-8">
                         <nav class="hidden min-[1240px]:flex items-center gap-9" aria-label="Navegació principal">
-                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate" href="#inici">Inici</a>
-                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate" href="#sobre-nosaltres">Sobre nosaltres</a>
-                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate" href="#cataleg">Catàleg</a>
-                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate" href="#mapa">Mapa</a>
-                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate" href="#multimedia">Multimèdia</a>
+                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate"
+                                href="#inici">Inici</a>
+                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate"
+                                href="#sobre-nosaltres">Sobre nosaltres</a>
+                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate"
+                                href="#cataleg">Catàleg</a>
+                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate"
+                                href="#mapa">Mapa</a>
+                            <a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-lg font-medium leading-normal truncate"
+                                href="#multimedia">Multimèdia</a>
                         </nav>
 
-                        <a class="hidden sm:flex min-w-[84px] items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/80 transition-colors text-white text-lg font-bold leading-normal tracking-[0.015em]" href="#cataleg">
+                        <a class="hidden sm:flex min-w-[84px] items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/80 transition-colors text-white text-lg font-bold leading-normal tracking-[0.015em]"
+                            href="#cataleg">
                             <span class="truncate">Explora el catàleg</span>
                         </a>
 
-                        <button onclick="openAuthModal()" class="flex items-center justify-center rounded-lg size-10 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer" aria-label="Iniciar sessió" title="Iniciar sessió">
+                        <button onclick="openAuthModal()"
+                            class="flex items-center justify-center rounded-lg size-10 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                            aria-label="Iniciar sessió" title="Iniciar sessió">
                             <span class="material-symbols-outlined">person</span>
                         </button>
 
-                        <button onclick="toggleMobileMenu()" id="mobile-menu-btn" class="min-[1240px]:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Obrir menú de navegació">
+                        <button onclick="toggleMobileMenu()" id="mobile-menu-btn"
+                            class="min-[1240px]:hidden flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            aria-label="Obrir menú de navegació">
                             <span class="material-symbols-outlined" id="mobile-menu-icon">menu</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Menú mòbil (amagat per defecte) -->
-                <div id="mobile-menu" class="hidden min-[1240px]:hidden absolute top-full left-0 w-full bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden transition-all duration-300 opacity-0 transform -translate-y-2">
+                <div id="mobile-menu"
+                    class="hidden min-[1240px]:hidden absolute top-full left-0 w-full bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden transition-all duration-300 opacity-0 transform -translate-y-2">
                     <nav class="flex flex-col p-6 gap-6">
-                        <a onclick="toggleMobileMenu()" class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3" href="#inici">
+                        <a onclick="toggleMobileMenu()"
+                            class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3"
+                            href="#inici">
                             <span class="material-symbols-outlined">home</span> Inici
                         </a>
-                        <a onclick="toggleMobileMenu()" class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3" href="#sobre-nosaltres">
+                        <a onclick="toggleMobileMenu()"
+                            class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3"
+                            href="#sobre-nosaltres">
                             <span class="material-symbols-outlined">info</span> Sobre nosaltres
                         </a>
-                        <a onclick="toggleMobileMenu()" class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3" href="#mapa">
+                        <a onclick="toggleMobileMenu()"
+                            class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3"
+                            href="#mapa">
                             <span class="material-symbols-outlined">map</span> Mapa
                         </a>
-                        <a onclick="toggleMobileMenu()" class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3" href="#multimedia">
+                        <a onclick="toggleMobileMenu()"
+                            class="text-lg font-bold text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-3"
+                            href="#multimedia">
                             <span class="material-symbols-outlined">perm_media</span> Multimèdia
                         </a>
-                        
+
                         <div class="h-px w-full bg-slate-200 dark:bg-slate-800 my-2"></div>
-                        
-                        <a onclick="toggleMobileMenu()" class="flex items-center justify-center rounded-lg h-12 bg-primary hover:bg-primary/80 transition-colors text-white text-base font-bold sm:hidden mb-2" href="#cataleg">
+
+                        <a onclick="toggleMobileMenu()"
+                            class="flex items-center justify-center rounded-lg h-12 bg-primary hover:bg-primary/80 transition-colors text-white text-base font-bold sm:hidden mb-2"
+                            href="#cataleg">
                             Explora el catàleg
                         </a>
 
-                        <button onclick="toggleMobileMenu(); openAuthModal();" class="flex items-center justify-center gap-2 rounded-lg h-12 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-colors cursor-pointer w-full">
+                        <button onclick="toggleMobileMenu(); openAuthModal();"
+                            class="flex items-center justify-center gap-2 rounded-lg h-12 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-colors cursor-pointer w-full">
                             <span class="material-symbols-outlined">person</span> Iniciar sessió / Registrar-se
                         </button>
                     </nav>
@@ -109,20 +133,27 @@
         <main class="flex-1 w-full mx-auto" id="inici" tabindex="-1">
             <!-- Hero LCP Section -->
             <section class="@container mb-16 px-10 py-8 lg:px-20 max-w-[1400px] mx-auto">
-                <div class="flex min-h-[400px] flex-col gap-6 rounded-xl items-start justify-center px-8 pb-12 shadow-lg relative overflow-hidden">
+                <div
+                    class="flex min-h-[400px] flex-col gap-6 rounded-xl items-start justify-center px-8 pb-12 shadow-lg relative overflow-hidden">
                     <picture class="absolute inset-0 w-full h-full z-0 block">
-                      <!-- AVIF -->
-                      <source srcset="./media/images/hero/hero-01.avif" type="image/avif">
-                      <!-- WEBP -->
-                      <source srcset="./media/images/hero/hero-01.webp" type="image/webp">
-                      <!-- JPG fallback -->
-                      <img src="./media/images/hero/hero-01.jpg" alt="" fetchpriority="high" decoding="async" class="w-full h-full object-cover block">
+                        <!-- AVIF -->
+                        <source srcset="./media/images/hero/hero-01.avif" type="image/avif">
+                        <!-- WEBP -->
+                        <source srcset="./media/images/hero/hero-01.webp" type="image/webp">
+                        <!-- JPG fallback -->
+                        <img src="./media/images/hero/hero-01.jpg" alt="" fetchpriority="high" decoding="async"
+                            class="w-full h-full object-cover block">
                     </picture>
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-[1]"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-[1]">
+                    </div>
                     <div class="relative z-10 flex flex-col gap-4 text-left max-w-2xl mt-12">
-                        <span class="text-primary font-bold uppercase tracking-wider text-sm">Patrimoni Mediterrani</span>
-                        <h1 class="text-white text-5xl font-serif font-black leading-tight tracking-[-0.033em]">Catàleg Interactiu d'Artesania Mallorquina</h1>
-                        <h2 class="text-slate-200 text-lg font-normal leading-relaxed">Descobreix les arts tradicionals de la Mediterrània. Un viatge a través de generacions d'artesans que preserven l'essència de l'illa.</h2>
+                        <span class="text-primary font-bold uppercase tracking-wider text-sm">Patrimoni
+                            Mediterrani</span>
+                        <h1 class="text-white text-5xl font-serif font-black leading-tight tracking-[-0.033em]">Catàleg
+                            Interactiu d'Artesania Mallorquina</h1>
+                        <h2 class="text-slate-200 text-lg font-normal leading-relaxed">Descobreix les arts tradicionals
+                            de la Mediterrània. Un viatge a través de generacions d'artesans que preserven l'essència de
+                            l'illa.</h2>
                     </div>
                 </div>
             </section>
